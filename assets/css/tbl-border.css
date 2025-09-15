@@ -1,0 +1,4 @@
+
+table.table-bordered.dataTable th:last-child, table.table-bordered.dataTable th:last-child {
+	border-right-width: thin;
+}

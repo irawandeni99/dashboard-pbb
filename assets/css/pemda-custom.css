@@ -1,0 +1,31 @@
+.dot-red {
+  height: 10px;
+  width: 10px;
+  background-color: red;
+  border-radius: 50%;
+  display: inline-block;
+}.dot-gold {
+  height: 10px;
+  width: 10px;
+  background-color: yellow;
+  border-radius: 50%;
+  display: inline-block;
+}.dot-forestgreen {
+  height: 10px;
+  width: 10px;
+  background-color: forestgreen;
+  border-radius: 50%;
+  display: inline-block;
+}.dot-deepskyblue {
+  height: 10px;
+  width: 10px;
+  background-color: deepskyblue;
+  border-radius: 50%;
+  display: inline-block;
+}.dot-lime {
+  height: 10px;
+  width: 10px;
+  background-color: lime;
+  border-radius: 50%;
+  display: inline-block;
+}
