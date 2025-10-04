@@ -1,4 +1,35 @@
 
+
+<style>
+.collapsible-form {
+  background-color: #074979;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border-radius: 0px;
+  border: none;
+  border-bottom: 2px solid #f8a406;
+  text-align: left;
+  outline: none;
+  font-size: 12px;
+}
+
+.active-form, .collapsible-form:hover {
+  background-color: #074979;
+}
+
+.content-form {
+  padding: 10px 18px;
+  display: none;
+  border: 1px solid #ccc;
+  overflow: hidden;
+  background-color: #fcfcfc;
+}
+</style>
+
+
+
 <style>
 
 /**/
@@ -91,7 +122,7 @@ textarea {
 	</div>
 	<div class="panel-footer">
 		<center>
-			<a href="<?= base_url($this->dynamic_menu->EncryptLink('master-group'));?>" class="btn btn-danger btn-lg"><i class="fa fa-arrow-circle-left"></i> KEMBALI</a>
+			<a href="<?= base_url($this->dynamic_menu->EncryptLink('kapip-master-group'));?>" class="btn btn-danger btn-lg"><i class="fa fa-arrow-circle-left"></i> KEMBALI</a>
 			<button type="button" data-aksi="simpan" class="btn btn-success btn-lg update-group"><i class="fa fa-check-square"></i> UPDATE</button>
 			<button type="button" data-aksi="simpan" class="btn btn-light btn-lg hapus-group"><i class="fa fa-trash-o" aria-hidden="true" style="color: #F32424"></i> HAPUS</button>
 			<button type="button"  data-aksi="new" class="btn btn-primary btn-lg confirm hidden"><i class="fa fa-plus"></i> confirm</button>
@@ -212,7 +243,7 @@ $(document).on("click", ".update-group", function(e) {
 				timer: 2000
 			});
 			
-			window.location.href = "<?= base_url([EncryptLink('master-group')]); ?>";	
+			window.location.href = "<?= base_url([EncryptLink('kapip-master-group')]); ?>";	
 	})
 
 	e.preventDefault();
@@ -246,7 +277,7 @@ $(document).on("click", ".hapus-group", function(e) {
 				
 	
 
-			var urll = '<?php echo base_url(); ?>master-group/hapus';
+			var urll = '<?php echo base_url(); ?>kapip-master-group/hapus';
 				$.ajax({url:urll,
 					type: 'POST',
 					data: ({cid_group}),
@@ -274,15 +305,16 @@ $(document).on("click", ".hapus-group", function(e) {
 							  showConfirmButton: false,
 							  timer: 2000
 							});							
+								//EncryptLink('kapip-master-group')
 								$.ajax({  
-								  url: '<?php echo base_url(EncryptLink('master-group')); ?>',
+								  url: '<?php echo base_url(EncryptLink('kapip-master-group')); ?>',
 								  type: 'POST',
 								  success: function(data){
 									$("#data-elemen-1").html(data);
 								  }
 								});	
 							
-							window.location.href = "<?= base_url([EncryptLink('master-group')]); ?>";	
+							window.location.href = "<?= base_url([EncryptLink('kapip-master-group')]); ?>";	
 						
 						}
 					 }

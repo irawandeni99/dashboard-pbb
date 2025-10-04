@@ -27,21 +27,14 @@
         <div class="table-responsive">
   				<table id="example1" class="table table-bordered table-striped table-condensed" style="width:100%" >
   				<thead>
-  					<tr style="background-color: #EDDFB3;">
+  					<tr style="background-color: #d8a25e; color: white;">
   					  <th  width="5%"  class="text-bold text-center">NO</th>
   					  <th  width="60%" class="text-bold text-center">GROUP USER</th>
   					  <th  width="10%" class="text-bold text-center">AKSI</th>
   					</tr>
   					
   				</thead>
-  				<!--<tfoot>
-  					<tr style="background-color: #ddd;">
-  						<th colspan="3" style="text-align:right; font-weight: bold;">Total:</th>
-  						<th></th>
-  						
-  					</tr>
-  				</tfoot>
-  				-->
+
 				</table>
         </div>
 			</div>

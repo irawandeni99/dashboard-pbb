@@ -10,14 +10,14 @@
 		public function __construct(){
 			parent::__construct();
 			date_default_timezone_set('Asia/Jakarta');
-			$this->load->model('kapip/MasterGroupModel', 'GroupModel');
+			$this->load->model('dashboard/MasterGroupModel', 'GroupModel');
 			$this->load->model('PublicModel');
 		}
 
-		public function data_apip()
+		public function index()
 		{
 			$data['cnext'] 			= $this->GroupModel->nextid();  
-			$data['view'] 			= 'kapip/master/GroupUser';
+			$data['view'] 			= 'master/group/GroupUser';
 			$this->load->view('template/layout', $data);
 		}
 
@@ -36,7 +36,7 @@
 	        	
 				$ckode=$field->id_group;
 				
-				$link=base_url('kapip-master-group/edit/'.$ckode);
+				$link=base_url('master-group/edit/'.$ckode);
 				
 			   
 	            $no++;
@@ -44,7 +44,7 @@
 	            $row[] =$field->id_group;
 	            $row[] = $field->nm_group;
 	            $row[] = '
-					<a href="'.$link.'" class="btn btn-info btn-flat btn-xs edit" data-kode="'.$field->id_group.'" data-nama="'.$field->nm_group.'"><i class="fa fa-pencil-square-o" aria-hidden="true" data-toggle="tooltip" title="Detail"></i></a>
+					<a href="'.$link.'" class="btn btn-flat btn-xs edit" data-kode="'.$field->id_group.'" data-nama="'.$field->nm_group.'" style="background-color: #007074; color: #F6F6F6;" ><i class="fa fa-pencil-square-o" aria-hidden="true" style="font-size:16px;color:#ffffff" title="Edit Data"></i></a>
 	            	</td>    	
 		 	    	<script>$(document).ready(function() {$("[data-toggle=\'tooltip\']").tooltip(); });</script>
 		 	    	';
@@ -70,7 +70,7 @@
 		public function add(){
 			$data['apip'] 			= $this->GroupModel->getGroup();
 			$data['cnext'] 			= $this->GroupModel->nextid();
-			$data['view'] 			= 'kapip/master/addGroupUserView';
+			$data['view'] 			= 'master/group/addGroupUserView';
 			$this->load->view('template/layout', $data);
 		}
 
@@ -81,7 +81,7 @@
 			$data['ckode'] 			= $ckode;
 			$data['cnama']	 		= $this->PublicModel->get_nama($ckode,'nm_group','ms_group','id_group');	
 
-			$data['view'] 			= 'kapip/master/editGroupUserView';
+			$data['view'] 			= 'master/group/editGroupUserView';
 			$this->load->view('template/layout', $data);
 		}
 

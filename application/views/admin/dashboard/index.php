@@ -52,7 +52,9 @@
   /* margin: 0 auto; */
 }
 
-
+.num {
+  text-align: right;
+}
 
 </style>
 
@@ -398,25 +400,6 @@
     color: #AC1754;
   }
 
-/* 
-.map-card {
-  position: relative;
-  width: 100%;
-  height: 765px;   
-}
-.map-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain; 
-} */
-
-
-/* /// */
-
-
 #list-potensi table {
   width: 100%;
   border-collapse: collapse;
@@ -446,7 +429,7 @@
 }
 
 #list-potensi tr:hover {
-  background: #eef2ff;
+  background: #FCB53B;
 }
 
 #list-potensi td.num {
@@ -495,14 +478,14 @@
 						class="pin" 
 						style="position: absolute; top: 355px; left: 390px;" 
             value="002"
-						>
+						onclick=showPopupKecamatan(this.value)>
 					</button>
 					<span class="pin-label" style="position: absolute; top: 382px; left: 345px;" >KEC. TANJUNG PALAS BARAT</span>
 				</div>	
 
 				<div class="pin-wrapper">
            <button 
-						clasonclick=showPopupKecamatan(this.value)s="pin" 
+            class="pin"
 						style="position: absolute; top: 200px; left: 420px;" 
             value="003"
 						onclick=showPopupKecamatan(this.value)>
@@ -592,14 +575,15 @@
           <!-- <div class="panel-body"> -->
             <form class="form-horizontal" id="form-profil2">
               <button type="button" disabled class="collapsible-form active-form w-100 text-left">
-                <h3 class="panel-title mb-0">Potensi Wajib Pajak</h3>
+                <h3 id="lbpanel" class="panel-title mb-0"></h3>
               </button>
 
               <div class="col-md-12 mt-3">
                 <figure class="highcharts-figure">
-                  <div id="loading-spinner" style="display:none; text-align:center; margin:120px;">
-									  <i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-									<span>Loading data...</span>
+                  <div id="loading-spinner" style="display:none; text-align:center; margin:50px;">
+                  <center><img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"></center>
+									<span style="font-size:16px; color:#00809D;">Loading data...</span>
+
 								</div>
                   <div id="container-potensi" style="min-height: 300px; "></div>
                 </figure>
@@ -621,25 +605,70 @@
                   <div id="container-kecamatan" style="min-height: 250px; ">
 
                         <div class="popup-body" id="div-data-kecamatan">
+
                             <div class="popup-left">
                               
                                 <div class="data-left" style="margin-top:20px;" >
                                   <div class="avatar">
                                       <img id="dataImage" src="" alt="Foto Kecamatan">
                                   </div> 
+                                </div>
+
                               </div>
 
+                            <div class="data-right">
+                              <p id="dataNama" style="font-size:16px; font-weight:bold; color:#00809d"></p>
+                              <p style="text-align:left;"> <b>Kode : </b><span id="dataKdkec"></span></p>
+                              
+                              <p style="text-align:left;"><b>Alamat : </b> <span id="dataAlamat"></span></p>
+                              <p style="text-align:left;"><b>No. Telp : </b> <span id="dataTelp"></span></p>
+              
                             </div>
-                          <div class="data-right">
-                            <p id="dataNama" style="font-size:16px; font-weight:bold; color:#00809d"></p>
-                            <p style="text-align:left;"> <b>Kode : </b><span id="dataKdkec"></span></p>
-                            
-                            <p style="text-align:left;"><b>Alamat : </b> <span id="dataAlamat"></span></p>
-                            <p style="text-align:left;"><b>No. Telp : </b> <span id="dataTelp"></span></p>
-            
-                          </div>
+
                         </div>
 
+                      <div class="popup-body" id="div-table-kecamatan">
+                    
+                      <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead style="background:#d8a25e; color:white;">
+                                    <tr>
+                                        <th style="text-align:center;vertical-align:middle;">FOTO BANGUNAN</th>
+                                        <th style="text-align:center;vertical-align:middle;">NAMA KECAMATAN</th>
+                                        <th style="text-align:center;vertical-align:middle;">ALAMAT</th>
+                                        <th style="text-align:center;vertical-align:middle;">NO. TELP</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if (!empty($listKecamatan)): ?>
+                                        <?php foreach ($listKecamatan as $row): ?>
+                                            <tr>
+                                                <td>
+                                                    <?php if (!empty($row->foto)): ?>  
+                                                        <img src="data:image/jpeg;base64,<?= $row->foto; ?>" 
+                                                            alt="Foto" 
+                                                            style="width:150px; height:150px; object-fit:cover;">
+                                                    <?php else: ?>
+                                                        <img src="<?= base_url('assets/img/no-image.png'); ?>" 
+                                                            alt="No Image" 
+                                                            style="width:150px; height:150px; object-fit:cover;">
+                                                    <?php endif; ?>
+                                                </td>
+                                                <td><?= $row->nm_kecamatan; ?></td>
+                                                <td><?= $row->alamat; ?></td>
+                                                <td><?= $row->telp; ?></td>
+
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else: ?>
+                                        <tr>
+                                            <td colspan="5" class="text-center">Data tidak tersedia</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                      </div>
 
                   </div>
                 <!-- </figure> -->
@@ -687,12 +716,170 @@
           
           <p style="text-align:left;"><b>Alamat : </b> <span id="popupAlamat"></span></p>
           <p style="text-align:left;"><b>No. Telp : </b> <span id="popupTelp"></span></p>
+
           <div class="popup-buttons" style="text-align:center;">
             <button class="btn btn-info" style="font-size:10px;" onclick=get_potensi_kecamatan()><b>Potensi</b></button>
-            <button class="btn btn-success" style="font-size:10px;" onclick="closePopup()"><b>Penerimaan</b></button>
+            <button class="btn btn-success" style="font-size:10px;" onclick="showPeriode()"><b>Penerimaan</b></button>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+
+
+
+ <div id="popupPenerimaan" class="modal" >
+    <!-- <div class="modal-content"> -->
+        <div  class="panel panel-headline panel-primary" style="max-height:350px; max-width:550px; overflow-y:auto;">
+              <button type="button" disabled class="collapsible-form active-form w-100 text-left">
+                <h3 class="panel-title mb-0">Penerimaan Pajak Kecamatan</h3>
+              </button>
+
+              <div class="col-md-12 mt-3">
+                <figure class="highcharts-figure">
+                  <div id="loading-spinner" style="display:none; text-align:center; margin:50px;">
+                  <center><img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"></center>
+									<span style="font-size:16px; color:#00809D;">Loading data...</span>
+
+								</div>
+                  <!-- <div id="container-potensi" style="min-height: 300px; "></div> -->
+
+                        <div class="row">
+                            <div class="col-md-12">	
+                              <div class="form-group">
+                                <!-- Label Kecamatan -->
+                                <div class="col-sm-2">
+                                  <label class="col-sm-2 control-label input-sm" id="label-tipe">Periode</label>
+                                </div>
+
+                                <div class="col-sm-10" style="display:flex; align-items:left; gap:5px;">
+                                    <div class="input-group" style="width:160px;">
+                                      <div class="input-group-addon">
+                                        <i class="lnr lnr-calendar-full text-danger"></i>
+                                      </div>
+                                        <input type="text" class="form-control" placeholder="Start Date" 
+                                        id="start_date" name="start_date" value="<?= date('01-01-Y'); ?>">
+                                    </div>
+                                    <span style="margin-top:10px;" >S/D</span>
+
+                                    <div class="input-group" style="width:160px;">
+                                      <div class="input-group-addon">
+                                        <i class="lnr lnr-calendar-full text-danger"></i>
+                                      </div>
+                                        <input type="text" class="form-control" placeholder="End Date" 
+                                        id="end_date" name="end_date" value="<?= date('d-m-Y'); ?>">
+                                    </div>
+                          
+                                </div>
+
+                              </div>
+                            </div>
+                            
+                    <!-- </div>         -->
+
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12 text-center">	
+                      <div class="form-group">       
+                        <div ><br><br>
+                          <button class="btn btn-success" style="font-size:10px;" onclick="get_penerimaan_kecamatan()">
+                            <b>Proses</b>
+                          </button>
+                          <button class="btn btn-danger" style="font-size:10px;" onclick="closePopup()">
+                            <b>Tutup</b>
+                          </button>
+                        </div>              
+                      </div>
+                    </div>
+                  </div>
+
+                </figure>
+                <div id="list-potensi" style="margin-top:20px; font-size:14px;"></div>
+              </div>
+        </div>
+      </div>
+    </div>
+
+
+
+ <div id="popupPenerimaanxx" class="modal">
+    <div class="modal-content">
+
+        <button type="button" aria-label="Close" 
+                onclick="closePopup()" 
+                style="position:absolute; top:2px; right:10px;
+                      background:transparent; 
+                      border:none; 
+                      font-size:14px; 
+                      font-weight:bold; 
+                      color:#800015; 
+                      cursor:pointer;">
+          X
+        </button>
+
+
+
+      <div class="row">
+          <div class="col-md-12">	
+            <div class="form-group">       
+                  <h4>Penerimaan Pajak Kecamatan</h4> <br>                     
+              
+            </div>
+          </div>
+      </div>
+
+      <div class="popup-body">
+        <div class="row">
+						    <div class="col-md-12">	
+								  <div class="form-group">
+                    <!-- Label Kecamatan -->
+                    <div class="col-sm-2">
+                      <label class="col-sm-2 control-label input-sm" id="label-tipe">Periode</label>
+                    </div>
+
+                    <div class="col-sm-10" style="display:flex; align-items:left; gap:5px;">
+                        <div class="input-group" style="width:160px;">
+                          <div class="input-group-addon">
+                            <i class="lnr lnr-calendar-full text-danger"></i>
+                          </div>
+                            <input type="text" class="form-control" placeholder="End Date" 
+                            id="start_date" name="start_date" value="<?= date('d-m-Y'); ?>">
+                        </div>
+                        <span style="margin-top:10px;" >S/D</span>
+
+                        <div class="input-group" style="width:160px;">
+                          <div class="input-group-addon">
+                            <i class="lnr lnr-calendar-full text-danger"></i>
+                          </div>
+                            <input type="text" class="form-control" placeholder="End Date" 
+                            id="end_date" name="end_date" value="<?= date('d-m-Y'); ?>">
+                        </div>
+              
+                    </div>
+
+						      </div>
+					      </div>
+                
+				</div>        
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 text-center">	
+          <div class="form-group">       
+            <div ><br><br>
+              <button class="btn btn-success" style="font-size:10px;" onclick="get_penerimaan_kecamatan()">
+                <b>Proses</b>
+              </button>
+              <button class="btn btn-danger" style="font-size:10px;" onclick="closePopup()">
+                <b>Close</b>
+              </button>
+            </div>              
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -715,12 +902,14 @@
 	$(window).on('load', function () {
   		$(function () {
 	  		$('[data-toggle="tooltip"]').tooltip();
+       
 			 
 		});
 				// Treeview Initialization
 		$(document).ready(function() {
       
-		  get_potensi_kecamatan();	
+		//  get_potensi_kecamatan();
+      document.getElementById("popupPenerimaan").style.display = "none";	
 		  $('.treeview-animated').mdbTreeview();
 		 
 		});
@@ -729,10 +918,26 @@
 
 
 	$(document).ready(function () {
-		$('#kecamatan').on('change', function () {
-			var kec = $(this).val();
-			get_potensi_kecamatan();
-		});
+		// $('#kecamatan').on('change', function () {
+		// 	var kec = $(this).val();
+		// 	get_potensi_kecamatan();
+		// });
+     get_potensi_kecamatan();
+      $(function(){
+					$("#start_date").datepicker({
+						format: "dd-mm-yyyy",   
+						autoclose: true
+					});
+				});
+
+				$(function(){
+					$("#end_date").datepicker({
+						format: "dd-mm-yyyy",   
+						autoclose: true
+					});
+				});
+
+
 	});	
 
 
@@ -771,36 +976,45 @@
 
     function closePopup() {
       document.getElementById("popupKecamatan").style.display = "none";
+      document.getElementById("popupPenerimaan").style.display = "none";
+
     }
 
-    
-    function get_potensi_kecamatan() {
+    function showPeriode() {
+      document.getElementById("popupKecamatan").style.display = "none";
+      document.getElementById("popupPenerimaan").style.display = "flex";
+
+
+    }
+
+
+
+
+function get_potensi_kecamatan() {
     var el = document.getElementById("popupKdkec").innerText;
     var nmkec = document.getElementById("popupNama").innerText;
       nmkec = nmkec
         .toLowerCase()
         .replace(/\b\w/g, function(l) { return l.toUpperCase(); });
 
+      document.getElementById("lbpanel").innerText = "Potensi Wajib Pajak";  
       document.getElementById("popupNama").innerText = nmkec;
 
-    if (el !==''){
-        var kec = el.slice(-3);
-        var nmkec=nmkec;
-        $('#div-data-kecamatan').show();
-    }else{
-        kec = '000';
-        nmkec ='';
-        $('#div-data-kecamatan').hide();
-    }
+      if (el !==''){
+          var kec = el.slice(-3);
+          var nmkec=nmkec;
+          $('#div-data-kecamatan').show();
+          $('#div-table-kecamatan').hide();
+      }else{
+          kec = '000';
+          nmkec ='';
+          $('#div-data-kecamatan').hide();
+          $('#div-table-kecamatan').show();
+      }
     
-
-
     $('#loading-spinner').show();
     $('#container-potensi').empty();
 
-
-    
-    
 
     if(kec=='000'){
       instansi='KECAMATAN';
@@ -831,53 +1045,97 @@
                         '#bcbd22', '#17becf']
             });
             var instansiFormatted = instansi.charAt(0).toUpperCase() + instansi.slice(1).toLowerCase();
-            Highcharts.chart('container-potensi', {
-                chart: { type: 'pie' },
-                // title: { text: '' },
-                title: { 
-                    text: nmkec +'<br>Potensi Wajib Pajak ' + instansiFormatted, 
-                    style: {
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        color: '#00809D'
-                       
-                    }
-                },
 
-                tooltip: {
-                    pointFormat: '<b>{point.percentage:.1f}%</b> ({point.y})'
-                },
-                accessibility: {
-                    point: { valueSuffix: '%' }
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '{point.name}: {point.percentage:.1f}%'
+                Highcharts.chart('container-potensi', {
+                    chart: { 
+                        type: 'pie',
+                        events: {
+                            render: function () {
+                                var chart = this;
+                                var total = pieData.reduce((sum, item) => sum + item.y, 0);
+
+                                // Hapus label lama kalau ada
+                                if (chart.customLabel) {
+                                    chart.customLabel.destroy();
+                                }
+
+                                // Tambahkan label di tengah donat
+                                chart.customLabel = chart.renderer.text(
+                                    '<div style="text-align:center;">' +
+                                        '<span style="font-size:12px; color:#f22f42;">Total</span><br>' +
+                                        '<span style="font-size:14px; font-weight:bold; color:#00809D;">' +
+                                        Highcharts.numberFormat(total, 0, ',', '.') +
+                                        '</span>' +
+                                    '</div>',
+                                    chart.plotLeft + chart.plotWidth / 2,
+                                    chart.plotTop + chart.plotHeight / 2
+                                )
+                                .attr({
+                                    align: 'center',
+                                    zIndex: 5,
+                                    useHTML: true
+                                })
+                                .add();
+                            }
                         }
-                    }
-                },
-                credits: { enabled: false },
-                series: [{
-                    name: 'POTENSI WAJIB PAJAK',
-                    colorByPoint: true,
-                    data: pieData
-                }]
-            });
+                    },
+                    title: { 
+                        text: nmkec + '<br>Potensi Wajib Pajak ' + instansiFormatted, 
+                        style: {
+                            fontSize: '16px',
+                            fontWeight: 'bold',
+                            color: '#00809D'
+                        }
+                    },
+                    tooltip: {
+                        pointFormat: '{point.percentage:.1f}% ({point.y})'
+                    },
+                    accessibility: {
+                        point: { valueSuffix: '%' }
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            innerSize: '55%', // donat lebih tebal
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}: {point.percentage:.1f}%'
+                            }
+                        }
+                    },
+                    credits: { enabled: false },
+                    series: [{
+                        name: 'POTENSI WAJIB PAJAK',
+                        colorByPoint: true,
+                        data: pieData
+                    }]
+                });
+
+
 
             // Tampilkan list kecamatan + jumlah potensi
             var htmlList = "<table>";
             htmlList += "<thead ><tr><th>"+instansi+" </th><th style='text-align:center;'>POTENSI</th></tr></thead><tbody>";
-
+            let totalProgres = 0;
             for (var i = 0; i < namaGroup.length; i++) {
+               
+              let progresVal = progres[i] || 0;
+                  totalProgres += progresVal;
+
                 htmlList += "<tr>";
-                htmlList += "<td>" + namaGroup[i] + "</td>";
+                htmlList += "<td>" + "Kecamatan "+capitalizeWords(namaGroup[i]) + "</td>";
                 htmlList += "<td class='num'>" +  ( (progres[i] || 0).toLocaleString('id-ID') )  + "</td>";
                 htmlList += "</tr>";
+
+                
             }
+
+         //   Tambahkan baris total
+            htmlList += "<tr style='font-weight:bold; background:#d8a25e;'>";
+            htmlList += "<td style='text-align:center;'><b>TOTAL</b></td>";
+            htmlList += "<td class='num' style='text-align:center;'><b>" + totalProgres.toLocaleString('id-ID') + "</b></td>";
+            htmlList += "</tr>";            
 
             htmlList += "</tbody></table>";
             $('#list-potensi').html(htmlList);
@@ -897,6 +1155,210 @@
         }
     });
 }
+
+	function formatToYMD(dateStr) {
+		const parts = dateStr.split('-'); 
+		const d = new Date(parts[2], parts[1] - 1, parts[0]); // (Y, M-1, D)
+
+		const year = d.getFullYear();
+		const month = String(d.getMonth() + 1).padStart(2, '0');
+		const day = String(d.getDate()).padStart(2, '0');
+
+		return `${year}-${month}-${day}`;
+	}
+
+
+
+function get_penerimaan_kecamatan() {
+    const _startDate = document.getElementById('start_date').value;
+    const _endDate   = document.getElementById('end_date').value;
+    const startDate  = formatToYMD(_startDate);
+    const endDate    = formatToYMD(_endDate);
+
+    let el    = document.getElementById("popupKdkec").innerText || "";
+    let nmkec = (document.getElementById("popupNama").innerText || "")
+        .toLowerCase()
+        .replace(/\b\w/g, l => l.toUpperCase());
+    document.getElementById("lbpanel").innerText = "Realisasi Penerimaan Pajak"; 
+    document.getElementById("popupNama").innerText = nmkec;
+
+    let kec = "000";
+    if (el.trim() !== "" && el.length >= 3) {
+        kec = el.slice(-3);
+        $('#div-data-kecamatan').show();
+        $('#div-table-kecamatan').hide();
+    } else {
+        nmkec = "";
+        $('#div-data-kecamatan').hide();
+        $('#div-table-kecamatan').show();
+    }
+
+    $('#loading-spinner').show();
+    $('#container-potensi').empty();
+
+    const instansi  = (kec === "000") ? "KECAMATAN" : "KELURAHAN";
+    const tipeChart = 'area';
+
+    $.ajax({
+        url: '<?= base_url('chart-penerimaan/get'); ?>/' + encodeURIComponent(kec),
+        type: 'POST',
+        data: { startDate, endDate },
+        success: function (data) {
+            let out = {};
+            try {
+                out = jQuery.parseJSON(data) || {};
+            } catch (e) {
+                console.error('JSON parse error:', e, data);
+                $('#container-potensi').html("<p style='color:red;text-align:center;'>Data tidak Ditemukan</p>");
+                return;
+            }
+
+            const namaGroup = out.group || [];
+            const pokok     = (out.pokok || []).map(v => v || 0);
+            const denda     = (out.denda || []).map(v => v || 0);
+
+            if (!namaGroup.length) {
+                $('#container-potensi').html(`
+                    <div class="alert alert-info alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <center><b>Informasi</b> Tidak ditemukan data untuk periode ini</center>
+                    </div>
+                `);
+                return;
+            }
+
+            const cjudul = (kec === '000') 
+                ? `Penerimaan pajak per kecamatan<br>Periode ${formatTanggalIndonesia(startDate)} s/d ${formatTanggalIndonesia(endDate)}`
+                : `Penerimaan Pajak ${nmkec}<br>Periode ${formatTanggalIndonesia(startDate)} s/d ${formatTanggalIndonesia(endDate)}`;
+
+            let chartOptions = {
+                chart: { type: tipeChart, backgroundColor: '#ffffff', style: { fontFamily: 'Segoe UI, Roboto, sans-serif' } },
+                colors: ['#4e79a7','#f28e2b','#76b7b2','#e15759','#59a14f','#edc949'],               
+                title: {
+                    useHTML: true,
+                    text: cjudul,
+                    style: { fontSize: '14px', fontWeight: 'bold', color: '#00809d', lineHeight: '1.4em' }
+                },
+                credits: { enabled: false },
+                tooltip: {},
+                plotOptions: {}
+            };
+
+            if (tipeChart === 'pie') {
+                let seriesData = [];
+                namaGroup.forEach((nm, i) => {
+                    seriesData.push({ name: nm, y: pokok[i] + denda[i] });
+                });
+
+                chartOptions.series = [{ name:'Total Pajak', colorByPoint:true, data:seriesData }];
+                chartOptions.plotOptions.pie = {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    showInLegend: true,
+                    dataLabels: { enabled:true, format:'<b>{point.name}</b><br>{point.y:,.0f} ({point.percentage:.1f}%)' }
+                };
+                chartOptions.tooltip.formatter = function() {
+                    return `<b>${this.point.name}</b><br/>
+                            Total: <b>${Highcharts.numberFormat(this.point.y,0,',','.')}</b><br/>
+                            (${Highcharts.numberFormat(this.point.percentage,1)}%)`;
+                };
+
+            } else {
+                chartOptions.xAxis = { categories: namaGroup };
+                chartOptions.yAxis = { min:0, title:{ text:'Jumlah (Rp)', style:{ fontWeight:'bold' } } };
+                chartOptions.series = [
+                    { name:'Pokok', data:pokok },
+                    { name:'Denda', data:denda }
+                ];
+                chartOptions.plotOptions.series = {
+                    borderRadius: 4,
+                    stacking: 'normal',
+                    dataLabels: { enabled:true, formatter:function(){ return Highcharts.numberFormat(this.y,0,',','.'); } }
+                };
+                chartOptions.tooltip.formatter = function() {
+                    const index = this.point.index;
+                    const pokokValue = pokok[index] || 0;
+                    const dendaValue = denda[index] || 0;
+                    const total = pokokValue + dendaValue;
+
+                    return `<p style="color:#007074; font-weight:bold; margin:0;">${this.point.category}</p><br/>
+                            Pokok  : <b style="color:#4e79a7;">${Highcharts.numberFormat(pokokValue,0,',','.')}</b><br/>
+                            Denda  : <b style="color:#e15759;">${Highcharts.numberFormat(dendaValue,0,',','.')}</b><br/>
+                            Total  : <b style="color:#2ca02c;">${Highcharts.numberFormat(total,0,',','.')}</b>`;
+                };
+            }
+
+            Highcharts.chart('container-potensi', chartOptions);
+
+            // Tampilkan list kecamatan + jumlah potensi
+              let htmlList = "<table>";
+              htmlList += "<thead><tr><th>" + instansi + "</th><th style='text-align:center;'>POKOK</th><th style='text-align:center;'>DENDA</th><th style='text-align:center;'>JUMLAH</th></tr></thead><tbody>";
+              
+              let totalPokok = 0;
+              let totalDenda = 0;
+              let totalSemua = 0;
+              for (let i = 0; i < namaGroup.length; i++) {
+                  let pokokVal = pokok[i] || 0;
+                  let dendaVal = denda[i] || 0;
+                  let total    = pokokVal + dendaVal;
+
+                      totalPokok += pokokVal;
+                      totalDenda += dendaVal;
+                      totalSemua += total;
+
+                  htmlList += "<tr>";
+                  htmlList += "<td>" + capitalizeWords(namaGroup[i]) + "</td>";
+                  htmlList += "<td class='num' style='text-align:right;'>" + pokokVal.toLocaleString('id-ID') + "</td>";
+                  htmlList += "<td class='num' style='text-align:right;'>" + dendaVal.toLocaleString('id-ID') + "</td>";
+                  htmlList += "<td class='num' style='text-align:right;'>" + total.toLocaleString('id-ID') + "</td>";
+                  htmlList += "</tr>";
+            }
+
+            // Tambahkan baris total
+            htmlList += "<tr style='font-weight:bold; background:#d8a25e;'>";
+            htmlList += "<td style='text-align:center;'><b>TOTAL</b></td>";
+            htmlList += "<td class='num' style='text-align:right;'><b>" + totalPokok.toLocaleString('id-ID') + "</b></td>";
+            htmlList += "<td class='num' style='text-align:right;'><b>" + totalDenda.toLocaleString('id-ID') + "</b></td>";
+            htmlList += "<td class='num' style='text-align:right;'><b>" + totalSemua.toLocaleString('id-ID') + "</b></td>";
+            htmlList += "</tr>";
+
+
+            htmlList += "</tbody></table>";
+            $('#list-potensi').html(htmlList);
+        },
+
+        complete: function(){ 
+            $('#loading-spinner').hide(); 
+            document.getElementById("popupPenerimaan").style.display = "none";
+        },
+        error: function(){ 
+            $('#container-potensi').html("<p style='color:red;text-align:center;'>Gagal memuat data</p>"); 
+        }
+    });
+
+    
+}
+
+function capitalizeWords(str) {
+    return str
+        .toLowerCase()
+        .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+
+
+function formatTanggalIndonesia(dateStr) {
+    const bulan = ["Januari","Februari","Maret","April","Mei","Juni",
+                   "Juli","Agustus","September","Oktober","November","Desember"];
+    const d = new Date(dateStr);
+    const hari = d.getDate();
+    const bln = bulan[d.getMonth()];
+    const thn = d.getFullYear();
+    return `${hari} ${bln} ${thn}`;
+}
+
 
 </script>
 

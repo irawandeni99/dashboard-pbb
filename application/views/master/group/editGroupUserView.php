@@ -170,7 +170,7 @@ $(document).on("click", ".update-group", function(e) {
 	
 
 	if (nm_group == '') {
-		Swal.fire({position: 'top-end',icon: 'warning',title: 'Nama Group User Tidak boleh Kosong',showConfirmButton: false,timer: 2000});
+		Swal.fire({position: 'top-center',icon: 'warning',title: 'Nama Group User Tidak boleh Kosong',showConfirmButton: false,timer: 2000});
 		exit();
 	}
 
@@ -180,7 +180,7 @@ $(document).on("click", ".update-group", function(e) {
 	$.blockUI({ message: '<img width="100px" src="<?=base_url(); ?>assets/img/loading.gif"><br/> Proses Simpan Data' });
 	$.ajax({
 		method: 'POST',
-		url: '<?php echo base_url('kapip-master-group/update'); ?>',
+		url: '<?php echo base_url('master-group/update'); ?>',
 		data: data
 	})
 	.done(function(data) {
@@ -205,7 +205,7 @@ $(document).on("click", ".update-group", function(e) {
 		}		
 		
 		Swal.fire({
-				position: 'top-end',
+				position: 'top-center',
 				icon: xicon,
 				title: pesan,
 				showConfirmButton: false,
@@ -231,7 +231,7 @@ $(document).on("click", ".hapus-group", function(e) {
 	
 	Swal.fire({
               title: 'Apakah anda yakin?',
-              text: "Menghapus Apip "+cnm_group+"..?",
+              text: "Menghapus Data "+cnm_group+"..?",
               icon: 'warning',
               showCancelButton: true,
               confirmButtonColor: '#074979',
@@ -257,7 +257,7 @@ $(document).on("click", ".hapus-group", function(e) {
 						if(data==0){
 							pesan="Data Gagal Hapus";
 								Swal.fire({
-								  position: 'top-end',
+								  position: 'top-center',
 								  icon: 'error',
 								  title: pesan,
 								  showConfirmButton: false,
@@ -268,7 +268,7 @@ $(document).on("click", ".hapus-group", function(e) {
 							pesan="File Berhasil Di Hapus";
 
 							Swal.fire({
-							  position: 'top-end',
+							  position: 'top-center',
 							  icon: 'success',
 							  title: pesan,
 							  showConfirmButton: false,

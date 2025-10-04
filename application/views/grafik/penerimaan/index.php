@@ -93,7 +93,7 @@
 									<div class="row">
 									
 									
-										<div class="col-md-12" style="text-align: center;"><label style="font-size:16pt;text-align: center;">penerimaan Pajak Kecamatan</label></div>
+										<div class="col-md-12" style="text-align: center;"><label style="font-size:16pt;text-align: center;">Penerimaan Pajak Kecamatan</label></div><br>&nbsp;<br>
 										<div class="col-md-12">
 										
 										<div class="row">
@@ -108,7 +108,7 @@
 															<label class="col-sm-2 control-label input-sm" id="label-tipe">Kecamatan</label>
 														</div>
 														<!-- Dropdown Kecamatan -->
-														<div class="col-sm-10">
+														<div class="col-sm-8">
 															<select name="kecamatan" id="kecamatan" class="form-control input-sm" style="width:100%">
 																<option value="000">Semua Kecamatan</option>
 																<?php foreach($kecamatan as $row): ?>
@@ -125,19 +125,27 @@
 														<div class="col-sm-2">
 															<label class="control-label input-sm">Periode</label>
 														</div>
-														<div class="col-sm-4">
-															<input type="date" name="start_date" id="start_date" class="form-control input-sm"
-																value="<?= date('Y-m-d'); ?>">
-														</div>
+											
+														<div class="col-sm-10" style="display:flex; align-items:center; gap:5px;">
+															<div class="input-group" style="width:160px;">
+																<div class="input-group-addon">
+																	<i class="lnr lnr-calendar-full text-danger"></i>
+																</div>
+																	<input type="text" class="form-control" placeholder="Start Date" 
+																	id="start_date" name="start_date" value="<?= date('01-01-Y'); ?>">
+															</div>
+															<span >S/D</span>
 
-
-														<div class="col-sm-1 text-center" style="padding-top:5px;">
-															<span>s/d</span>
-														</div>
-
-														<div class="col-sm-5">
-															<input type="date" name="end_date" id="end_date" class="form-control input-sm"
-																value="<?= date('Y-m-d'); ?>">
+															<div class="input-group" style="width:160px;">
+																<div class="input-group-addon">
+																	<i class="lnr lnr-calendar-full text-danger"></i>
+																</div>
+																	<input type="text" class="form-control" placeholder="End Date" 
+																	id="end_date" name="end_date" value="<?= date('d-m-Y'); ?>">
+															</div>
+															<button type="button" id="btn-tampil"  name="btn-tampil" class="btn btn-sm btn-primary" title='Tampilkan Grafik'>
+																<i style="font-size:20px" class="fa">&#xf002;</i>
+															</button>
 														</div>
 
 													</div>
@@ -156,6 +164,8 @@
 																<option value="bar">Bar</option>
 																<option value="column">Column</option>
 																<option value="pie">Pie</option>
+																<option value="area">Area</option>
+																<option value="line">Line</option>
 															</select>
 														</div>
 													</div>
@@ -170,8 +180,9 @@
 									</div>
 
 									<div id="loading-spinner" style="display:none; text-align:center; margin:20px;">
-										<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-										<span>Loading data...</span>
+                                    <center><img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"></center>
+									<span style="font-size:16px; color:#00809D;">Loading data...</span>
+
 									</div>
 																	
 									<div class="col-md-8" style="margin-top:20px;">
@@ -283,7 +294,28 @@
 		$(document).ready(function() {
 		  get_penerimaan_kecamatan('000');	
 		  $('.treeview-animated').mdbTreeview();
-		 
+
+				$(function(){
+					$("#start_date").datepicker({
+						format: "dd-mm-yyyy",   
+						autoclose: true
+					});
+				});
+
+				$(function(){
+					$("#end_date").datepicker({
+						format: "dd-mm-yyyy",   
+						autoclose: true
+					});
+				});
+
+			$(document).ready(function() {
+				$('#kecamatan').select2({
+					placeholder: "Pilih Kecamatan",
+					allowClear: true,
+					width: '100%'   // supaya full lebar
+				});
+			});
 		});
 
 	});
@@ -303,12 +335,33 @@
 		get_penerimaan_kecamatan(kec);
 	})
 
-	function get_penerimaan_kecamatan(kec) {
+	$('#btn-tampil').on('click', function() {
+		let kec = $('#kecamatan').val();
+		get_penerimaan_kecamatan(kec);
+	})
+
+	function formatToYMD(dateStr) {
+		const parts = dateStr.split('-'); // misalnya "25-09-2025"
+		const d = new Date(parts[2], parts[1] - 1, parts[0]); // (Y, M-1, D)
+
+		const year = d.getFullYear();
+		const month = String(d.getMonth() + 1).padStart(2, '0');
+		const day = String(d.getDate()).padStart(2, '0');
+
+		return `${year}-${month}-${day}`;
+	}
+
+
+	function get_penerimaan_kecamatan_xxx(kec) {
 		$('#loading-spinner').show();
 		$('#container-penerimaan').empty();
 		// Ambil nilai input sebagai string (format yyyy-mm-dd)
-		const startDate = document.getElementById('start_date').value;
-		const endDate = document.getElementById('end_date').value;
+		const _startDate = document.getElementById('start_date').value;
+		const _endDate = document.getElementById('end_date').value;
+		const startDate = formatToYMD(_startDate);
+		const endDate   = formatToYMD(_endDate);
+
+
 				
 		$.ajax({
 			url: '<?= base_url('chart-penerimaan/get'); ?>/' + encodeURIComponent(kec),
@@ -330,10 +383,20 @@
 				var denda     = (out.denda || []).map(v => v || 0);
 
 				// Jika tidak ada data, tampilkan pesan dan keluar
-				if (!namaGroup.length) {
-					$('#container-penerimaan').html("<p style='color:#555;text-align:center;'>Tidak ada data untuk periode ini</p>");
-					return;
-				}
+					if (!namaGroup.length) {
+						$('#container-penerimaan').html(`
+							<div class="alert alert-info alert-dismissible" role="alert">
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+								<center><b>Informasi</b> Tidak ditemukan data untuk periode ini</center>
+							</div>
+						`);
+						return;
+					}
+
+
+
 
 				let cjudul = (kec === '000') 
 
@@ -404,6 +467,128 @@
 
 
 	}
+
+
+function get_penerimaan_kecamatan(kec) {
+	$('#loading-spinner').show();
+	$('#container-penerimaan').empty();
+
+	const _startDate = document.getElementById('start_date').value;
+	const _endDate   = document.getElementById('end_date').value;
+	const startDate  = formatToYMD(_startDate);
+	const endDate    = formatToYMD(_endDate);
+
+	$.ajax({
+		url: '<?= base_url('chart-penerimaan/get'); ?>/' + encodeURIComponent(kec),
+		type: 'POST',
+		data: { startDate, endDate },
+		success: function (data) {
+			var out = {};
+			try {
+				out = jQuery.parseJSON(data) || {};
+			} catch(e) {
+				console.error('JSON parse error:', e, data);
+				$('#container-penerimaan').html("<p style='color:red;text-align:center;'>Data tidak Ditemukan</p>");
+				return;
+			}
+
+			var namaGroup = out.group || [];
+			var pokok     = (out.pokok || []).map(v => v || 0);
+			var denda     = (out.denda || []).map(v => v || 0);
+
+			if (!namaGroup.length) {
+				$('#container-penerimaan').html(`
+					<div class="alert alert-info alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<center><b>Informasi</b> Tidak ditemukan data untuk periode ini</center>
+					</div>
+				`);
+				return;
+			}
+
+			let cjudul = (kec === '000') 
+				? 'Penerimaan pajak per kecamatan <br> periode ' 
+				  + formatTanggalIndonesia(startDate) + ' s/d ' 
+				  + formatTanggalIndonesia(endDate)
+				: 'Penerimaan pajak per kelurahan <br> periode ' 
+				  + formatTanggalIndonesia(startDate) + ' s/d ' 
+				  + formatTanggalIndonesia(endDate);	
+
+			var tipeChart = $('#tipe_chart').val();
+			let seriesData = [];
+
+			if (tipeChart === 'pie') {
+				namaGroup.forEach(function(nm, i) {
+					seriesData.push({ name: nm, y: pokok[i] + denda[i] });
+				});
+			}
+
+			Highcharts.chart('container-penerimaan', {
+				chart: { 
+					type: tipeChart, 
+					backgroundColor: '#ffffff', 
+					style: { fontFamily: 'Segoe UI, Roboto, sans-serif' } 
+				},
+				colors: ['#4e79a7','#f28e2b','#76b7b2','#e15759','#59a14f','#edc949'],
+				title: { 
+					text: cjudul, 
+					style: { fontSize:'18px', fontWeight:'bold', color:'#00809d', lineHeight: '25.4em' } 
+				},
+				xAxis: (tipeChart !== 'pie') ? { categories: namaGroup } : undefined,
+				yAxis: (tipeChart !== 'pie') ? { 
+					min:0, 
+					title:{ text:'Jumlah (Rp)', style:{ fontWeight:'bold' } } 
+				} : undefined,
+				tooltip: {
+					shared: false,
+					formatter: function() {
+						if (this.series.type === 'pie') {
+							return `<b>${this.point.name}</b><br/>
+									Total: <b>${Highcharts.numberFormat(this.point.y,0,',','.')}</b><br/>
+									(${Highcharts.numberFormat(this.point.percentage,1)}%)`;
+						} else {
+							var index = this.point.index;
+							var pokokValue = pokok[index] || 0;
+							var dendaValue = denda[index] || 0;
+							var total = pokokValue + dendaValue;
+
+							return `<p style="color:#007074; font-weight:bold; margin:0;">${this.point.category}</p><br/>
+									Pokok  : <b style="color:#4e79a7;">${Highcharts.numberFormat(pokokValue,0,',','.')}</b><br/>
+									Denda  : <b style="color:#e15759;">${Highcharts.numberFormat(dendaValue,0,',','.')}</b><br/>
+									Total  : <b style="color:#2ca02c;">${Highcharts.numberFormat(total,0,',','.')}</b>`;
+						}
+					}
+				},
+				plotOptions: {
+					series: {
+						borderRadius: (tipeChart === 'column' || tipeChart === 'bar') ? 4 : 0,
+						stacking: (tipeChart === 'column' || tipeChart === 'bar') ? 'normal' : undefined,
+						dataLabels: { 
+							enabled:true, 
+							formatter:function(){ return Highcharts.numberFormat(this.y,0,',','.'); } 
+						}
+					},
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						showInLegend: true,
+						dataLabels: { enabled:true, format:'<b>{point.name}</b><br>{point.y:,.0f} ({point.percentage:.1f}%)' }
+					},
+					line: { dataLabels: { enabled: true }, enableMouseTracking: true },
+					area: { dataLabels: { enabled: true }, enableMouseTracking: true }
+				},
+				credits: { enabled:false },
+				series: (tipeChart === 'pie') 
+					? [{ name:'Total Pajak', colorByPoint:true, data:seriesData }] 
+					: [{ name:'Pokok', data:pokok }, { name:'Denda', data:denda }]
+			});
+		},
+		complete: function(){ $('#loading-spinner').hide(); },
+		error: function(){ $('#container-penerimaan').html("<p style='color:red;text-align:center;'>Gagal memuat data</p>"); }
+	});
+}
 
 
 	function kembali()

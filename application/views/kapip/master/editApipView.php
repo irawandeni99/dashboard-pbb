@@ -305,7 +305,6 @@ $(document).on("click", ".hapus-apip", function(e) {
 							  showConfirmButton: false,
 							  timer: 2000
 							});							
-								//EncryptLink('kapip-master-apip')
 								$.ajax({  
 								  url: '<?php echo base_url(EncryptLink('kapip-master-apip')); ?>',
 								  type: 'POST',

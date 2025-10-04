@@ -151,6 +151,8 @@
 														<option value="bar">Bar</option>
 														<option value="column">Column</option>
 														<option value="pie">Pie</option>
+														<option value="area">Area</option>
+														<option value="line">Line</option>
 													</select>
 												</div>
 											</div>
@@ -166,8 +168,9 @@
 								</div>
 
 								<div id="loading-spinner" style="display:none; text-align:center; margin:20px;">
-									<i class="fa fa-spinner fa-spin fa-3x fa-fw"></i>
-									<span>Loading data...</span>
+                                    <center><img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"></center>
+									<span style="font-size:16px; color:#00809D;">Loading data...</span>
+
 								</div>
 																
 								<div class="col-md-8" style="margin-top:20px;">
@@ -456,7 +459,7 @@ $('#tipe_chart').on('change', function() {
 });
 
 
-function get_potensi_kecamatan(kec) {
+function get_potensi_kecamatanxx(kec) {
     // Tampilkan spinner, kosongkan chart
     $('#loading-spinner').show();
     $('#container-potensi').empty();
@@ -536,6 +539,91 @@ function get_potensi_kecamatan(kec) {
     }
 });
 
+}
+
+
+
+function get_potensi_kecamatan(kec) {
+    // Tampilkan spinner, kosongkan chart
+    $('#loading-spinner').show();
+    $('#container-potensi').empty();
+
+    $.ajax({
+        url: '<?= base_url('chart-potensi/get'); ?>/' + encodeURIComponent(kec),
+        type: 'POST',
+        success: function (data) {
+            var out       = jQuery.parseJSON(data) || {};
+            var namaGroup = out.group || [];
+            var progres   = out.potensi || [];
+
+            var tipeChart = $('#tipe_chart').val();
+            let seriesData = [];
+
+            if (tipeChart === 'pie') {
+                namaGroup.forEach(function(nm, i) {
+                    seriesData.push({ name: nm, y: progres[i] || 0 });
+                });
+            }
+
+            Highcharts.setOptions({
+                colors: ['#1f77b4', '#2ca02c', '#ff7f0e', '#d62728',
+                         '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
+                         '#bcbd22', '#17becf']
+            });
+
+            Highcharts.chart('container-potensi', {
+                chart: { 
+                    type: tipeChart, 
+                    backgroundColor: '#ffffff',
+                    style: { fontFamily: 'Segoe UI, Roboto, sans-serif' }
+                },
+                title: { text: '' },
+                xAxis: (tipeChart !== 'pie') ? {
+                    categories: namaGroup,
+                    title: { text: null }
+                } : undefined,
+                yAxis: (tipeChart !== 'pie') ? {
+                    min: 0,
+                    title: { text: 'Wajib Pajak', align: 'high' },
+                    labels: { overflow: 'justify', formatter: function () { return this.value; } }
+                } : undefined,
+                tooltip: {
+                    useHTML: true,
+                    formatter: function() {
+                        if (tipeChart === 'pie') {
+                            return `<b>${this.point.name}</b><br/>Potensi: <b>${this.point.y}</b>`;
+                        } else {
+                            return `<b>${this.point.category}</b><br/>Potensi: <b>${this.point.y}</b>`;
+                        }
+                    }
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: { enabled: true }
+                    },
+                    bar: { borderRadius: 4, pointPadding: 0.1 },
+                    column: { borderRadius: 4, pointPadding: 0.1 },
+                    pie: { allowPointSelect: true, cursor: 'pointer', showInLegend: true },
+                    line: { dataLabels: { enabled: true }, enableMouseTracking: true },
+                    area: { dataLabels: { enabled: true }, enableMouseTracking: true }
+                },
+                credits: { enabled: false },
+                series: (tipeChart === 'pie') ? [{
+                    name: 'Potensi Wajib Pajak',
+                    colorByPoint: true,
+                    data: seriesData
+                }] : [{
+                    name: 'Potensi Wajib Pajak',
+                    data: progres,
+                    colorByPoint: (tipeChart === 'column' || tipeChart === 'bar')
+                }]
+            });
+        },
+        complete: function () { $('#loading-spinner').hide(); },
+        error: function () {
+            $('#container-potensi').html("<p style='color:red;text-align:center;'>Gagal memuat data</p>");
+        }
+    });
 }
 
 

@@ -17,9 +17,17 @@
 	    }
 
 
-	     public function getMkecamatan($kec = '')
+	    public function getMkecamatan($kec = '')
 	    {
 			$query = 'SELECT * FROM ms_kecamatan where right(kd_kecamatan,3) = "'.$kec.'"';
+	    	$sql = $this->db->query($query)->result();
+	    	return $sql;
+	    }
+
+
+	    public function listMkecamatan()
+	    {
+			$query = 'SELECT * FROM ms_kecamatan';
 	    	$sql = $this->db->query($query)->result();
 	    	return $sql;
 	    }
@@ -36,26 +44,42 @@
 			return $data[0][$hasil];
 		}
 
+
+
+		public function getInstansi()
+		{
+			$sql = "SELECT *from ms_config";		
+			return $this->db->query($sql)->result();
+		}
+
+
+  public function formatTanggalIndonesia($dateStr) {
+        $bulan = [
+            1 => "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                 "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+        ];
+
+
+        $timestamp = strtotime($dateStr);
+        if (!$timestamp) {
+            return $dateStr; 
+        }
+
+        $hari = date('j', $timestamp);
+        $bln  = $bulan[(int)date('n', $timestamp)];
+        $thn  = date('Y', $timestamp);
+
+        return $hari . " " . $bln . " " . $thn;
+    }
+
+
+
 		public function getNamaDaerah($id_daerah)
 		{
 			$sql = "SELECT id_daerah as id, nm_daerah as nama, ket as jenis from ms_daerah where id_daerah = ".$id_daerah.";";		
 			return $this->db->query($sql)->result();
 		}
 
-		public function getNamaInstansi($id_daerah)
-		{
-			$sql = "SELECT id_instansi as id, nm_instansi as nama, 'INSTANSI' as jenis from ms_instansi_kemendagri where id_instansi = ".$id_daerah.";";		
-			return $this->db->query($sql)->result();
-		}
-
-		public function daftar_fokus_bpk($jenis = '')
-	    {
-	    	$tahun = $this->session->userdata('year_selected');
-			$query = 'SELECT * FROM ms_jenis_audit where tahun = '.$tahun.' AND (jenis = "" OR jenis is NULL OR jenis = "'.$jenis.'")';
-			
-	    	$sql = $this->db->query($query)->result_array();
-	    	return $sql;
-	    }
 
 	    public function viewNotif($id = 0)
 	    {
@@ -65,89 +89,7 @@
 	    	$this->db->update('tr_history_tlhp',$data);
 	    }
 
-	    public function viewNotifKemendagri($id = 0)
-	    {
-	    	$where = array('id'=>$id);
-	    	$data = array('status'=>'DILIHAT');
-	    	$this->db->where($where);
-	    	$this->db->update('tr_history_tlhp_kemendagri',$data);
-	    }
-
-	    public function viewNotifPemda($id = 0)
-	    {
-	    	$where = array('id'=>$id);
-	    	$data = array('status'=>'DILIHAT');
-	    	$this->db->where($where);
-	    	$this->db->update('tr_history_tlhp_pemda',$data);
-	    }
-
-	    public function add_history($tbl,$aksi,$noreg,$no_lhp,$kd_temuan,$kd_rekomendasi,$kd_tl,$kd_lamp,$menu,$submenu,$routes,$uraian)
-	    {
-	    	date_default_timezone_set('Asia/Jakarta');
-	    	$ses = $this->session->userdata();
-	    	$user_date = date('Y-m-d H:i:s');
-	    	$user_type = $ses['is_admin'];
-	    	$user_id = $ses['user_id'];
-			$satker = explode('-', $noreg);
-			$instansi = $satker[1];
-			$dataHistory = array(
-					'aksi'=>$aksi,'uraian'=>$uraian,'user_id'=>$user_id,'user_type'=>$user_type,'user_date'=>$user_date,'status'=>'BELUM DILIHAT',
-					'instansi'=>$instansi,'noreg' => $noreg,'no_lhp' => $no_lhp,'kd_rekomendasi' => $kd_rek,'kd_temuan' => $kd_temuan,'kd_rekomendasi'=>$kd_rekomendasi,
-					'kd_tl'=>$kd_tl,'kd_lamp'=>$kd_lamp,'menu'=>$menu,'submenu'=>$submenu,'routes'=>$routes
-				);
-			$dataHistory = $this->security->xss_clean($dataHistory);
-			$result2 = $this->db->insert($tbl, $dataHistory);
-
-			return true;
-	    }
-
-	    public function add_history_bpk($tbl,$aksi,$noreg,$no_lhp,$id_aspek,$kd_temuan,$kd_rekomendasi,$kd_tl,$kd_lamp,$menu,$submenu,$routes,$uraian)
-	    {
-	    	date_default_timezone_set('Asia/Jakarta');
-	    	$ses = $this->session->userdata();
-	    	$user_date = date('Y-m-d H:i:s');
-	    	$user_type = $ses['is_admin'];
-	    	$user_id = $ses['user_id'];
-			$satker = explode('-', $noreg);
-			$instansi = $satker[1];
-			$dataHistory = array(
-					'aksi'=>$aksi,'uraian'=>$uraian,'user_id'=>$user_id,'user_type'=>$user_type,'user_date'=>$user_date,'status'=>'BELUM DILIHAT',
-					'instansi'=>$instansi,'noreg' => $noreg,'no_lhp' => $no_lhp,'id_aspek' => $id_aspek,'kd_rekomendasi' => $kd_rek,'kd_temuan' => $kd_temuan,'kd_rekomendasi'=>$kd_rekomendasi,
-					'kd_tl'=>$kd_tl,'kd_lamp'=>$kd_lamp,'menu'=>$menu,'submenu'=>$submenu,'routes'=>$routes
-				);
-			$dataHistory = $this->security->xss_clean($dataHistory);
-			$result2 = $this->db->insert($tbl, $dataHistory);
-			
-			return true;
-	    }
-
-	    public function add_history_kemendagri($tbl,$aksi,$noreg,$no_lhp,$id_aspek,$kd_temuan,$kd_rekomendasi,$kd_tl,$kd_lamp,$menu,$submenu,$routes,$uraian)
-	    {
-	    	date_default_timezone_set('Asia/Jakarta');
-	    	$ses = $this->session->userdata();
-	    	$user_date = date('Y-m-d H:i:s');
-	    	$user_type = $ses['is_admin'];
-	    	$user_id = $ses['user_id'];
-			$satker = explode('-', $noreg);
-			$instansi = $satker[1];
-			$dataHistory = array(
-					'aksi'=>$aksi,'uraian'=>$uraian,'user_id'=>$user_id,'user_type'=>$user_type,'user_date'=>$user_date,'status'=>'BELUM DILIHAT',
-					'instansi'=>$instansi,'noreg' => $noreg,'no_lhp' => $no_lhp,'id_aspek' => $id_aspek,'kd_rekomendasi' => $kd_rek,'kd_temuan' => $kd_temuan,'kd_rekomendasi'=>$kd_rekomendasi,
-					'kd_tl'=>$kd_tl,'kd_lamp'=>$kd_lamp,'menu'=>$menu,'submenu'=>$submenu,'routes'=>$routes
-				);
-			$dataHistory = $this->security->xss_clean($dataHistory);
-			$result2 = $this->db->insert($tbl, $dataHistory);
-			
-			return true;
-	    }
-
-		public function daftar_lhp()
-	    {
-	    	$tahun = $this->session->userdata('year_selected');
-			$query = 'SELECT * FROM ms_lhp';
-	    	$sql = $this->db->query($query)->result();
-	    	return $sql;
-	    }
+	 
 
 	    public function getUser($id = '')
 	    {
@@ -156,174 +98,7 @@
 	    	return $sql;
 	    }
 
-
-
-
-		public function getInstansi()
-	    {
-			$instansi = $this->session->userdata('id_instansi');
-			$akses = $this->session->userdata('is_admin');
-		
-			if($akses==3){
-				$where="where kd_apip='".$instansi."'";
-			}else{
-				$where='';
-			}
-		 
-			$query = "SELECT * FROM ms_apip ".$where ;
-	    	$sql = $this->db->query($query)->result();
-	    	return $sql;
-	    }
-
-
-	    public function daftar_lhp_lk()
-	    {
-	    	$tahun = $this->session->userdata('year_selected');
-			$query = 'SELECT * FROM ms_lhp where jenis = "LK" AND tahun = '.$tahun;
-	    	$sql = $this->db->query($query)->result();
-	    	return $sql;
-	    }
-	    public function daftar_lhp_kinerja()
-	    {
-	    	$tahun = $this->session->userdata('year_selected');
-			$query = 'SELECT * FROM ms_lhp where jenis = "KINERJA" AND tahun = '.$tahun;
-	    	$sql = $this->db->query($query)->result();
-	    	return $sql;
-	    }
-	    public function daftar_lhp_dtt()
-	    {
-	    	$tahun = $this->session->userdata('year_selected');
-			$query = 'SELECT * FROM ms_lhp where jenis = "DTT" AND tahun = '.$tahun;
-
-	    	$sql = $this->db->query($query)->result();
-	    	return $sql;
-	    }
-	    public function daftar_lhp_pemda_thn()
-	    {
-	    	$thn = $this->session->userdata('year_selected');
-	    	$akses = $this->session->userdata('is_admin');
-	    	if($akses == 1){
-				$where = '';
-			}else if($akses == 2){
-				$daerah = $this->session->userdata('id_pemda');
-				$where  = ' and id_daerah in ('.$daerah.') ';
-			}else if($akses == 4){
-				$id_prov = $this->session->userdata('id_prov');
-				$where  = ' and id_daerah = '.$id_prov.' ';
-			}else if($akses == 5){
-				$id_prov = $this->session->userdata('id_kab');
-				$where  = ' and id_daerah = '.$id_prov.' ';
-			}else if($akses == 6){
-				$apip = $this->session->userdata('id_ins');
-				$sql = "SELECT * FROM ms_inspektorat where id_inspektorat = ".$apip;	
-				$daerah = $this->db->query($sql)->row()->pemda;
-				$where  = ' and id_daerah in ('.$daerah.') ';
-				
-			}
-			if ($thn>=2021 && $akses <> 1) {
-				$where  .= ' AND (SELECT sts_posting FROM tbl_posting_pemda where p.no_lhp = no_lhp AND p.tahun = tahun) = "y" ';
-			}
-
-			$query = 'SELECT *,(SELECT nm_daerah from ms_daerah where id_daerah = p.id_daerah) as nm_daerah 
-						FROM ms_lhp_pemda p where tahun = '.$thn.' '.$where.' order by p.no_lhp asc';
-			// print_r($query);die();
-		
-	    	$sql = $this->db->query($query)->result();
-	    	return $sql;
-	    }
-
-	    public function getInfoSisaWaktu($posting)
-	    {
-	    	date_default_timezone_set('Asia/Jakarta');
-	    	// $posting = '2021-06-09';
-	    	$hariini = date('Y-m-d');
-			$postingCon = strtotime($posting);
-			
-	    	$i = 0;
-	    	$html='';
-	    	$tglDeadline = '';
-	    	$sisaWaktu 	= 0;
-	    	while($i <= 60) {
-	    		if (date('w', $postingCon) !== '0' && date('w', $postingCon) !== '6') {
-	    			$resLibur = $this->db->get_where('ms_hari_libur',array('tanggal'=>date('Y-m-d', $postingCon)))->result();
-	    			if (count($resLibur)>0) {
-	    				$html.="<p style='color:red;'>$i :LIBUR</p><br>";
-			        	$sabtuminggu[] = $i;
-	    			}else{
-	    				if (date('Y-m-d', $postingCon)>=$hariini) {
-	    					$sisaWaktu++;
-	    				}
-			        	$hariKerja[] = $i;
-			  			$i++;
-			   			$html.="<p style=''>$i :".date('Y-m-d', $postingCon)."</p><br>";
-	    			}
-			    } else {
-			    	$html.="<p style='color:red;'>$i :LIBUR</p><br>";
-			        $sabtuminggu[] = $i;
-			    }
-			   $postingCon += (60 * 60 * 24);
-			   $tglDeadline = date('Y-m-d', $postingCon);
-			} 
-			if ($tglDeadline <> '') {
-				$data['tglDeadline'] = $tglDeadline;
-				$data['sisaWaktu'] = $sisaWaktu;
-			}else{
-				$data['tglDeadline'] = '';
-				$data['sisaWaktu'] = '';
-			}
-			return $data;
-	    }
-
-	    public function getInfoPenyelesaian($posting,$risalah)
-	    {
-	    	date_default_timezone_set('Asia/Jakarta');
-	    	// $posting = '2021-06-09';
-	    	$hariini = date('Y-m-d',strtotime($risalah));
-			$postingCon = strtotime($posting);
-			
-	    	$i = 0;
-	    	$html='';
-	    	$tglDeadline = '';
-	    	$sisaWaktu 	= 0;
-	    	while($tglDeadline <= $hariini) {
-	    		if (date('w', $postingCon) !== '0' && date('w', $postingCon) !== '6') {
-	    			$resLibur = $this->db->get_where('ms_hari_libur',array('tanggal'=>date('Y-m-d', $postingCon)))->result();
-	    			if (count($resLibur)>0) {
-	    				$html.="<p style='color:red;'>$i :LIBUR</p><br>";
-			        	$sabtuminggu[] = $i;
-	    			}else{
-	    				if (date('Y-m-d', $postingCon)<=$hariini) {
-	    					$sisaWaktu++;
-	    				}
-			        	$hariKerja[] = $i;
-			  			$i++;
-			   			$html.="<p style=''>$i :".date('Y-m-d', $postingCon)."</p><br>";
-	    			}
-			    } else {
-			    	$html.="<p style='color:red;'>$i :LIBUR</p><br>";
-			        $sabtuminggu[] = $i;
-			    }
-			   $postingCon += (60 * 60 * 24);
-			   $tglDeadline = date('Y-m-d', $postingCon);
-
-			} 
-			if ($tglDeadline <> '') {
-				$data['tglDeadline'] = $tglDeadline;
-				$data['waktu'] = $sisaWaktu;
-			}else{
-				$data['tglDeadline'] = '';
-				$data['waktu'] = '';
-			}
-			return $data;
-	    }
-
-	    public function daftar_lhp_pemda()
-	    {
-	    	$thn = $this->session->userdata('year_selected');
-			$query = 'SELECT *,(SELECT nm_daerah from ms_daerah where id_daerah = p.id_daerah) as nm_daerah FROM ms_lhp_pemda p order by p.no_lhp asc';
-	    	$sql = $this->db->query($query)->result();
-	    	return $sql;
-	    }
+	  
 
 	    public function daftar_ttd()
 	    {
@@ -332,373 +107,7 @@
 	    	return $sql;
 	    }
 
-	    public function daftar_lhp_kemendagri($kode = '')
-	    {	
-	    	$thn = $this->session->userdata('year_selected');
-	    	$where = '';
-	    	if ($kode <> '') {
-	    		$where .= ' AND LEFT(jns_bentuk_was,1) = "'.$kode.'"';
-	    	}
-			$query = 'SELECT *,(SELECT nm_instansi from ms_instansi_kemendagri where id_instansi = p.id_daerah) as nm_daerah FROM ms_lhp_kemendagri p where tahun = '.$thn.' '.$where.' order by p.no_lhp asc';
-			
-	    	$sql = $this->db->query($query)->result();
-	    	return $sql;
-	    }
 
-
-	    public function getcombokemendagri($kode)
-		{
-			
-			$akses = $this->session->userdata('is_admin');
-			if($akses == 1){
-				$this->db->select('*');
-				$this->db->from('ms_instansi_kemendagri');
-				if ($kode == 'BNPP' || $kode == 'DKPP') {
-					$this->db->where('nm_group', $kode);
-				}else{
-					$this->db->where_not_in('nm_group', array('BNPP','DKPP'));
-				}
-				$this->db->order_by('id_instansi', 'asc');
-				$query = $this->db->get();
-				
-				$result = $query->result_array();
-			}else if($akses == 2){
-				$daerah = $this->session->userdata('id_kemendagri');
-				$arrayDaerah = str_replace(', ', '","', $daerah);
-				$sqlDaerah = "SELECT * FROM ms_instansi_kemendagri where id_instansi in (".$arrayDaerah.") order by id_instansi";	
-
-				$result = $this->db->query($sqlDaerah)->result_array();
-			}else if($akses == 4){
-				$id_prov = $this->session->userdata('id_prov');
-				
-				$sqlDaerah = "SELECT * FROM ms_instansi_kemendagri where id_instansi in (".$id_prov.") order by id_instansi";	
-				$result = $this->db->query($sqlDaerah)->result_array();
-			}else if($akses == 5){
-				$id_prov = $this->session->userdata('id_prov');
-				$sqlDaerah = "SELECT * FROM ms_instansi_kemendagri where id_instansi in (".$id_prov.") order by id_instansi";	
-				$result = $this->db->query($sqlDaerah)->result_array();
-			}else if ($akses == 6) {
-				$apip = $this->session->userdata('id_ins');
-				$sql = "SELECT * FROM ms_inspektorat where id_inspektorat = ".$apip;	
-				$daerah = $this->db->query($sql)->row()->kemendagri;
-				$sqlDaerah = "SELECT * FROM ms_instansi_kemendagri where id_instansi in (".$daerah.") order by id_instansi";	
-				$result = $this->db->query($sqlDaerah)->result_array();
-			}
-
-			
-			
-			$html = '';
-			$html .='<option value=""></option>';
-			$i = 0;
-			foreach($result as $row){
-				if ($i == 0 && count($result) > 1) {
-					$html .='<option selected value="'.$row['id_instansi'].'">'.$row['id_instansi'].' || '.$row['nm_instansi'].'</option>';
-				}else{
-					$html .='<option value="'.$row['id_instansi'].'">'.$row['id_instansi'].' || '.$row['nm_instansi'].'</option>';	
-				}
-				$i++;
-			}
-			return $html;
-		}
-
-		 public function getcombokemendagri_old($kode)
-		{
-			
-			$akses = $this->session->userdata('is_admin');
-			if($akses == 1){
-				$this->db->select('*');
-				$this->db->from('ms_instansi_kemendagri');
-				if ($kode == 'BNPP' || $kode == 'DKPP') {
-					$this->db->where('nm_group', $kode);
-				}else{
-					$this->db->where_not_in('nm_group', array('BNPP','DKPP'));
-				}
-				$this->db->order_by('id_instansi', 'asc');
-				$query = $this->db->get();
-				
-				$result = $query->result_array();
-			}else if($akses == 2){
-				$apip = $this->session->userdata('id_prov');
-				$sql = "SELECT * FROM ms_inspektorat where id_inspektorat = ".$apip;	
-				$daerah = $this->db->query($sql)->row()->kemendagri;
-				$sqlDaerah = "SELECT * FROM ms_instansi_kemendagri where id_instansi in (".$daerah.") order by id_instansi";	
-				$result = $this->db->query($sqlDaerah)->result_array();
-			}else if($akses == 4){
-				$id_prov = $this->session->userdata('id_prov');
-				
-				$sqlDaerah = "SELECT * FROM ms_instansi_kemendagri where id_instansi in (".$id_prov.") order by id_instansi";	
-				$result = $this->db->query($sqlDaerah)->result_array();
-			}else if($akses == 5){
-				$id_prov = $this->session->userdata('id_prov');
-				$sqlDaerah = "SELECT * FROM ms_instansi_kemendagri where id_instansi in (".$id_prov.") order by id_instansi";	
-				$result = $this->db->query($sqlDaerah)->result_array();
-			}
-
-			
-			
-			$html = '';
-			$html .='<option value=""></option>';
-			$i = 0;
-			foreach($result as $row){
-				if ($i == 0 && count($result) > 1) {
-					$html .='<option selected value="'.$row['id_instansi'].'">'.$row['id_instansi'].' || '.$row['nm_instansi'].'</option>';
-				}else{
-					$html .='<option value="'.$row['id_instansi'].'">'.$row['id_instansi'].' || '.$row['nm_instansi'].'</option>';	
-				}
-				$i++;
-			}
-			return $html;
-		}
-
-		
-
-		public function getcombojenis($kode)
-		{
-
-			if ($kode =='R') {
-				$jenis = 'REVIU';
-			}else if ($kode =='M') {
-				$jenis = 'MONITORING';
-			}else if ($kode =='E') {
-				$jenis = 'EVALUASI';
-			}else if ($kode =='P') {
-				$jenis = 'PEMERIKSAAN';
-			}else if ($kode =='L') {
-				$jenis = 'PENGAWASAN LAINNYA';
-			}else{
-				$jenis = '';
-			}
-			$thn = $this->session->userdata('year_selected');
-			$akses = $this->session->userdata('is_admin');
-			if($akses == 1 || $akses == 2){
-
-				$this->db->select('*');
-				$this->db->where('tahun', $thn);
-				$this->db->where('jenis', $jenis);
-				$this->db->from('ms_bentuk_pengawasan');
-				$query = $this->db->get();
-				$result = $query->result_array();
-			
-			}
-			$html = '';
-			$html .='<option value=""></option>';
-			$i = 0;
-			foreach($result as $row){
-					$html .='<option value="'.$row['kode'].'">'.$row['uraian'].'</option>';	
-					$i++;
-			}
-			return $html;
-		}
-
-		public function get_aspek_lhp()
-		{
-			$thn = $this->session->userdata('year_selected');
-			$akses = $this->session->userdata('is_admin');
-			if($akses == 1 || $akses == 2){
-
-				$this->db->select('*');
-				$this->db->where_in('tahun', array($thn,'ALL'));
-				$this->db->where('level<', 2);
-				$this->db->from('view_afs_pemda');
-				$this->db->order_by('id', 'ASC');
-				$query = $this->db->get();
-				$result = $query->result_array();
-			
-			}
-			$html = '';
-			$html .='<option value=""></option>';
-			$i = 0;
-			foreach($result as $row){
-				if ($row['level'] == 0) {
-					if($i<>0){
-						$html .= "</optgroup>";
-					}
-					$html .='<optgroup label="'.$row['text'].'" style="font-weight:bold;">';
-				}else{
-					$html .='<option value="'.$row['id'].'">&#149; '.$row['text'].'</option>';	
-				}
-				$i++;
-			}
-			return $html;
-		}
-
-		public function get_fokus_lhp($aspek)
-		{
-			$thn = $this->session->userdata('year_selected');
-			$akses = $this->session->userdata('is_admin');
-			$jmlAspek = count($aspek);
-			$where ='';
-			$whereCustom ='';
-			if ($jmlAspek>0) {
-				for ($i=0; $i < $jmlAspek; $i++) { 
-					if ($i > 0) {
-						$where .="','";
-					}
-					$where .= $aspek[$i];
-				}
-				$whereCustom .= " (header in ('".$where."') OR id in ('".$where."'))"; 
-			}
-			if($akses == 1 || $akses == 2){
-
-				$this->db->select('*');
-				$this->db->where_in('tahun', array($thn,'ALL'));
-				$this->db->where('level<', 3);
-				$this->db->where($whereCustom);
-				
-				$this->db->from('view_afs_pemda');
-				$this->db->order_by('id', 'ASC');
-				$query = $this->db->get();
-				$result = $query->result_array();
-			
-			}
-			$html = '';
-			$html .='<option value=""></option>';
-			$i = 0;
-			foreach($result as $row){
-				if ($row['level'] <= 1) {
-					if($i<>0){
-						$html .= "</optgroup>";
-					}
-					$html .='<optgroup label="'.$row['text'].'" style="font-weight:bold;">';
-				}else{
-					$html .='<option value="'.$row['id'].'">&#186; '.$row['text'].'</option>';	
-				}
-				$i++;
-			}
-			return $html;
-		}
-
-		public function get_sasaran_lhp($aspek,$fokus)
-		{
-			$thn = $this->session->userdata('year_selected');
-			$akses = $this->session->userdata('is_admin');
-			$jmlFokus = count($fokus);
-			$where ='';
-			$whereCustom ='';
-			if ($jmlFokus>0) {
-				for ($i=0; $i < $jmlFokus; $i++) { 
-					if ($i > 0) {
-						$where .="','";
-					}
-					$where .= $fokus[$i];
-				}
-				$whereCustom .= " (header in ('".$where."') OR id in ('".$where."'))"; 
-			}
-			if($akses == 1 || $akses == 2){
-
-				$this->db->select('*');
-				$this->db->where_in('tahun', array($thn,'ALL'));
-				$this->db->where('level<', 4);
-				$this->db->where($whereCustom);
-				$this->db->from('view_afs_pemda');
-				$this->db->order_by('id', 'ASC');
-				$query = $this->db->get();
-
-				$result = $query->result_array();
-			
-			}
-			$html = '';
-			$html .='<option value=""></option>';
-			$i = 0;
-			foreach($result as $row){
-				if ($row['level'] <= 2) {
-					if($i<>0){
-						$html .= "</optgroup>";
-					}
-					$html .='<optgroup label="'.$row['text'].'" style="font-weight:bold;">';
-				}else{
-					$html .='<option value="'.$row['id'].'">&#187; '.$row['text'].'</option>';	
-				}
-				$i++;
-			}
-			return $html;
-		}
-
-		public function listAfs($aspek,$fokus,$sasaran)
-		{
-			$was =  array(1,2);
-			$jmlAspek = count($aspek);
-			$jmlFokus = count($fokus);
-			$jmlSasaran = count($sasaran);
-			$where = array(0=>1,1=>2);
-			if ($jmlAspek>0) {
-				for ($i=0; $i < $jmlAspek; $i++) { 
-					$where[] = $aspek[$i];
-				}
-			}
-			if ($jmlFokus>0) {
-				for ($i=0; $i < $jmlFokus; $i++) { 
-					$where[] = $fokus[$i];
-				}
-			}
-			if ($jmlSasaran>0) {
-				for ($i=0; $i < $jmlSasaran; $i++) { 
-					$where[] = $sasaran[$i];
-				}
-			}
-			
-			
-			$thn = $this->session->userdata('year_selected');
-			$akses = $this->session->userdata('is_admin');
-			if($akses == 1 || $akses == 2){
-
-				$this->db->select('*');
-				$this->db->where_in('tahun', array($thn,'ALL'));
-				$this->db->where_in('id', $where);
-				$this->db->from('view_afs_pemda');
-				$this->db->order_by('id', 'ASC');
-				$query = $this->db->get();
-				$result = $query->result_array();
-			
-			}
-			$html = '';
-			$html .='<ul class="list-group">';
-			$i = 0;
-			foreach($result as $row){
-				if ($row['level']==0) {
-					$html.='<li class="list-group-item"><b>'.$row["text"].'</b></li>';
-				}elseif ($row['level']==1) {
-					$html.='<li class="list-group-item">&nbsp;&nbsp;&#149; '.$row["text"].'</li>';
-				}elseif($row['level']==2){
-					$html.='<li class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&#186; '.$row["text"].'</li>';
-				}else{
-					$html.='<li class="list-group-item">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&#187; '.$row["text"].'</li>';
-				}
-			}
-			$html .='</ul>';
-			return $html;
-		}
-
-		public function getFokusKemendagri($fokus='',$tahun = 0)
-		{
-			$sql = "SELECT * from ms_afs_kemendagri where tahun = ".$tahun." and id_parameter = '".$fokus."' LIMIT 1;";
-			$res = $this->db->query($sql)->row();
-			return $res->nm_parameter;
-		}
-
-		function tgl_indo($tanggal){
-			$bulan = array (
-				1 =>   'Januari',
-				'Februari',
-				'Maret',
-				'April',
-				'Mei',
-				'Juni',
-				'Juli',
-				'Agustus',
-				'September',
-				'Oktober',
-				'November',
-				'Desember'
-			);
-			$pecahkan = explode('-', $tanggal);
-			
-			// variabel pecahkan 0 = tanggal
-			// variabel pecahkan 1 = bulan
-			// variabel pecahkan 2 = tahun
-		 
-			return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
-		}
 
 		function tgl_jam_indo($tanggal){
 			 $bulan = array (

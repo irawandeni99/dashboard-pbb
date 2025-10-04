@@ -13,13 +13,15 @@
 			$this->load->model('PublicModel');
 		}
 
-
-
 		public function get_Mkecamatan($ckode=''){
 			$data = $this->PublicModel->getMkecamatan($ckode);	
 			echo json_encode($data[0]);
 		}
 
+		public function list_Mkecamatan($ckode=''){
+			$data = $this->PublicModel->listMkecamatan($ckode);	
+			echo json_encode($data[0]);
+		}
 
 
 

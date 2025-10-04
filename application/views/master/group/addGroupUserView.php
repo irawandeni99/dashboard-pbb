@@ -38,27 +38,16 @@ textarea {
 }
 
 
-.buttondelete {
-  background-color: white; 
-  color: black; 
-  border: 2px solid #f44336;
-}
-
-.buttondelete:hover {
-  background-color: #f44336;
-  color: white;
-}
-
 </style>
 <div class="panel panel-headline  panel-primary">
 	<div class="panel-heading">
-		<h3 class="panel-title"><i class="fa fa-list-alt"></i> FORM EDIT GROUP USER</h3>
+		<h3 class="panel-title"><i class="fa fa-list-alt"></i> FORM TAMBAH GROUP USER</h3>
 	</div>
 	<div class="panel-body">
 		<div class="row">
 			<div class="col-md-12">
 				<form class="form-horizontal" id="form-group">
-				<button type="button" class="collapsible-form active-form"><label>EDIT GROUP USER</label></button>
+				<button type="button" class="collapsible-form active-form"><label>TAMBAH GROUP USER</label></button>
 				<div class="content-form" style="display:block;">
 				  	<div class="row">
 						<div class="col-md-12">
@@ -67,7 +56,7 @@ textarea {
 								<label  class="col-sm-2 control-label input-sm">KODE GROUP</label>
 
 								<div class="col-sm-4"> 
-									  <input type="text" readonly name="id_group" value="<?= $ckode; ?>" style="width:60px"; class="form-control input-sm" id="id_group" placeholder="">
+									  <input type="text"  name="id_group" value="<?= $cnext; ?>" style="width:60px"; class="form-control input-sm" id="id_group" placeholder="">
 									
 								</div>	
 							</div>	
@@ -77,7 +66,7 @@ textarea {
 								<label class="col-sm-2 control-label input-sm" id="label-tipe">NAMA GROUP</label>
 
 								<div class="col-sm-4">
-									  <input type="text" name="nm_group"  value="<?= $cnama; ?>" class="form-control input-sm" id="nm_group" placeholder="">
+									  <input type="text" name="nm_group"  class="form-control input-sm" id="nm_group" placeholder="">
 								</div>
 
 						</div>
@@ -92,8 +81,7 @@ textarea {
 	<div class="panel-footer">
 		<center>
 			<a href="<?= base_url($this->dynamic_menu->EncryptLink('master-group'));?>" class="btn btn-danger btn-lg"><i class="fa fa-arrow-circle-left"></i> KEMBALI</a>
-			<button type="button" data-aksi="simpan" class="btn btn-success btn-lg update-group"><i class="fa fa-check-square"></i> UPDATE</button>
-			<button type="button" data-aksi="simpan" class="btn btn-light btn-lg hapus-group"><i class="fa fa-trash-o" aria-hidden="true" style="color: #F32424"></i> HAPUS</button>
+			<button type="button" data-aksi="simpan" class="btn btn-success btn-lg simpan-group"><i class="fa fa-check-square"></i> SIMPAN</button>
 			<button type="button"  data-aksi="new" class="btn btn-primary btn-lg confirm hidden"><i class="fa fa-plus"></i> confirm</button>
 		</center>
 		</form>
@@ -163,101 +151,33 @@ for (i = 0; i < coll.length; i++) {
 	});
 
 
-$(document).on("click", ".update-group", function(e) {
+$(document).on("click", ".simpan-group", function(e) {
 	var data = $('#form-group').serialize();
 
-	var nm_group = $('#nm_group').val();
+	var cid_group = $('#id_group').val();
+	var cnm_group = $('#nm_group').val();
 	
 
 	if (nm_group == '') {
-		Swal.fire({position: 'top-end',icon: 'warning',title: 'Nama Group User Tidak boleh Kosong',showConfirmButton: false,timer: 2000});
+		Swal.fire({position: 'top-center',icon: 'warning',title: 'Nama Group Tidak boleh Kosong',showConfirmButton: false,timer: 2000});
 		exit();
 	}
 
 	
 
 	var aksi = $(this).attr('data-aksi');
-	$.blockUI({ message: '<img width="100px" src="<?=base_url(); ?>assets/img/loading.gif"><br/> Proses Simpan Data' });
 	$.ajax({
-		method: 'POST',
-		url: '<?php echo base_url('kapip-master-group/update'); ?>',
-		data: data
-	})
-	.done(function(data) {
-		var out = jQuery.parseJSON(data);
-
-		if (aksi == 'simpan') {
-			$.unblockUI();
-			//$('#modalKonfirmasi').modal('show');
-			e.preventDefault();
-		}else{
-			// clear_form_temuan();
-		}
 		
-		if(out.pesan==1){
-			pesan="Data Berhasil DiUpdate!";
-			xicon="success";
-			
-		}else{
-			pesan='Gagal Update Data';
-			xicon="error";
-			
-		}		
-		
-		Swal.fire({
-				position: 'top-end',
-				icon: xicon,
-				title: pesan,
-				showConfirmButton: false,
-				timer: 2000
-			});
-			
-			window.location.href = "<?= base_url([EncryptLink('master-group')]); ?>";	
-	})
-
-	e.preventDefault();
-});
-
-
-
-
-
-
-$(document).on("click", ".hapus-group", function(e) {
-	var data = $('#form-group').serialize();
-
-	var cid_group = $('#id_group').val();
-	var cnm_group = $('#nm_group').val();
-	
-	Swal.fire({
-              title: 'Apakah anda yakin?',
-              text: "Menghapus Apip "+cnm_group+"..?",
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonColor: '#074979',
-              cancelButtonColor: '#d33',
-              cancelButtonText: 'Batal',
-              confirmButtonText: 'Ya, Hapus Data.'
-            }).then((result) => {
-              if (result.value) {			
-			
-	
-
-				
-	
-
-			var urll = '<?php echo base_url(); ?>master-group/hapus';
-				$.ajax({url:urll,
-					type: 'POST',
-					data: ({cid_group}),
-					dataType: "json",
-				
-					success: function(data) {
+	url: '<?php echo base_url('master-group/insert'); ?>',
+	type: 'POST',
+	data: ({cid_group,cnm_group}),
+	dataType: "json",
+		success: function(data) {
 	
 						if(data==0){
-							pesan="Data Gagal Hapus";
+							pesan="Data Gagal Simpan";
 								Swal.fire({
-								  position: 'top-end',
+								  position: 'top-center',
 								  icon: 'error',
 								  title: pesan,
 								  showConfirmButton: false,
@@ -265,41 +185,33 @@ $(document).on("click", ".hapus-group", function(e) {
 								});
 							}else{
 							
-							pesan="File Berhasil Di Hapus";
+							pesan="File Berhasil Di Simpan";
 
 							Swal.fire({
-							  position: 'top-end',
+							  position: 'top-center',
 							  icon: 'success',
 							  title: pesan,
 							  showConfirmButton: false,
 							  timer: 2000
 							});							
-								$.ajax({  
-								  url: '<?php echo base_url(EncryptLink('master-group')); ?>',
-								  type: 'POST',
-								  success: function(data){
-									$("#data-elemen-1").html(data);
-								  }
-								});	
-							
+								
 							window.location.href = "<?= base_url([EncryptLink('master-group')]); ?>";	
+							
 						
 						}
 					 }
-					 
-					}); 
-			   }
-            })	
 	
-
+	});
+		
 
 	e.preventDefault();
 });
 
 
 
-
-
-
+function deleteRow(btn) {
+	var row = btn.parentNode.parentNode;
+	row.parentNode.removeChild(row);
+}
 </script>    
 

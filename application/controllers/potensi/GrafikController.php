@@ -78,9 +78,9 @@
 			ini_set('max_execution_time', 0); 
             ini_set('memory_limit','2048M');
 
-			$startDate = $_POST['startDate'];
-			$endDate = $_POST['endDate'];
-			
+			$startDate 	= $_POST['startDate'];
+			$endDate 	= $_POST['endDate'];
+		
 			$creal= array();
 			$group= array();
 
@@ -130,6 +130,61 @@
 	        echo json_encode($data);
 		}
 
-	}
+	
+
+		public function get_chart_penerimaan_all($kec='000') {
+			ini_set('max_execution_time', 0); 
+            ini_set('memory_limit','2048M');
+
+			$startDate = $_POST['startDate'];
+			$endDate = $_POST['endDate'];
+			
+			$creal= array();
+			$group= array();
+
+			if($kec=='000'){
+				$data  = $this->MPenerimaan->getPenerimaanKecamatan($startDate,$endDate);
+				
+				$xno=0;
+				foreach ($data as $value) {
+					$xno=$xno+1;				
+					$pokok[]=round($value->pokok);	
+					$denda[]=round($value->denda);	
+					$jrec[]=round($value->jrec);	
+					$group[]=$value->nm_kecamatan;	
+					
+				}
+
+				$data['group'] 			= $group;
+				$data['pokok'] 			= $pokok;
+				$data['denda'] 			= $denda;
+				$data['jrec'] 			= $jrec;
+
+			}else{
+
+				$data  = $this->MPenerimaan->getPenerimaanKelurahan($kec,$startDate,$endDate);
+				
+				
+				$xno=0;
+				foreach ($data as $value) {
+					$xno=$xno+1;				
+					$pokok[]=round($value->pokok);	
+					$denda[]=round($value->denda);	
+					$jrec[]=round($value->jrec);	
+					$group[]=$value->nm_kelurahan;	
+					
+				}
+
+				$data['group'] 			= $group;
+				$data['pokok'] 			= $pokok;
+				$data['denda'] 			= $denda;
+				$data['jrec'] 			= $jrec;
+
+
+			}
+			
+	        echo json_encode($data);
+		}
+	}	
 
 ?>	
