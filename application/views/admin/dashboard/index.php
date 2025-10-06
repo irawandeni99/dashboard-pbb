@@ -201,12 +201,13 @@
   <title>Layout Peta & Chart</title>
   <style>
     :root{
-      --bg:#f4f6fb;
+      /* --bg:#f4f6fb; */
+      --bg:#7D8D86;
       --card:#ffffff;
       --muted:#6b7280;
       --accent:#2563eb;
       --shadow: 0 6px 18px rgba(16,24,40,0.08);
-      --gap:20px;
+      --gap:10px;
     }
 
     html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#111827}
@@ -581,7 +582,7 @@
               <div class="col-md-12 mt-3">
                 <figure class="highcharts-figure">
                   <div id="loading-spinner" style="display:none; text-align:center; margin:50px;">
-                  <center><img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"></center>
+                  <center><img src="<?php echo base_url('assets/img/loading.gif'); ?>" alt="Loading" height="135" width="135"></center>
 									<span style="font-size:16px; color:#00809D;">Loading data...</span>
 
 								</div>
@@ -716,11 +717,21 @@
           
           <p style="text-align:left;"><b>Alamat : </b> <span id="popupAlamat"></span></p>
           <p style="text-align:left;"><b>No. Telp : </b> <span id="popupTelp"></span></p>
+          <p style="text-align:left;">
+            <!-- <div class="popup-right" id="loading-spinner-popup" style="display:none; text-align:center;">
+                <center>
+                  <img src="<?php echo base_url('assets/img/loading.gif'); ?>" 
+                      alt="Loading" height="1px" width="1px">
+                </center><span id="popupTelp"></span></p>
+            </div> -->
 
           <div class="popup-buttons" style="text-align:center;">
             <button class="btn btn-info" style="font-size:10px;" onclick=get_potensi_kecamatan()><b>Potensi</b></button>
             <button class="btn btn-success" style="font-size:10px;" onclick="showPeriode()"><b>Penerimaan</b></button>
+        
+          
           </div>
+
         </div>
       </div>
     </div>
@@ -738,7 +749,7 @@
               <div class="col-md-12 mt-3">
                 <figure class="highcharts-figure">
                   <div id="loading-spinner" style="display:none; text-align:center; margin:50px;">
-                  <center><img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"></center>
+                  <center><img src="<?php echo base_url('assets/img/loading.gif'); ?>" alt="Loading" height="135" width="135"></center>
 									<span style="font-size:16px; color:#00809D;">Loading data...</span>
 
 								</div>
@@ -999,6 +1010,7 @@ function get_potensi_kecamatan() {
 
       document.getElementById("lbpanel").innerText = "Potensi Wajib Pajak";  
       document.getElementById("popupNama").innerText = nmkec;
+      // $('#loading-spinner-popup').show();
 
       if (el !==''){
           var kec = el.slice(-3);

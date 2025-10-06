@@ -226,7 +226,7 @@
         	
 				$("#treeview-mdbootstrap").html(
 					'<div id="loading-spinner" style="display:block; text-align:center; margin:20px;">'
-						+ '<img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"><br>'
+						+ '<img src="<?php echo base_url('assets/img/loading.gif'); ?>" alt="Loading" height="135" width="135"><br>'
 						+ '<span style="font-size:16px; color:#00809D;">Loading data...</span>'
 					+ '</div>'
 				);

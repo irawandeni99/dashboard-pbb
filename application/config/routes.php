@@ -52,25 +52,14 @@ include_once "routes_dupak.php";
 $route['default_controller'] 							= 'DashboardController';
 
 $route['dashboard-front'] 								= 'front/DashboardController/index';
-
-$route[EncryptLink('profil-pemda')] 					= 'DashboardController/profil';
 $route['sendEmail'] 									= 'DashboardController/sendEmail';
-
-
-
-$route[EncryptLink('login-ekapip')] 					= 'admin/auth/login_ekapip';
 
 
 $route['admin'] 									= 'admin/auth';
 $route[EncryptLink('login')] 						= 'admin/auth/login';
-$route[EncryptLink('login-ihp')] 					= 'admin/auth/login_ihp';
-$route[EncryptLink('login-tlhp-itjen')] 			= 'admin/auth/login_tlhp_itjen';
-$route[EncryptLink('login-tlhp-kemendagri')] 		= 'admin/auth/login_tlhp_kemendagri';
-$route[EncryptLink('login-penilaian')] 				= 'admin/auth/login_penilaian';
-$route[EncryptLink('login-review')] 				= 'admin/auth/login_review';
 $route['logout'] 									= 'admin/auth/logout';
-$route[EncryptLink('dashboard')]					= 'admin/Dashboard/index';
 
+$route[EncryptLink('dashboard')]					= 'admin/Dashboard/index';
 
 
 $route[EncryptLink('potensi')]						= 'potensi/GrafikController/index';
@@ -81,8 +70,6 @@ $route['chart-penerimaan/get/(:any)'] 				= 'potensi/GrafikController/get_chart_
 
 $route['master-mkecamatan-get/(:any)'] 				= 'master/MasterController/get_Mkecamatan/$1';
 $route['master-mkecamatan-list'] 					= 'master/MasterController/list_Mkecamatan';
-
-
 
 $route[EncryptLink('realisasi-penerimaan')] 							= 'penerimaan/RealisasiController/index';
 $route['realisasi-penerimaan-prev'] 									= 'penerimaan/RealisasiController/prev_laporan';
@@ -158,8 +145,6 @@ $route['data-user/edit/(:any)'] 					= 'admin/UserController/edit/$1';
 $route['data-user/del/(:any)'] 						= 'admin/UserController/del/$1';
 $route['data-user/cek-user'] 						= 'admin/UserController/cek_user';
 $route['data-user/get-dop'] 						= 'admin/UserController/get_dop';
-
-
 
 $route[EncryptLink('user-profile')] 					= 'admin/UserController/user_profile';
 $route[EncryptLink('activity')] 						= 'admin/ActivityController';

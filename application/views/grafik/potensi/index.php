@@ -13,7 +13,7 @@
 .highcharts-data-table table {
 	font-family: Verdana, sans-serif;
 	border-collapse: collapse;
-	border: 1px solid #EBEBEB;
+	border: 1px solid #BCA88D;
 	margin: 10px auto;
 	text-align: center;
 	width: 100%;
@@ -168,7 +168,7 @@
 								</div>
 
 								<div id="loading-spinner" style="display:none; text-align:center; margin:20px;">
-                                    <center><img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"></center>
+                                    <center><img src="<?php echo base_url('assets/img/loading.gif'); ?>" alt="Loading" height="135" width="135"></center>
 									<span style="font-size:16px; color:#00809D;">Loading data...</span>
 
 								</div>
@@ -459,90 +459,6 @@ $('#tipe_chart').on('change', function() {
 });
 
 
-function get_potensi_kecamatanxx(kec) {
-    // Tampilkan spinner, kosongkan chart
-    $('#loading-spinner').show();
-    $('#container-potensi').empty();
-
-    $.ajax({
-    url: '<?= base_url('chart-potensi/get'); ?>/' + encodeURIComponent(kec),
-    type: 'POST',
-    success: function (data) {
-        var out       = jQuery.parseJSON(data) || {};
-        var namaGroup = out.group || [];
-        var progres   = out.potensi || [];
-
-        var tipeChart = $('#tipe_chart').val();
-        let seriesData = [];
-
-        if (tipeChart === 'pie') {
-            namaGroup.forEach(function(nm, i) {
-                seriesData.push({ name: nm, y: progres[i] || 0 });
-            });
-        }
-
-        Highcharts.setOptions({
-            colors: ['#1f77b4', '#2ca02c', '#ff7f0e', '#d62728',
-                     '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
-                     '#bcbd22', '#17becf']
-        });
-
-        Highcharts.chart('container-potensi', {
-            chart: { 
-                type: tipeChart, 
-                backgroundColor: '#ffffff',
-                style: { fontFamily: 'Segoe UI, Roboto, sans-serif' }
-            },
-            title: { text: '' },
-            xAxis: (tipeChart !== 'pie') ? {
-                categories: namaGroup,
-                title: { text: null }
-            } : undefined,
-            yAxis: (tipeChart !== 'pie') ? {
-                min: 0,
-                title: { text: 'Wajib Pajak', align: 'high' },
-                labels: { overflow: 'justify', formatter: function () { return this.value; } }
-            } : undefined,
-            tooltip: {
-                useHTML: true,
-                formatter: function() {
-                    if (tipeChart === 'pie') {
-                        return `<b>${this.point.name}</b><br/>Potensi: <b>${this.point.y}</b>`;
-                    } else {
-                        return `<b>${this.point.category}</b><br/>Potensi: <b>${this.point.y}</b>`;
-                    }
-                }
-            },
-            plotOptions: {
-                series: {
-                    dataLabels: { enabled: true }
-                },
-                bar: { borderRadius: 4, pointPadding: 0.1 },
-                column: { borderRadius: 4, pointPadding: 0.1 },
-                pie: { allowPointSelect: true, cursor: 'pointer', showInLegend: true }
-            },
-            credits: { enabled: false },
-            series: (tipeChart === 'pie') ? [{
-                name: 'Potensi Wajib Pajak',
-                colorByPoint: true,
-                data: seriesData
-            }] : [{
-                name: 'Potensi Wajib Pajak',
-                data: progres,
-                colorByPoint: true
-            }]
-        });
-    },
-    complete: function () { $('#loading-spinner').hide(); },
-    error: function () {
-        $('#container-potensi').html("<p style='color:red;text-align:center;'>Gagal memuat data</p>");
-    }
-});
-
-}
-
-
-
 function get_potensi_kecamatan(kec) {
     // Tampilkan spinner, kosongkan chart
     $('#loading-spinner').show();
@@ -584,7 +500,7 @@ function get_potensi_kecamatan(kec) {
                 } : undefined,
                 yAxis: (tipeChart !== 'pie') ? {
                     min: 0,
-                    title: { text: 'Wajib Pajak', align: 'high' },
+                    title: { text: 'Jumlah Objek Pajak', align: 'high' },
                     labels: { overflow: 'justify', formatter: function () { return this.value; } }
                 } : undefined,
                 tooltip: {

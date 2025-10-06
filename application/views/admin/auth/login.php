@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="en" class="fullscreen-bg">
 <head>
-<title>SIP | LOGIN</title>
+<title>DASHBOARD PBB | LOGIN</title>
 
 	<meta charset="utf-8">
 
@@ -97,7 +97,7 @@
 		border-radius: 50%;
 		border: 3px solid #f8a403;
 		z-index: 9;
-		background: #074979;
+		background: #800015;
 		padding: 15px;
 		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 	}
@@ -118,12 +118,12 @@
 		right: 15px;
 	}
 	.login-form .btn {
-		background: #074979;
-		border: 3px solid #f8a403;
+		background: #075B5E;
+		border: 3px solid #F8ED8C;
 		line-height: normal;
 	}
 	.login-form .btn:hover, .login-form .btn:focus {
-		background: #074960;
+		background: #239BA7;
 	}
     .login-form .checkbox-inline {
         float: left;
@@ -138,18 +138,26 @@
         font-size: 13px;
     }
     .login-form a {
-        color: #074979;
+        color: #f10c92ff;
     }
     .login-form .back a {
         color: #fff;
     }
 </style>
 </head>
-<body oncontextmenu= "return false;">
-	<div class="login-form">    
+<body>
+	<div class="login-form" >    
     <?php echo form_open(base_url(str_replace('=', '', base64_encode('login'))), ''); ?>
-		<div class="avatar"><img src="<?= base_url() ?>assets/img/kemendagri.png" style="width:64px; height:80px;"></div>
-    	<h4 class="modal-title">Login<br><small>Sistem Informasi Pengawasan</small></h4>
+		<!-- <div class="avatar"><img src="<?= base_url() ?>assets/img/logo-login.png" style="width:84px; height:93px;"></div> -->
+    	
+		<div class="avatar">
+  <img src="<?= base_url() ?>assets/img/logo-login.png" 
+       style="width:84px; height:93px; transform: translate(-8px, -10px);">
+</div>
+
+		
+		<div style="color: #0078AA; text-align: center;font-size: 13px"><label  class="modal-title">Login<br>
+			 Lanjutkan ke DASHBOAR</label><br><br></div>
         <div class="form-group">
 			<label for="signin-email" class="control-label sr-only">Username</label>
 			<input type="text" name="username" class="form-control" id="signin-email" placeholder="Username"  required>
@@ -160,58 +168,30 @@
 			<input type="password" name="password" class="form-control" id="signin-password" placeholder="Password" required>
 		</div>
 
-        <div class="form-group">
-		    <div class="input-group">
-		      <div class="input-group-addon"><i class="lnr lnr-calendar-full"></i></div>
-		      <input type="text" class="form-control" placeholder="Tahun" readonly="" id="tahun" name="tahun" value="<?= date('Y'); ?>">
-		    </div>
-	    </div>
-        <input class="btn btn-primary btn-block btn-lg"  type="submit" name="submit" id="submit" value="Login">              
+        <div class="form-group">			
+			<input class="btn btn-primary btn-block btn-lg"  type="submit" name="submit" id="submit" value="Login">
+	    <br>
+		
+		</div> 
+       
+	 
     <?php echo form_close( ); ?>
-    <div class="text-center small back"><a href="<?php echo base_url(); ?>">Kembali Ke Dashboard</a></div>
+ 	
 </div>
+	   <div center class="text-center";style="margin-bottom:400px;"><b style="color: #F5E8E4; font-size:11px">© 2025 Bappenda Kabupaten Bulungan. All Rights Reserved</b></div>
+
 
 <div id="preloader"> 
 	<div id="loader"></div>
 </div> 
-
+ 	
 	
 	<script src="<?= base_url() ?>assets/js/jquery-3.3.1.js"></script>
 	<script src="<?= base_url() ?>assets/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="<?= base_url() ?>assets/vendor/datepicker/bootstrap-datepicker.js"></script>
 	<script src="<?= base_url() ?>assets/custom/custom.js"></script>
 	<script type="text/javascript">
-	$(document).ready(function() {	
-		 $(function() {
-			  $("#tahun").datepicker({
-			  	minViewMode: 2,
-	         	format: 'yyyy',
-			    onSelect: function(dateText) {
-			      display("Selected date: " + dateText + ", Current Selected Value= " + this.value);
-			      $(this).change();
-			    }
-			  }).on("change", function() {
-			    
-			  });
-		});
-	});
-	</script>
-	<script type="text/javascript">
-	  document.onkeydown=function(e){
-	    if(event.keyCode==123){
-	      return false;
-	    }
-	    if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)){
-	      return false;
-	    }
-	    if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)){
-	      return false;
-	    }
-	    if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)){
-	      return false;
-	    }
-	  }
-
+	
 	</script>
 </body>
 </html>

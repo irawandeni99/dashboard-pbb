@@ -13,7 +13,7 @@
 .highcharts-data-table table {
 	font-family: Verdana, sans-serif;
 	border-collapse: collapse;
-	border: 1px solid #EBEBEB;
+	border: 1px solid #BCA88D;
 	margin: 10px auto;
 	text-align: center;
 	width: 100%;
@@ -180,7 +180,7 @@
 									</div>
 
 									<div id="loading-spinner" style="display:none; text-align:center; margin:20px;">
-                                    <center><img src="<?php echo base_url('assets/img/loading5.gif'); ?>" alt="Loading" height="135" width="135"></center>
+                                    <center><img src="<?php echo base_url('assets/img/loading.gif'); ?>" alt="Loading" height="135" width="135"></center>
 									<span style="font-size:16px; color:#00809D;">Loading data...</span>
 
 									</div>

@@ -23,7 +23,7 @@
 		}
 
 
-		public function login_ekapip(){
+		public function login(){
 			$this->load->library('encrypt');
 			if($this->input->post('submit')){
 				$this->form_validation->set_rules('username', 'Username', 'trim|required');
@@ -31,7 +31,7 @@
 
 				if ($this->form_validation->run() == FALSE) {
 					$data['msg'] = 'Username/Password Tidak Valid!';
-					$this->load->view('admin/auth/login-ekapip', $data);
+					$this->load->view('admin/auth/login', $data);
 				}
 				else {
 
@@ -41,9 +41,6 @@
 					);
 
 					$result = $this->auth_model->login($data);
-				//	print_r($result['alias']);die();
-
-				//	if ($result == TRUE && $result['alias'] == 'root') {
 						
 					if ($result == TRUE ) {
 	
@@ -85,12 +82,12 @@
 					else{
 
 						$data['msg'] = 'Username atau Password Tidak Valid!';
-						$this->load->view('admin/auth/login-ekapip', $data);
+						$this->load->view('admin/auth/login', $data);
 					}
 				}
 			}
 			else{
-				$this->load->view('admin/auth/login-ekapip');
+				$this->load->view('admin/auth/login');
 				// redirect(base_url(''), $data);
 			}
 		}	
@@ -150,8 +147,7 @@
 				$result = $this->user_model->edit_user($data, $id);
 
 			$this->session->sess_destroy();
-			//$link 	= $this->dynamic_menu->EncryptLink('dashboard-simple');
-			$link 	= $this->dynamic_menu->EncryptLink('login-ekapip');
+			$link 	= $this->dynamic_menu->EncryptLink('login');
 			redirect(base_url($link), 'refresh');
 		}
 	}  // end class

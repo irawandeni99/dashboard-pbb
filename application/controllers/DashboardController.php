@@ -14,7 +14,7 @@
 					
 			ini_set('max_execution_time', 300);					
 		//	$this->load->view('front/dashboard-simple', $data);
-			$this->load->view('admin/auth/login-ekapip', $data);
+			$this->load->view('admin/auth/login', $data);
 		}
 
 		public function profil()
