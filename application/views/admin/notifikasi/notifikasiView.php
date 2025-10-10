@@ -121,20 +121,20 @@
 
 
 
- $(window).on('load', function () {
-        $("#data-notif").html("<tr><td colspan='2' style='text-align:center;'>Harap Tunggu...</td></tr>");
-       // var skpd = '<?= $kode;?>';
-        $.ajax({
-              url: "<?php echo site_url('notifikasi/get2')?>",
-              type: 'POST',
-              success: function(data){
-                $("#data-notif").html(data);
-				$('#table-notif').DataTable();
+//  $(window).on('load', function () {
+//         $("#data-notif").html("<tr><td colspan='2' style='text-align:center;'>Harap Tunggu...</td></tr>");
+//        // var skpd = '<?= $kode;?>';
+//         $.ajax({
+//               url: "<?php echo site_url('notifikasi/get2')?>",
+//               type: 'POST',
+//               success: function(data){
+//                 $("#data-notif").html(data);
+// 				$('#table-notif').DataTable();
                
-              }
-          });
+//               }
+//           });
           
-    });
+//     });
 
 
 

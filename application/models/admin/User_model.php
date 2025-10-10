@@ -695,42 +695,20 @@
 
 
 			$this->db->select('*');
-			$this->db->from('ms_apip');
-			$this->db->order_by('kd_apip', 'asc');
+			$this->db->from('ms_config');
+			$this->db->order_by('kd_instansi', 'asc');
 			$query = $this->db->get();
 			$result = $query->result_array();
 			
 			$html = '';
 			$html .='<option value=""></option>';
 			foreach($result as $row){
-				$html .='<option value="'.$row['kd_apip'].'">'.$row['nm_apip'].'</option>';
+				$html .='<option value="'.$row['kd_instansi'].'">'.$row['nm_instansi'].'</option>';
 			}
 			return $html;
 		}
 
-		/* public function getkab($kode)
-		{
-			$akses = $this->session->userdata('is_admin');
-			
-			$this->db->select('*');
-			$this->db->from('ms_daerah');
-			if($akses == 5){
-				$id_kab = $this->session->userdata('id_kab');
-				$this->db->where('id_daerah', $id_kab);
-			}else{
-				$this->db->where('hd_daerah', $kode);
-			}
-
-			$query = $this->db->get();
-			$result = $query->result_array();
-			
-			$html = '';
-			$html .='<option value=""></option>';
-			foreach($result as $row){
-				$html .='<option value="'.$row['id_daerah'].'">'.$row['id_daerah'].' || '.$row['nm_daerah'].'</option>';
-			}
-			return $html;
-		} */
+		
 
 		public function get_username($header = '',$role = ''){
 			if ($role == 'prov') {

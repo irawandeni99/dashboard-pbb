@@ -12,8 +12,8 @@
 
 		public function index(){			
 			ini_set('max_execution_time', 300);					
-			$data['view'] = 'admin/dashboard/index';
-			$data['kecamatan'] 			= $this->PublicModel->getKecamatan();	
+			$data['view'] = 'admin/dashboard/index'; 
+			$data['kecamatan'] 			= $this->PublicModel->getKecamatan();  	
 			$data['listKecamatan'] 		= $this->PublicModel->listMkecamatan();	
 			$this->load->view('template/layout', $data);
 		}

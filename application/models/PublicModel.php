@@ -299,53 +299,7 @@
         }
 
 
-        public function satker_bpk()
-	    {
-	 		$is_admin = $this->session->userdata('is_admin');
-	 			$is_satker = $this->session->userdata('id_kab');
-	 		if ($is_admin == 3) {
-	 			$this->db->where(array('id_instansi'=>$is_satker));
-	 		}
-	 		$res = $this->db->get('ms_instansi_kemendagri');
-	    	$sql = $res->result();
-	    	return $sql;
-	    }
-
-	    public function satker_kemendagri()
-	    {
-	 		$is_admin = $this->session->userdata('is_admin');
-	 		if ($is_admin == 3) {
-	 			$is_satker = $this->session->userdata('id_kab');
-	 			$this->db->where(array('id_instansi'=>$is_satker));
-	 		}else if($is_admin == 2){
-				$daerah = $this->session->userdata('id_kemendagri');
-				$arrayDaerah = explode(', ',$daerah);
-				$this->db->where_in('id_instansi',$arrayDaerah);
-			}
-			else if($is_admin == 6){
-				$apip = $this->session->userdata('id_ins');
-				$sql = "SELECT * FROM ms_inspektorat where id_inspektorat = ".$apip;	
-				$daerah = $this->db->query($sql)->row()->kemendagri;
-				$arrayDaerah = explode(',',$daerah); 
-				$this->db->where_in('id_instansi',$arrayDaerah);
-			}
-	 		$res = $this->db->get('ms_instansi_kemendagri');
-	    	$sql = $res->result();
-	    	return $sql;
-	    }
-
-	    public function jenis_bentuk_pengawasan($jenis='')
-	    {
-	 		$is_admin = $this->session->userdata('is_admin');
-	 		$tahun = $this->session->userdata('year_selected');
-	 		$is_satker = $this->session->userdata('id_kab');
-
-	 		$this->db->where(array('tahun'=>$tahun));
-	 		$this->db->where(array('jenis'=>$jenis));
-	 		$res = $this->db->get('ms_bentuk_pengawasan');
-	    	$sql = $res->result();
-	    	return $sql;
-	    }
+      
 
         public function _mpdf2($judul,$header,$body,$lMargin,$rMargin,$tMargin,$bMargin,$font,$orientasi,$halaman,$chalaman,$ckertas,$filename){
 			
@@ -387,43 +341,6 @@
                
         }
 
-
-
- 	/* function _mpdf($judul,$isi,$lMargin,$rMargin,$font,$orientasi,$halaman,$chalaman) {
-   		
-		ini_set("memory_limit","-1");
-		ini_set("max_execution_time","600");
-
-		$this->load->library('mpdf');
-
-		$this->mpdf->defaultheaderfontsize = 6;	// in pts 
-		$this->mpdf->defaultheaderfontstyle = BI;	// blank, B, I, or BI 
-		$this->mpdf->defaultheaderline = 1; 	// 1 to include line below header/above footer 
-
-		$this->mpdf->defaultfooterfontsize = 8;	// in pts 
-		$this->mpdf->defaultfooterfontstyle = BI;	// blank, B, I, or BI 
-		$this->mpdf->defaultfooterline = 0; 
-		$this->mpdf->SetLeftMargin = $lMargin;
-		$this->mpdf->SetRightMargin = $rMargin; 		 
-	
- 		if ($halaman==''){
-             $xhal=1;
-         } else {       
-             $xhal=$halaman+1;
-         }
-		    
-		if($halaman<>''){
-			$this->mpdf->Setfooter('printed by SIMAKDA||Halaman {PAGENO}');
-		}			
-				 
- 		$this->mpdf->AddPage($orientasi,'',$xhal,'','',$lMargin,$rMargin);
-				
-         if (!empty($judul)) $this->mpdf->writeHTML($judul);
-         $this->mpdf->writeHTML($isi);         
-         $this->mpdf->Output();
-              
-    
- } */
 
 
 	function  tanggal_indonesia($tgl){

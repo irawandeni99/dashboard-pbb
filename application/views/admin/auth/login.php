@@ -32,7 +32,7 @@
 
 	<!-- ICONS -->
 
-	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/kemendagri.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/logo.png">
 
 	<link rel="icon" type="image/png" sizes="90x60" href="assets/img/favicon.png">
 	<link rel="stylesheet" href="<?= base_url() ?>assets/vendor/datepicker/datepicker3.css">

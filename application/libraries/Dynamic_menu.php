@@ -74,65 +74,65 @@ class Dynamic_menu {
         $id_ins         = $this->ci->session->userdata('id_ins'); 
 		
 	
-		if ($akses == 1) {
-			$q      = "SELECT z.id,z.aksi,z.tahun,z.kd_apip,IFNULL(z.kd_elemen,'')kd_elemen,IFNULL(z.kd_topik,'')kd_topik,IFNULL(z.kd_level,'')kd_level,
-						IFNULL(z.kd_penilaian,'')kd_penilaian,z.uraian,
-						z.user_id,z.user_type,z.user_date,z.status,z.kd_file,z.routes,z.jenis,z.tampil,z.nilai,IFNULL(z.keterangan,'')keterangan,
-						CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_elemen FROM ms_elemen WHERE kd_elemen=z.kd_elemen)
-						ELSE
-						''
-						END AS nm_elemen,
-						CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_topik FROM ttopik WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik)
-						ELSE
-						''
-						END AS nm_topik,
-						CASE WHEN  z.jenis=3  THEN (SELECT uraian FROM tpenilaian WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik and kd_penilaian=z.kd_penilaian)
-							ELSE
-							''
-							END AS nm_penilaian
-						FROM(
-							SELECT a.* FROM thistory a inner join ms_user b on a.user_id=b.id_user WHERE (a.user_type <> 1 and b.is_admin<>1) AND a.status <>1   
-						    and a.tampil=1 and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."')z ORDER BY user_date desc";
-			$query  = $this->ci->db->query($q);
-		}else{
+		// if ($akses == 1) {
+		// 	$q      = "SELECT z.id,z.aksi,z.tahun,z.kd_apip,IFNULL(z.kd_elemen,'')kd_elemen,IFNULL(z.kd_topik,'')kd_topik,IFNULL(z.kd_level,'')kd_level,
+		// 				IFNULL(z.kd_penilaian,'')kd_penilaian,z.uraian,
+		// 				z.user_id,z.user_type,z.user_date,z.status,z.kd_file,z.routes,z.jenis,z.tampil,z.nilai,IFNULL(z.keterangan,'')keterangan,
+		// 				CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_elemen FROM ms_elemen WHERE kd_elemen=z.kd_elemen)
+		// 				ELSE
+		// 				''
+		// 				END AS nm_elemen,
+		// 				CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_topik FROM ttopik WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik)
+		// 				ELSE
+		// 				''
+		// 				END AS nm_topik,
+		// 				CASE WHEN  z.jenis=3  THEN (SELECT uraian FROM tpenilaian WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik and kd_penilaian=z.kd_penilaian)
+		// 					ELSE
+		// 					''
+		// 					END AS nm_penilaian
+		// 				FROM(
+		// 					SELECT a.* FROM thistory a inner join ms_user b on a.user_id=b.id_user WHERE (a.user_type <> 1 and b.is_admin<>1) AND a.status <>1   
+		// 				    and a.tampil=1 and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."')z ORDER BY user_date desc";
+		// 	$query  = $this->ci->db->query($q);
+		// }else{
 
-				$csql  = "SELECT z.id,z.aksi,z.tahun,z.kd_apip,IFNULL(z.kd_elemen,'')kd_elemen,IFNULL(z.kd_topik,'')kd_topik,IFNULL(z.kd_level,'')kd_level,
-							IFNULL(z.kd_penilaian,'')kd_penilaian,z.uraian,
-							z.user_id,z.user_type,z.user_date,z.status,z.kd_file,z.routes,z.jenis,z.tampil,z.nilai,IFNULL(z.keterangan,'')keterangan,
-							CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_elemen FROM ms_elemen WHERE kd_elemen=z.kd_elemen)
-							ELSE
-							''
-							END AS nm_elemen,
-							CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_topik FROM ttopik WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik)
-							ELSE
-							''
-							END AS nm_topik,							
-							CASE WHEN  z.jenis=3  THEN (SELECT uraian FROM tpenilaian WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik and kd_penilaian=z.kd_penilaian and kd_level=z.kd_level)
-							ELSE
-							''
-							END AS nm_penilaian
-							FROM(
-							   SELECT a.*FROM thistory a
-								INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip AND a.kd_elemen=b.kd_elemen AND a.kd_topik=b.kd_topik and a.id_penerima=b.id_group
-								WHERE b.id_group='".$akses."' and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=2 AND status <>1 and a.user_id<>'".$user_id."' 
+		// 		$csql  = "SELECT z.id,z.aksi,z.tahun,z.kd_apip,IFNULL(z.kd_elemen,'')kd_elemen,IFNULL(z.kd_topik,'')kd_topik,IFNULL(z.kd_level,'')kd_level,
+		// 					IFNULL(z.kd_penilaian,'')kd_penilaian,z.uraian,
+		// 					z.user_id,z.user_type,z.user_date,z.status,z.kd_file,z.routes,z.jenis,z.tampil,z.nilai,IFNULL(z.keterangan,'')keterangan,
+		// 					CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_elemen FROM ms_elemen WHERE kd_elemen=z.kd_elemen)
+		// 					ELSE
+		// 					''
+		// 					END AS nm_elemen,
+		// 					CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_topik FROM ttopik WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik)
+		// 					ELSE
+		// 					''
+		// 					END AS nm_topik,							
+		// 					CASE WHEN  z.jenis=3  THEN (SELECT uraian FROM tpenilaian WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik and kd_penilaian=z.kd_penilaian and kd_level=z.kd_level)
+		// 					ELSE
+		// 					''
+		// 					END AS nm_penilaian
+		// 					FROM(
+		// 					   SELECT a.*FROM thistory a
+		// 						INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip AND a.kd_elemen=b.kd_elemen AND a.kd_topik=b.kd_topik and a.id_penerima=b.id_group
+		// 						WHERE b.id_group='".$akses."' and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=2 AND status <>1 and a.user_id<>'".$user_id."' 
 								
-							 union
-								 SELECT a.*FROM thistory a
-								 INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip AND a.kd_elemen=b.kd_elemen AND a.kd_topik=b.kd_topik and a.id_penerima=b.id_group
-								 WHERE b.id_group='".$akses."'  and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=3 AND a.status <>1 and a.user_id<>'".$user_id."' 
-							union
-								SELECT * FROM thistory WHERE thistory.user_type = 1 
-								and tampil=1 and kd_apip='".$id_instansi."' and tahun='".$tahun."' and jenis=4 AND status <>1 and id_penerima='".$akses."'
-							union
-								 SELECT a.*FROM thistory a
-								 INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip and a.id_penerima=b.id_group
-								 WHERE b.id_group='".$akses."'  and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=5	and a.user_id<>'".$user_id."' AND a.status <>1  								
+		// 					 union
+		// 						 SELECT a.*FROM thistory a
+		// 						 INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip AND a.kd_elemen=b.kd_elemen AND a.kd_topik=b.kd_topik and a.id_penerima=b.id_group
+		// 						 WHERE b.id_group='".$akses."'  and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=3 AND a.status <>1 and a.user_id<>'".$user_id."' 
+		// 					union
+		// 						SELECT * FROM thistory WHERE thistory.user_type = 1 
+		// 						and tampil=1 and kd_apip='".$id_instansi."' and tahun='".$tahun."' and jenis=4 AND status <>1 and id_penerima='".$akses."'
+		// 					union
+		// 						 SELECT a.*FROM thistory a
+		// 						 INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip and a.id_penerima=b.id_group
+		// 						 WHERE b.id_group='".$akses."'  and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=5	and a.user_id<>'".$user_id."' AND a.status <>1  								
 							
-							)z  ORDER BY user_date desc";					   
+		// 					)z  ORDER BY user_date desc";					   
 			
 					   
-			$query  = $this->ci->db->query($csql);	
-		}	
+		// 	$query  = $this->ci->db->query($csql);	
+		// }	
 		
 
         $errCode = $this->ci->db->error();

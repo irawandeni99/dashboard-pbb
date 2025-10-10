@@ -58,7 +58,7 @@
 					<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
 						<i class="lnr lnr-alarm"></i>
 						<?php
-							$countNotif = $this->dynamic_menu->get_count_notif();
+							$countNotif = 0; //$this->dynamic_menu->get_count_notif();
 						?>
 						<span class="badge badge-danger ms-2" style="font-size:8pt;opacity:0.9;"><?= $countNotif; ?></span>
 					</a>
