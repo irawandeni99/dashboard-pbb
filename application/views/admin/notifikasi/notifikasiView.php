@@ -8,10 +8,6 @@
 		<div class="row">
 			<div class="col-md-12">
 			<div class="box-body my-form-body">
-			
-
-
-
 
 			<?php if(isset($msg) || validation_errors() !== ''): ?>
 				  <div class="alert alert-warning alert-dismissible">
@@ -121,20 +117,20 @@
 
 
 
-//  $(window).on('load', function () {
-//         $("#data-notif").html("<tr><td colspan='2' style='text-align:center;'>Harap Tunggu...</td></tr>");
-//        // var skpd = '<?= $kode;?>';
-//         $.ajax({
-//               url: "<?php echo site_url('notifikasi/get2')?>",
-//               type: 'POST',
-//               success: function(data){
-//                 $("#data-notif").html(data);
-// 				$('#table-notif').DataTable();
+ $(window).on('load', function () {
+        $("#data-notif").html("<tr><td colspan='2' style='text-align:center;'>Harap Tunggu...</td></tr>");
+       // var skpd = '<?= $kode;?>';
+        $.ajax({
+              url: "<?php echo site_url('notifikasi/get2')?>",
+              type: 'POST',
+              success: function(data){
+                $("#data-notif").html(data);
+				$('#table-notif').DataTable();
                
-//               }
-//           });
+              }
+          });
           
-//     });
+    });
 
 
 
@@ -178,13 +174,7 @@
 	  		  		document.getElementById('id_daerah').value =data.trim();
 				}
 			})
-        	$("#form-input").attr("action", "<?php echo base_url('data-objek-pengawasan/add'); ?>");
-        	$('#tambah').attr('class','hidden');
-        	$('#cetak').attr('class','hidden');
-        	$('#simpan').removeAttr('class','hidden');
-        	$('#simpan').attr('class','btn btn-success btn-lg');
-        	$('#batal').removeAttr('class','hidden');
-        	$('#batal').attr('class','btn btn-danger btn-lg');
+
 
 		  });
 
@@ -198,23 +188,6 @@
         	$('#tambah').attr('class','btn btn-primary btn-lg');
 		  });
 
-		  
-         $(document).on("click", ".edit", function() {
-         	clear_form();
-         	var id 		= $(this).attr("data-id");
-         	var nama 	= $(this).attr("data-nama");
-         	$("#form-input").attr("action", "<?php echo base_url('data-objek-pengawasan/edit/'); ?>"+id);
-         	$('#id_daerah').val(id);
-         	$('#nm_daerah').val(nama);
-         	$('#tambah').attr('class','hidden');
-        	$('#cetak').attr('class','hidden');
-        	$('#simpan').removeAttr('class','hidden');
-        	$('#simpan').attr('class','btn btn-success btn-lg');
-        	$('#simpan').removeAttr('aksi');
-        	$('#simpan').attr('aksi','edit');
-        	$('#batal').removeAttr('class','hidden');
-        	$('#batal').attr('class','btn btn-danger btn-lg');
-		  });
 
          $(document).on("click", ".preview", function() {
          	var id 		= $(this).attr("data-id");

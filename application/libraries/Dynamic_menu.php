@@ -66,75 +66,9 @@ class Dynamic_menu {
         $tahun   = $this->ci->session->userdata('year_selected');
         $akses   = $this->ci->session->userdata('is_admin');
         $user_id      = $this->ci->session->userdata('admin_id');
-        $id      = $this->ci->session->userdata('id_kab');  
         $apps    = $this->ci->session->userdata('apps_modul');  
-        
-        $id_prov        = $this->ci->session->userdata('id_prov'); 
-        $id_instansi    = $this->ci->session->userdata('id_instansi'); 
-        $id_ins         = $this->ci->session->userdata('id_ins'); 
-		
-	
-		// if ($akses == 1) {
-		// 	$q      = "SELECT z.id,z.aksi,z.tahun,z.kd_apip,IFNULL(z.kd_elemen,'')kd_elemen,IFNULL(z.kd_topik,'')kd_topik,IFNULL(z.kd_level,'')kd_level,
-		// 				IFNULL(z.kd_penilaian,'')kd_penilaian,z.uraian,
-		// 				z.user_id,z.user_type,z.user_date,z.status,z.kd_file,z.routes,z.jenis,z.tampil,z.nilai,IFNULL(z.keterangan,'')keterangan,
-		// 				CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_elemen FROM ms_elemen WHERE kd_elemen=z.kd_elemen)
-		// 				ELSE
-		// 				''
-		// 				END AS nm_elemen,
-		// 				CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_topik FROM ttopik WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik)
-		// 				ELSE
-		// 				''
-		// 				END AS nm_topik,
-		// 				CASE WHEN  z.jenis=3  THEN (SELECT uraian FROM tpenilaian WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik and kd_penilaian=z.kd_penilaian)
-		// 					ELSE
-		// 					''
-		// 					END AS nm_penilaian
-		// 				FROM(
-		// 					SELECT a.* FROM thistory a inner join ms_user b on a.user_id=b.id_user WHERE (a.user_type <> 1 and b.is_admin<>1) AND a.status <>1   
-		// 				    and a.tampil=1 and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."')z ORDER BY user_date desc";
-		// 	$query  = $this->ci->db->query($q);
-		// }else{
 
-		// 		$csql  = "SELECT z.id,z.aksi,z.tahun,z.kd_apip,IFNULL(z.kd_elemen,'')kd_elemen,IFNULL(z.kd_topik,'')kd_topik,IFNULL(z.kd_level,'')kd_level,
-		// 					IFNULL(z.kd_penilaian,'')kd_penilaian,z.uraian,
-		// 					z.user_id,z.user_type,z.user_date,z.status,z.kd_file,z.routes,z.jenis,z.tampil,z.nilai,IFNULL(z.keterangan,'')keterangan,
-		// 					CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_elemen FROM ms_elemen WHERE kd_elemen=z.kd_elemen)
-		// 					ELSE
-		// 					''
-		// 					END AS nm_elemen,
-		// 					CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_topik FROM ttopik WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik)
-		// 					ELSE
-		// 					''
-		// 					END AS nm_topik,							
-		// 					CASE WHEN  z.jenis=3  THEN (SELECT uraian FROM tpenilaian WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik and kd_penilaian=z.kd_penilaian and kd_level=z.kd_level)
-		// 					ELSE
-		// 					''
-		// 					END AS nm_penilaian
-		// 					FROM(
-		// 					   SELECT a.*FROM thistory a
-		// 						INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip AND a.kd_elemen=b.kd_elemen AND a.kd_topik=b.kd_topik and a.id_penerima=b.id_group
-		// 						WHERE b.id_group='".$akses."' and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=2 AND status <>1 and a.user_id<>'".$user_id."' 
-								
-		// 					 union
-		// 						 SELECT a.*FROM thistory a
-		// 						 INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip AND a.kd_elemen=b.kd_elemen AND a.kd_topik=b.kd_topik and a.id_penerima=b.id_group
-		// 						 WHERE b.id_group='".$akses."'  and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=3 AND a.status <>1 and a.user_id<>'".$user_id."' 
-		// 					union
-		// 						SELECT * FROM thistory WHERE thistory.user_type = 1 
-		// 						and tampil=1 and kd_apip='".$id_instansi."' and tahun='".$tahun."' and jenis=4 AND status <>1 and id_penerima='".$akses."'
-		// 					union
-		// 						 SELECT a.*FROM thistory a
-		// 						 INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip and a.id_penerima=b.id_group
-		// 						 WHERE b.id_group='".$akses."'  and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=5	and a.user_id<>'".$user_id."' AND a.status <>1  								
-							
-		// 					)z  ORDER BY user_date desc";					   
-			
-					   
-		// 	$query  = $this->ci->db->query($csql);	
-		// }	
 		
-
         $errCode = $this->ci->db->error();
         if ($errCode['code'] == 0) {
             $jml = $query->num_rows();
@@ -158,76 +92,12 @@ class Dynamic_menu {
         
         $dtMenu = array();
         $menu   = array();
-        $akses          = $this->ci->session->userdata('is_admin');
-        $tahun       = $this->ci->session->userdata('year_selected');
-        
-        $id             = $this->ci->session->userdata('id_kab'); 
-        $id_prov        = $this->ci->session->userdata('id_prov'); 
-        $id_instansi    = $this->ci->session->userdata('id_instansi'); 
-      //  $id_ins         = $this->ci->session->userdata('id_ins'); 
+        $akses          = $this->ci->session->userdata('is_admin'); 
         $user_id      = $this->ci->session->userdata('user_id');  
-        // $user_id      = $this->ci->session->userdata('admin_id');  
-      //  $apps    = $this->ci->session->userdata('apps_modul'); 
 
-		if ($akses == 1) {
-			$q      = "SELECT z.id,z.aksi,z.tahun,z.kd_apip,IFNULL(z.kd_elemen,'')kd_elemen,IFNULL(z.kd_topik,'')kd_topik,IFNULL(z.kd_level,'')kd_level,
-						IFNULL(z.kd_penilaian,'')kd_penilaian,z.uraian,
-						z.user_id,z.user_type,z.user_date,z.status,z.kd_file,z.routes,z.jenis,z.tampil,z.nilai,IFNULL(z.keterangan,'')keterangan,
-						CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_elemen FROM ms_elemen WHERE kd_elemen=z.kd_elemen)
-						ELSE
-						''
-						END AS nm_elemen,
-						CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_topik FROM ttopik WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik)
-						ELSE
-						''
-						END AS nm_topik,
-						CASE WHEN  z.jenis=3  THEN (SELECT uraian FROM tpenilaian WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik and kd_penilaian=z.kd_penilaian)
-							ELSE
-							''
-							END AS nm_penilaian
-						FROM(
-							SELECT a.* FROM thistory a inner join ms_user b on a.user_id=b.id_user WHERE (a.user_type <> 1 and b.is_admin<>1) AND a.status = 'BELUM DIBACA'  
-						    and a.tampil=1 and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.status<>1)z ORDER BY user_date desc LIMIT 4";
+			$q      = " SELECT a.* FROM thistory a inner join ms_user b on a.user_id=b.id_user WHERE a.status = 'BELUM DIBACA'  
+						and a.tampil=1  and a.status<>1  ORDER BY a.user_date desc LIMIT 4";
 			$query  = $this->ci->db->query($q);
-		}else{
-
-				$csql  = "SELECT z.id,z.aksi,z.tahun,z.kd_apip,IFNULL(z.kd_elemen,'')kd_elemen,IFNULL(z.kd_topik,'')kd_topik,IFNULL(z.kd_level,'')kd_level,
-							IFNULL(z.kd_penilaian,'')kd_penilaian,z.uraian,
-							z.user_id,z.user_type,z.user_date,z.status,z.kd_file,z.routes,z.jenis,z.tampil,z.nilai,IFNULL(z.keterangan,'')keterangan,
-							CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_elemen FROM ms_elemen WHERE kd_elemen=z.kd_elemen)
-							ELSE
-							''
-							END AS nm_elemen,
-							CASE WHEN z.jenis=2 || z.jenis=3  THEN (SELECT nm_topik FROM ttopik WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik)
-							ELSE
-							''
-							END AS nm_topik,							
-							CASE WHEN  z.jenis=3  THEN (SELECT uraian FROM tpenilaian WHERE tahun=z.tahun AND kd_apip=z.kd_apip AND kd_elemen=z.kd_elemen AND kd_topik=z.kd_topik and kd_penilaian=z.kd_penilaian and kd_level=z.kd_level)
-							ELSE
-							''
-							END AS nm_penilaian
-							FROM(
-							   SELECT a.*FROM thistory a
-								INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip AND a.kd_elemen=b.kd_elemen AND a.kd_topik=b.kd_topik and a.id_penerima=b.id_group
-								WHERE b.id_group='".$akses."' and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=2 and a.status<>1 and a.user_id<>'".$user_id."'  
-									
-								 union
-									 SELECT a.*FROM thistory a
-									 INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip AND a.kd_elemen=b.kd_elemen AND a.kd_topik=b.kd_topik and a.id_penerima=b.id_group
-									 WHERE b.id_group='".$akses."'  and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=3 and a.status<>1 and a.user_id<>'".$user_id."' 
-								union
-									SELECT * FROM thistory WHERE thistory.user_type = 1 
-									and tampil=1 and kd_apip='".$id_instansi."' and tahun='".$tahun."' and jenis=4 and status<>1 and id_penerima='".$akses."'
-								union
-									 SELECT a.*FROM thistory a
-									 INNER JOIN ms_group_menu_elemen b ON a.tahun=b.tahun AND a.kd_apip=b.kd_apip and a.id_penerima=b.id_group
-									 WHERE b.id_group='".$akses."'  and a.kd_apip='".$id_instansi."' and a.tahun='".$tahun."' and a.jenis=5	and a.user_id<>'".$user_id."' and a.status<>1								
-								
-							)z  ORDER BY user_date desc LIMIT 4";					   
-			
-					   
-			$query  = $this->ci->db->query($csql);	
-		}	
 		
    
         $html_out = "";
@@ -238,61 +108,11 @@ class Dynamic_menu {
                 $id         = $row->id;
                 $_id        = $this->EncryptLink($id);
 				
-				$jenis         = $row->jenis;
+				// $jenis         = $row->jenis;
 				$nilai         = $row->nilai;
-				$ctahun 	   = $row->tahun;
-				$cinstansi	   = $row->kd_apip;
-				$celemen	   = $row->kd_elemen;
-				$ctopik	       = $row->kd_topik;
-				$clevel		   = $row->kd_level;
-				$cpenilaian	   = $row->kd_penilaian;
 				$uraianaksi    = $row->uraian;
 				$cketerangan   = $row->keterangan;
-				$cnmelemen     = $row->nm_elemen;
-				$cnmtopik	   = $row->nm_topik;
-				$cnmpenilaian  = $row->nm_penilaian;
-
-		if($jenis==2){
-			
-			if($nilai==0){
-				$cicon = '<i class="fa fa-times fa-2x" style="color: #fc544b;"></i>';
-				$uraianaksi=$uraianaksi.'&nbsp;&nbsp;&nbsp;&nbsp;'.$cicon.'<br>
-				Elemen &nbsp;&nbsp;&nbsp;&nbsp;: '.$celemen.'&nbsp;&nbsp;'.$cnmelemen.'<br>
-				Topik &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$ctopik.' &nbsp;'.$cnmtopik;
-
-				
-			}else{
-				$cicon = '<i class="fa fa-check-square-o fa-2x" style="color: #3CCF4E;"></i>';
-				$uraianaksi=$uraianaksi.'&nbsp;&nbsp;&nbsp;&nbsp;'.$cicon.'<br>
-				Elemen &nbsp;&nbsp;&nbsp;&nbsp;: '.$celemen.'&nbsp;&nbsp; '.$cnmelemen.'<br>
-				Topik &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$ctopik.' &nbsp;'.$cnmtopik;
-			}
-			
-		}elseif($jenis==3){
-			
-			if($nilai==0){
-				$cicon = '<i class="fa fa-times fa-2x" style="color: #fc544b;"></i>';
-				$uraianaksi=$uraianaksi.'&nbsp;&nbsp;&nbsp;&nbsp;'.$cicon.'<br>
-				Elemen &nbsp;&nbsp;&nbsp;&nbsp;: '.$celemen.'&nbsp'.$cnmelemen.'<br>
-				Topik &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$ctopik.' &nbsp;'.$cnmtopik.'<br>
-				Penilaian &nbsp;&nbsp;: '.$cpenilaian.' &nbsp;'.$cnmpenilaian.'<br>
-				Level &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$clevel;
-
-				
-			}else{
-				$cicon = '<i class="fa fa-check-square-o fa-2x" style="color: #3CCF4E;"></i>';
-				$uraianaksi=$uraianaksi.'&nbsp;&nbsp;&nbsp;&nbsp;'.$cicon.'<br>
-				Elemen &nbsp;&nbsp;&nbsp;&nbsp;: '.$celemen.'&nbsp; '.$cnmelemen.'<br>
-				Topik &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$ctopik.' &nbsp;'.$cnmtopik.'<br>
-				Penilaian &nbsp;&nbsp;: '.$cpenilaian.' &nbsp;'.$cnmpenilaian.'<br>
-				Level &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: '.$clevel;
-
-			}
-			
-		}elseif($jenis==4){
-					$cicon = '<i class="fa fa-file-pdf-o fa-2x" style="color: #EB1D36" aria-hidden="true"></i>';
-					$uraianaksi=$uraianaksi.'&nbsp;&nbsp;&nbsp;&nbsp;'.$cicon.'<br>File &nbsp;&nbsp;&nbsp;&nbsp;: '.$cketerangan;
-		}elseif($jenis==5){
+		
 			
 			if($nilai==0){
 				$cicon = '<i class="fa fa-unlock fa-2x" style="color: #069A8E;"></i>';
@@ -305,9 +125,7 @@ class Dynamic_menu {
 
 			}
 			
-			
-		} 
-
+		
 
                 $aksi       = $row->aksi;
                 
@@ -321,9 +139,7 @@ class Dynamic_menu {
                 $tgl_now = strtotime("now");
         
 				$cont = $_routes;
-				$link = base_url($cont);//.'?tahun='.$ctahun.'&instansi='.$cinstansi;
-				
-				// .'?noreg='.$_reg.'&no_lhp='.$_lhp.'&id='.$_id;
+				$link = base_url($cont);
                   
 
                 $diff = $tgl_now-$tgl_act;
@@ -358,12 +174,7 @@ class Dynamic_menu {
                 }else{
                     $aktor = '['.$cekNamaUser->name.']';
                 }
-               /*  if ($apps == 'PEMDA') {
-                    $html_out.='<li class="'.$dot.'"><a href="'.$link.'" class="notification-item"><span class=""></span>
-                    '.$aktor.' '.$uraianaksi.
-                    ' <p class="pull-right" style="font-color:#ccc;padding-top:15px;"><i>'.$ret.'</i></p></a></li>';
-                }else{ */
-				
+ 
                     $html_out.='<li class="'.$dot.'"><a href="'.$link.'" class="notification-item" onclick="update_view('.$id.')"><span class=""></span>
                     '.$uraianaksi.
                     '<p class="pull-right" style="font-color:#ccc;padding-top:15px;"><i>'.$ret.'</i></p></a></li>';
@@ -400,20 +211,7 @@ class Dynamic_menu {
 
 		return $html;
 		
-/*
-		foreach ($res as $row) {
-			
-			if (in_array($row['parent_id'], $dtMenu)) {
-				$dtMenu[$row['parent_id']]['child'][] = $row;
-			}
-			else {
-				$dtMenu[$row['parent_id']]['name'] = $row['parentName'];
-				$dtMenu[$row['parent_id']]['child'][] = $row;
-			
-			}
-		}
-		} */
-		// return $dtMenu;
+
 	}
 	
     function build_menu2 ($table = 'sys_menu', $type = '2')
@@ -579,10 +377,8 @@ class Dynamic_menu {
 	
 	function update_view($cid){
 		
-			$ctahun = $this->session->userdata('year_selected');
-			$cinstansi = $this->session->userdata('id_instansi');
 	
-			$hsql = "UPDATE thistory SET status=1 WHERE tahun='".$ctahun."' and kd_apip='".$cinstansi."' and id='".$cid."'";		
+			$hsql = "UPDATE thistory SET status=1 WHERE id='".$cid."'";		
 			$data = $this->db->query($hsql);
 		
 		

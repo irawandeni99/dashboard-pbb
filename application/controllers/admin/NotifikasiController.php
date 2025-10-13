@@ -38,11 +38,8 @@
 
 		public function update(){
 			
-			$cid = $this->input->post('cid');	
-			$ctahun = $this->session->userdata('year_selected');
-			$cinstansi = $this->session->userdata('id_instansi');
-	
-			$hsql = "UPDATE thistory SET status=1 WHERE tahun='".$ctahun."' and kd_apip='".$cinstansi."' and id='".$cid."'";		
+			$cid = $this->input->post('cid');		
+			$hsql = "UPDATE thistory SET status=1 WHERE id='".$cid."'";		
 			$data = $this->db->query($hsql);
 			
 			echo $data;
@@ -62,22 +59,6 @@
                 $uraianaksi 	= $field->uraian;
                 $aksi 			= $field->aksi;
 			   
-                $tahun 			= $field->tahun;
-                $_tahun 		= $this->dynamic_menu->EncryptLink($reg);
-				
-				$instansi 		= $field->kd_apip;
-                $_instansi 		= $this->dynamic_menu->EncryptLink($instansi);
-
-				$elemen 		= $field->kd_elemen;
-                $_elemen 		= $this->dynamic_menu->EncryptLink($elemen);
-
-
-				$topik 		= $field->kd_topik;
-                $_topik 		= $this->dynamic_menu->EncryptLink($topik);
-				
-				$level 		= $field->kd_level;
-                $_level 		= $this->dynamic_menu->EncryptLink($level);				
-				
 				
                 $routes 		= $field->routes;
                 $_routes 		= $this->dynamic_menu->EncryptLink($routes);
@@ -88,38 +69,7 @@
               
 				
                 $status 		= $field->status=='DILIHAT'?'':'<span class="badge badge-sm pull-right">'.$field->status.'</span>';
-				
-//'['.$cekNamaUser->name.']';
-
-	         /*    if ($apps == 'PEMDA') {
-                    if ($field->submenu == 'MASTER-LHP') { */
-                        $cont = $_routes;
-						$link = base_url($cont);
-						
-                       //$link = base_url($cont).'?noreg='.$_reg.'&no_lhp='.$_lhp.'&id='.$_id;
-                   /*  }else{
-                        $cont = $field->routes.'/tindak-lanjut';
-                        $link = base_url($cont).'?noreg='.$_reg.'&no_lhp='.$_lhp.'&tem='.$_tem.'&rek='.$_rekom.'&id='.$_id;
-                    }
-                }elseif($apps == 'KEMENDAGRI'){
-                    if ($tl=='' || $akses == 1 || $akses == 2 || $akses == 6) {
-                        $cont = $field->routes.'/tindak-lanjut';
-                        $link = base_url($cont).'?noreg='.$_reg.'&no_lhp='.$_lhp.'&asp='.$_aspek.'&tem='.$_tem.'&rek='.$_rekom.'&id='.$_id;
-                    }else{
-                        $cont = $field->routes.'/add-tindak-lanjut-satker';
-                        $link = base_url($cont).'?noreg='.$_reg.'&no_lhp='.$_lhp.'&asp='.$_aspek.'&tem='.$_tem.'&rek='.$_rekom.'&tl='.$_tl.'&id='.$_id;
-                    }
-                }elseif($apps == 'BPK'){
-                    if ($tl=='' || $akses == 1) {
-                        $cont = $field->routes.'/tindak-lanjut';
-                        $link = base_url($cont).'?noreg='.$_reg.'&no_lhp='.$_lhp.'&asp='.$_aspek.'&tem='.$_tem.'&rek='.$_rekom.'&id='.$_id;
-                    }else{
-                        $cont = $field->routes.'/add-tindak-lanjut-satker';
-                        $link = base_url($cont).'?noreg='.$_reg.'&no_lhp='.$_lhp.'&asp='.$_aspek.'&tem='.$_tem.'&rek='.$_rekom.'&tl='.$_tl.'&id='.$_id;
-                    }
-                } */
-				
-				
+								
 	            $uraian = '<a href="'.$link.'">'.$field->uraian.'<br>'.$this->pubModel->tgl_jam($field->user_date).'<br>'.$status.'</a>';
 	            $row[] =  $uraian;
 	            $data[] = $row;

@@ -55,7 +55,7 @@ class KecamatanController extends CI_Controller
             $row[] = $field->telp;
             
 
-			$button = '<button style=" background-color: #33b5e5; color: #F6F6F6; " data-toggle="dropdown"  id="btnGroupDrop1" class="btn btn-sm dropdown-toggle" aria-expanded="false"> <i class="fa fa-dedent" style="font-size:14px;"></i></i>';
+			$button = '<button style=" background-color: #41A67E; color: #f8fafa; " data-toggle="dropdown"  id="btnGroupDrop1" class="btn btn-sm dropdown-toggle" aria-expanded="false"> <i class="fa fa-reorder" style="font-size:16px;"></i></i>';
 
             $btnedit = '<a href="'.$link.'" 
                     style="background-color: #948979; color: #F6F6F6;" 
