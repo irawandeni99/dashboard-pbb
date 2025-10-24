@@ -7,6 +7,7 @@
 			$this->load->library('mybreadcrumb');
 			$this->load->model('dashboard/PotensiModel', 'MPotensi');
 			$this->load->model('dashboard/PenerimaanModel', 'MPenerimaan');
+			$this->load->model('dashboard/EfektivitasModel', 'MEvektivitas');
 			$this->load->model('PublicModel');
 			
 		}
@@ -26,7 +27,12 @@
 			$this->load->view('template/layout', $data);
 		}
 
-
+		public function evektivitas(){			
+			ini_set('max_execution_time', 300);	
+			$data['kecamatan'] 		= $this->PublicModel->getKecamatan();				
+			$data['view'] = 'grafik/evektivitas/index';
+			$this->load->view('template/layout', $data);
+		}
 
 		public function get_chart_potensi($kec='000') {
 			ini_set('max_execution_time', 0); 
@@ -185,6 +191,66 @@
 			
 	        echo json_encode($data);
 		}
+
+
+
+		public function get_chart_efektivitas_kab($kec='000') {
+			ini_set('max_execution_time', 0); 
+            ini_set('memory_limit','2048M');
+
+			$startDate = $_POST['startDate'];
+			$endDate = $_POST['endDate'];
+			
+			$creal= array();
+			$group= array();
+
+			if($kec=='000'){
+				$data  = $this->MEfektivitas->getEfektivitasKecamatan($startDate,$endDate);
+				
+				$xno=0;
+				foreach ($data as $value) {
+					$xno=$xno+1;				
+					$pokok[]=round($value->pokok);	
+					$denda[]=round($value->denda);	
+					$jrec[]=round($value->jrec);	
+					$group[]=$value->nm_kecamatan;	
+					
+				}
+
+				$data['group'] 			= $group;
+				$data['pokok'] 			= $pokok;
+				$data['denda'] 			= $denda;
+				$data['jrec'] 			= $jrec;
+
+			}else{
+
+				$data  = $this->MPenerimaan->getPenerimaanKelurahan($kec,$startDate,$endDate);
+				
+				
+				$xno=0;
+				foreach ($data as $value) {
+					$xno=$xno+1;				
+					$pokok[]=round($value->pokok);	
+					$denda[]=round($value->denda);	
+					$jrec[]=round($value->jrec);	
+					$group[]=$value->nm_kelurahan;	
+					
+				}
+
+				$data['group'] 			= $group;
+				$data['pokok'] 			= $pokok;
+				$data['denda'] 			= $denda;
+				$data['jrec'] 			= $jrec;
+
+
+			}
+			
+	        echo json_encode($data);
+		}
+
+
+
+
 	}	
 
 ?>	

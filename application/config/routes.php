@@ -68,6 +68,11 @@ $route['chart-potensi/get/(:any)'] 					= 'potensi/GrafikController/get_chart_po
 $route[EncryptLink('penerimaan')]					= 'potensi/GrafikController/penerimaan';
 $route['chart-penerimaan/get/(:any)'] 				= 'potensi/GrafikController/get_chart_penerimaan/$1';
 
+
+$route[EncryptLink('efektivitas')]					= 'grafik/EfektivitasController/index';
+$route['chart-efektivitas/get/(:any)'] 				= 'grafik/EfektivitasController/get_chart/$1';
+
+
 $route['master-mkecamatan-get/(:any)'] 				= 'master/MasterController/get_Mkecamatan/$1';
 $route['master-mkecamatan-list'] 					= 'master/MasterController/list_Mkecamatan';
 

@@ -1,13 +1,13 @@
 <style type="text/css">
 	.highcharts-figure, .highcharts-data-table table {
     min-width: 320px; 
-    max-width: 500px;
+    max-width: 95%;
     margin: 1em auto;
 }
 
 #container-penerimaan {
     height: 450px;
-    width: 900px;
+    width: 100%;
 }
 
 .highcharts-data-table table {
@@ -16,8 +16,8 @@
 	border: 1px solid #BCA88D;
 	margin: 10px auto;
 	text-align: center;
-	width: 100%;
-	max-width: 500px;
+	width: 95%;
+	max-width: 95%;
 }
 .highcharts-data-table caption {
     padding: 1em 0;
@@ -185,7 +185,7 @@
 
 									</div>
 																	
-									<div class="col-md-8" style="margin-top:20px;">
+									<div class="col-md-12" style="margin-top:20px;">
 										<figure class="highcharts-figure">
 											<div id="container-penerimaan"></div>
 										</figure>

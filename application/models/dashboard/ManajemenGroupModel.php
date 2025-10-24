@@ -73,16 +73,16 @@
 				
 													$lc = "
 														SELECT*FROM(
-														SELECT a.id_menu AS kode,a.id_menu,a.parent_id,a.title,a.url,a.icon FROM sys_menu a
+														SELECT a.urut,a.id_menu AS kode,a.id_menu,a.parent_id,a.title,a.url,a.icon FROM sys_menu a
 														INNER JOIN sys_group b ON a.id_menu=b.id_menu
 														WHERE parent_id=0 AND id_group=".$cid_group." 
 
 														UNION
 
-														SELECT a.parent_id AS kode ,a.id_menu,a.parent_id,a.title,a.url,''icon FROM sys_menu a
+														SELECT a.urut,a.parent_id AS kode ,a.id_menu,a.parent_id,a.title,a.url,''icon FROM sys_menu a
 														INNER JOIN sys_group b ON a.id_menu=b.id_menu
 														WHERE parent_id<>0 AND id_group=".$cid_group." 
-														)zz ORDER BY kode,id_menu";
+														)zz ORDER BY urut";
 													
 													$query = $this->db->query($lc);
 													$data=$query->result();
@@ -162,9 +162,9 @@
 
 			$nmgroup = $this->PublicModel->get_nama($cgroup,'nm_group','ms_group','id_group');
 					
-			$query = "select a.id_group,a.id_menu,b.title nm_menu,b.parent_id,b.is_parent from sys_group a
+			$query = "select b.urut,a.id_group,a.id_menu,b.title nm_menu,b.parent_id,b.is_parent from sys_group a
 						inner join sys_menu b on a.id_menu=b.id_menu 
-						where b.parent_id=0 and show_menu='1' and id_group='".$cgroup."' order by cast(a.id_menu as int),b.parent_id,b.is_parent";					
+						where b.parent_id=0 and show_menu='1' and id_group='".$cgroup."' order by b.urut"; //cast(a.id_menu as int),b.parent_id,b.is_parent";					
 			
 			$data = $this->db->query($query)->result();
 			$html = "";
@@ -213,9 +213,9 @@
 							
 				if($cis_parent==1){
 			
-						$query2 = "select a.id_group,a.id_menu,b.title nm_menu,b.parent_id,b.is_parent from sys_group a
+						$query2 = "select b.urut,a.id_group,a.id_menu,b.title nm_menu,b.parent_id,b.is_parent from sys_group a
 									inner join sys_menu b on a.id_menu=b.id_menu 
-									where b.parent_id='".$cidmenu."' and show_menu='1' and id_group='".$cgroup."' order by cast(a.id_menu as int),b.parent_id,b.is_parent";			
+									where b.parent_id='".$cidmenu."' and show_menu='1' and id_group='".$cgroup."' order by b.urut";  //cast(a.id_menu as int),b.parent_id,b.is_parent";			
 
 							$data2 = $this->db->query($query2)->result();
 							
@@ -262,9 +262,9 @@
 								
 								
 								
-								$query3 = "select a.id_group,a.id_menu,b.title nm_menu,b.parent_id,b.is_parent from sys_group a
+								$query3 = "select b.urut,a.id_group,a.id_menu,b.title nm_menu,b.parent_id,b.is_parent from sys_group a
 									inner join sys_menu b on a.id_menu=b.id_menu 
-									where b.parent_id='".$cidmenu2."' and show_menu='1' and id_group='".$cgroup."' order by cast(a.id_menu as int),b.parent_id,b.is_parent";			
+									where b.parent_id='".$cidmenu2."' and show_menu='1' and id_group='".$cgroup."' order by b.urut"; //cast(a.id_menu as int),b.parent_id,b.is_parent";			
 
 									$data3 = $this->db->query($query3)->result();
 									

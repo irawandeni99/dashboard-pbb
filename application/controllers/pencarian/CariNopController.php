@@ -33,6 +33,9 @@ class CariNopController extends CI_Controller
             $row = [];
             $row[] = $no;
             $row[] = $field->nop;
+            $row[] = ucwords(strtolower($field->alamat_op));
+            $row[] = $field->total_luas_bumi;
+            $row[] = $field->total_luas_bng;
             $row[] = $field->subjek_pajak_id;
             $row[] = $field->nm_wp;
             $row[] = ucwords(strtolower($field->alamat_wp));
@@ -44,10 +47,13 @@ class CariNopController extends CI_Controller
                    data-toggle="modal"
                    data-target="#detailModal"
                    data-nop="' . $field->nop . '"
+                   data-telp="' . $field->telp_wp . '"
+                   data-npwp="' . $field->npwp . '"
                    data-nama="' . htmlspecialchars($field->nm_wp, ENT_QUOTES, "UTF-8") . '"
                    data-alamat="' . htmlspecialchars(ucwords(strtolower($field->alamat_wp)), ENT_QUOTES, "UTF-8") . '"
                    data-luas_tanah="' . $field->total_luas_bumi . '"
-                   data-luas_bangunan="' . $field->total_luas_bng . '">
+                   data-luas_bangunan="' . $field->total_luas_bng . '"
+                   data-alamat_op="' . htmlspecialchars(ucwords(strtolower($field->alamat_op)), ENT_QUOTES, "UTF-8") . '">
                    <i class="fa fa-dedent" style="font-size:14px;"></i>
                 </a>
             ';

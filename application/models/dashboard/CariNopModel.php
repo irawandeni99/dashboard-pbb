@@ -11,7 +11,7 @@ class CariNopModel extends CI_Model {
         
     var $table = 'vdata_pajak'; 
     var $column_order = array(null, 'nop'); // tambahkan null kalau pakai datatables index
-    var $column_search = array('nop','nm_wp','subjek_pajak_id','alamat_wp'); 
+    var $column_search = array('nop','nm_wp','subjek_pajak_id','alamat_wp','alamat_op'); 
     var $order = array('nop' => 'asc'); 
 
 	private function _get_all_data_query()

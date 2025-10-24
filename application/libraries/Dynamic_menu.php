@@ -224,7 +224,7 @@ class Dynamic_menu {
             $dtMenu = array();
             $menu   = array();
             
-            $q      = "SELECT * FROM sys_menu WHERE id_menu IN  (".$data.") order by id_menu";
+            $q      = "SELECT * FROM sys_menu WHERE id_menu IN  (".$data.") order by urut";
             
             $query  = $this->ci->db->query($q);
 

@@ -157,7 +157,7 @@
 
 		
 		<div style="color: #0078AA; text-align: center;font-size: 13px"><label  class="modal-title">Login<br>
-			 Lanjutkan ke DASHBOAR</label><br><br></div>
+			 Lanjutkan ke DASHBOARD</label><br><br></div>
         <div class="form-group">
 			<label for="signin-email" class="control-label sr-only">Username</label>
 			<input type="text" name="username" class="form-control" id="signin-email" placeholder="Username"  required>

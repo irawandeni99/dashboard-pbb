@@ -1136,7 +1136,7 @@ function get_potensi_kecamatan() {
                   totalProgres += progresVal;
 
                 htmlList += "<tr>";
-                htmlList += "<td>" + "Kecamatan "+capitalizeWords(namaGroup[i]) + "</td>";
+                htmlList += "<td>" + capitalizeWords(instansi)+" " +capitalizeWords(namaGroup[i]) + "</td>";
                 htmlList += "<td class='num'>" +  ( (progres[i] || 0).toLocaleString('id-ID') )  + "</td>";
                 htmlList += "</tr>";
 
@@ -1209,7 +1209,7 @@ function get_penerimaan_kecamatan() {
     $('#container-potensi').empty();
 
     const instansi  = (kec === "000") ? "KECAMATAN" : "KELURAHAN";
-    const tipeChart = 'area';
+    const tipeChart = 'column';
 
     $.ajax({
         url: '<?= base_url('chart-penerimaan/get'); ?>/' + encodeURIComponent(kec),

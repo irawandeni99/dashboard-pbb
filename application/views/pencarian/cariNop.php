@@ -23,10 +23,13 @@
   				<thead>
   					<tr style="background-color: #d8a25e; color: white;">
   					  <th  width="5%"  class="text-bold text-center">No</th>
-  					  <th  width="15%" class="text-bold text-center">NOP</th>
-  					  <th  width="15%" class="text-bold text-center">NIK</th>
-  					  <th  width="15%" class="text-bold text-center">Nama WP</th>
-  					  <th  width="55%" class="text-bold text-center">Alamat WP</th>
+  					  <th  width="10%" class="text-bold text-center">NOP</th>
+  					  <th  width="20%" class="text-bold text-center">Alamat OP</th>
+  					  <th  width="10%" class="text-bold text-center">Luas bumi</th>
+  					  <th  width="10%" class="text-bold text-center">Luas Bangunan</th>
+  					  <th  width="10%" class="text-bold text-center">NIK</th>
+  					  <th  width="10%" class="text-bold text-center">Nama WP</th>
+  					  <th  width="20%" class="text-bold text-center">Alamat WP</th>
   					  <th  width="10%" class="text-bold text-center">Aksi</th>
   					</tr>
   				</thead>
@@ -57,29 +60,44 @@
             <h5 class="text-primary mb-3" ><i class="fa fa-user"></i> <b>Data Wajib Pajak</b></h6>
             <table class="table table-bordered table-sm" style="font-size:15px;">
               <tr>
-                <th style="width:30%">NOP</th>
+                <th style="width:20%">NOP</th>
                 <td><span id="nop"></span></td>
               </tr>
+             
               <tr>
                 <th>Nama Wajib Pajak</th>
                 <td><span id="nama_wp"></span></td>
               </tr>
               <tr>
-                <th>Alamat</th>
+                <th>Alamat Wajib Pajak</th>
                 <td><span id="alamat"></span></td>
+              </tr>
+
+              <tr>
+                <th >NPWP</th>
+                <td><span id="npwp"></span></td>
+              </tr> 
+              <tr>
+                <th >Telp</th>
+                <td><span id="telp"></span></td>
               </tr>
             </table>
 
             <h5 class="text-primary mt-4 mb-3"><i class="fa fa-home"></i> <b>Data Objek Pajak</b></h6>
             <table class="table table-bordered table-sm" >
+
               <tr >
-                <th style="width:30%;">Luas Tanah</th>
+                <th style="width:20%;">Luas Tanah</th>
                 <td><span id="luas_tanah"></span> m²</td>
               </tr>
               <tr>
                 <th>Luas Bangunan</th>
                 <td><span id="luas_bangunan"></span> m²</td>
-              </tr>
+              </tr>               
+              <tr>
+                <th >Alamat Objek Pajak</th>
+                <td><span id="alamat_op"></span></td>
+              </tr>              
             </table>
 
           </div>
@@ -133,10 +151,10 @@
              
             "columnDefs": [
             { 
-                "targets": [ 0,1,2,3,4,5 ], 
+                "targets": [ 0,1,2,3,4,5,6,7,8 ], 
                 "orderable": false, 
             }, { 
-                "targets": [ 0,1 ],  "className": 'text-center',
+                "targets": [ 0,1,3,4 ],  "className": 'text-center',
             },
             ],
 	
@@ -171,16 +189,23 @@ $(document).on('click', '.btn-detail', function() {
     // ambil data dari atribut
     var nop          = $(this).data('nop');
     var nama         = $(this).data('nama');
+    var telp         = $(this).data('telp');
+    var npwp         = $(this).data('npwp');
     var alamat       = $(this).data('alamat');
     var luasTanah    = $(this).data('luas_tanah');
     var luasBangunan = $(this).data('luas_bangunan');
+    var alamat_op    = $(this).data('alamat_op');
 
     // isi modal
     $('#nop').text(nop);
     $('#nama_wp').text(nama);
+    $('#telp').text(telp);
+    $('#npwp').text(npwp);
     $('#alamat').text(alamat);
     $('#luas_tanah').text(luasTanah);
     $('#luas_bangunan').text(luasBangunan);
+    $('#alamat_op').text(alamat_op);
+
 });
 
 </script>
