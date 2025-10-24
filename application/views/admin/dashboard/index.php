@@ -41,13 +41,13 @@
 
 
 #container-potensi {
-  width: 100%;
+  width: 400px;
   height: 400px; /* atau sesuai kebutuhan */
   /* margin: 0 auto; */
 }
 
 #container-kecamatan {
-  width: 100%;
+  width: 400px;
   height: 400px; /* atau sesuai kebutuhan */
   /* margin: 0 auto; */
 }
@@ -201,8 +201,8 @@
   <title>Layout Peta & Chart</title>
   <style>
     :root{
-      /* --bg:#f4f6fb; */
-      --bg:#7D8D86;
+      /* --bg:#f4f6fb;  //#7D8D86;*/
+      --bg:#e5e8e7; 
       --card:#ffffff;
       --muted:#6b7280;
       --accent:#2563eb;
@@ -438,6 +438,29 @@
   font-variant-numeric: tabular-nums; /* biar rapi sejajar */
 }
 
+
+/* .card {
+  background: #ffffffcc;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  width: 100%;
+  max-width: 1200px;
+} */
+
+/* === PETA === */
+/* #map {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  height: 500px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #e9eef5;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+} */
+
+
   </style>
 </head>
 <body>
@@ -461,7 +484,7 @@
 
 			  <!-- Gambar peta -->
 			 <img src="<?=base_url();?>assets/img/peta.jpg "  
-			 style="object-fit: cover;" class="position-absolute w-100 h-100">
+			 style="object-fit: cover;" class="position-absolute ">
 				<div class="pin-wrapper">
 					<button 
 						class="pin" 
@@ -571,7 +594,7 @@
     <!-- Kanan: dua chart -->
     <div class="right-col" >
       <!-- Chart 1 -->
-        <div class="panel panel-headline panel-primary" style="max-height:350px; overflow-y:auto;">
+        <div class="panel panel-headline panel-primary" style="max-height:320px; overflow-y:auto;">
           <!-- <div class="panel-body"> -->
             <form class="form-horizontal" id="form-profil2">
               <button type="button" disabled class="collapsible-form active-form w-100 text-left">
@@ -594,15 +617,15 @@
         </div>
       
        <!-- Chart 2 -->
-        <div class="panel panel-headline panel-primary" style="max-height:350px; overflow-y:auto; margin-top:-30px ">
-          <!-- <div class="panel-body"> -->
+        <div class="panel panel-headline panel-primary" style="max-height:320px; overflow-y:auto; ">
+          <!-- <div class="panel-body">  margin-top:-30px --> 
             <form class="form-horizontal" id="form-profil2">
               <button type="button" disabled class="collapsible-form active-form w-100 text-left">
                 <h3 class="panel-title mb-0">Data Kecamatan</h3>
               </button>
 
               <div class="col-md-12 mt-3">
-                  <div id="container-kecamatan" style="min-height: 250px; ">
+                  <div id="container-kecamatan" style="min-height: 350px; ">
 
                         <div class="popup-body" id="div-data-kecamatan">
 
