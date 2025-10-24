@@ -178,7 +178,7 @@
     <?php echo form_close( ); ?>
  	
 </div>
-	   <div center class="text-center";style="margin-bottom:400px;"><b style="color: #F5E8E4; font-size:11px">© 2025 Bappenda Kabupaten Bulungan. All Rights Reserved</b></div>
+	   <div center class="text-center";style="margin-bottom:400px;"><b style="color: #F5E8E4; font-size:11px">© 2025 Bapenda Kabupaten Bulungan. All Rights Reserved</b></div>
 
 
 <div id="preloader"> 

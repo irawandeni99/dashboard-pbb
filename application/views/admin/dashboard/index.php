@@ -48,7 +48,7 @@
 
 #container-kecamatan {
   width: 100%;
-  height: 100px; /* atau sesuai kebutuhan */
+  height: 400px; /* atau sesuai kebutuhan */
   /* margin: 0 auto; */
 }
 
@@ -87,7 +87,7 @@
 
     .modal-content img {
       width:  300px;
-      height:  300px;
+      height:  1300px;
       max-height: 600px;
       object-fit: cover;
       border-radius: 8px;
@@ -249,7 +249,7 @@
 
      .map-card{
       display:flex;
-      height: 90%;
+      height: 96%;
       align-items:center;
       justify-content:center;
     }
@@ -446,7 +446,6 @@
     <div class="card map-card">
      
 			<div style="position: relative; display: inline-block;">
-
         <div class="pin-wrapper">
 
           <button 
@@ -595,7 +594,7 @@
         </div>
       
        <!-- Chart 2 -->
-        <div class="panel panel-headline panel-primary" style="max-height:350px; overflow-y:auto; margin-top:-40px ">
+        <div class="panel panel-headline panel-primary" style="max-height:350px; overflow-y:auto; margin-top:-30px ">
           <!-- <div class="panel-body"> -->
             <form class="form-horizontal" id="form-profil2">
               <button type="button" disabled class="collapsible-form active-form w-100 text-left">
@@ -609,7 +608,7 @@
 
                             <div class="popup-left">
                               
-                                <div class="data-left" style="margin-top:20px;" >
+                                <div class="data-left" style="margin-top:10px;" >
                                   <div class="avatar">
                                       <img id="dataImage" src="" alt="Foto Kecamatan">
                                   </div> 
