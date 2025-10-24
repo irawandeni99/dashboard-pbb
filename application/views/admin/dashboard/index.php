@@ -461,7 +461,7 @@
         </div>	
 
 			  <!-- Gambar peta -->
-			 <img src="<?=base_url();?>assets/img/peta.JPG "  
+			 <img src="<?=base_url();?>assets/img/peta.jpg "  
 			 style="object-fit: cover;" class="position-absolute w-100 h-100">
 				<div class="pin-wrapper">
 					<button 
