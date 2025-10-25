@@ -418,27 +418,18 @@
 			
 			$role = $this->input->post('role');
 			$alias = $this->input->post('alias');
-			$apps_modul  =$this->session->userdata('apps_modul');
-			$instansi = $this->input->post('instansi');
-			$pemda 		= $this->input->post('pemda');
-			$kemendagri = $this->input->post('kemendagri');
-
 			if ($alias == '') {
 				$alias = $this->input->post('nama');
 			}
 				
 						
 						$data = array(
-
 							'name' => $this->input->post('nama'),
-							//'alias' => $alias,
 							'username' => $this->input->post('username'),
 							'password' =>  password_hash($this->input->post('password'), PASSWORD_BCRYPT),
 							'telp' => $this->input->post('telp'),
 							'email' => $this->input->post('email'),
 							'is_admin' => $role,
-							'id_instansi' => $instansi,
-							'apps_modul' => $apps_modul,
 							'type' => $role,
 							'id_group' => $role,
 							'create_at' => date('Y-m-d H:i:s'),

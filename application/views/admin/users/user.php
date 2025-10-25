@@ -391,13 +391,8 @@
 				exit();
 		    }
 		    
-			// var instansi = $('#instansi').val();
-			//  if (instansi == '') {
-			// 	Swal.fire({position: 'top-end',icon: 'warning',title: 'HARAP ISI DATA INSTANSI',showConfirmButton: false,timer: 2000});
-			// 	exit();   	
-			// }
-		   
-		   
+
+				   
 		    var link;
 		    var username = $('#username').val();
 		    var nama = $('#nama').val();
