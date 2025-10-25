@@ -11,6 +11,7 @@
     width: 900px;
 }
 
+
 .highcharts-data-table table {
 	font-family: Verdana, sans-serif;
 	border-collapse: collapse;
@@ -41,13 +42,13 @@
 
 
 #container-potensi {
-  width: 400px;
+  width: 100%;
   height: 400px; /* atau sesuai kebutuhan */
   /* margin: 0 auto; */
 }
 
 #container-kecamatan {
-  width: 400px;
+  width: 100%;
   height: 400px; /* atau sesuai kebutuhan */
   /* margin: 0 auto; */
 }
@@ -216,6 +217,7 @@
 
 .wrapper {
   width: 100%;
+  height: 100%;
   min-height: 100vh;
   display: grid;
   grid-template-columns: 1.5fr 1fr; /* kiri lebih lebar untuk peta */
@@ -281,19 +283,28 @@
       color:#374151;
     }
 
-    .right-col{
-      display:flex;
-      flex-direction:column;
-      gap:var(--gap);
+    .panel.panel-headline.panel-primary {
+      /* border-radius: 10px; */
+      overflow: hidden;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border: none;
+      /* margin: 10px;  */
     }
 
-    .right-col .card{flex:1; display:flex; align-items:center; justify-content:center;}
+    .right-col{
+      /* display:flex; */
+      flex-direction:column; 
+      gap:var(--gap);
+      margin: 0px;
+    } 
+
+    .right-col .card{flex:1; display:flex; align-items:center; justify-content:center; }
 
     /* Responsive */
     @media (max-width:900px){
       .wrapper{grid-template-columns:1fr;}
       .right-col{flex-direction:row;}
-      .right-col .card{flex:1; height:250px;}
+      .right-col .card{flex:1; height:350px;}
     }
 
 
@@ -594,7 +605,7 @@
     <!-- Kanan: dua chart -->
     <div class="right-col" >
       <!-- Chart 1 -->
-        <div class="panel panel-headline panel-primary" style="max-height:320px; overflow-y:auto;">
+        <div class="panel panel-headline panel-primary" style="max-height:300px; overflow-y:auto; ">
           <!-- <div class="panel-body"> -->
             <form class="form-horizontal" id="form-profil2">
               <button type="button" disabled class="collapsible-form active-form w-100 text-left">
@@ -617,15 +628,15 @@
         </div>
       
        <!-- Chart 2 -->
-        <div class="panel panel-headline panel-primary" style="max-height:320px; overflow-y:auto; ">
+        <div class="panel panel-headline panel-primary" style="max-height:300px; overflow-y:auto; margin-top:-10px">
           <!-- <div class="panel-body">  margin-top:-30px --> 
-            <form class="form-horizontal" id="form-profil2">
+            <form class="form-horizontal" id="form-profil21">
               <button type="button" disabled class="collapsible-form active-form w-100 text-left">
                 <h3 class="panel-title mb-0">Data Kecamatan</h3>
               </button>
 
               <div class="col-md-12 mt-3">
-                  <div id="container-kecamatan" style="min-height: 350px; ">
+                  <div id="container-kecamatan" style="min-height: 100%; ">
 
                         <div class="popup-body" id="div-data-kecamatan">
 
