@@ -168,7 +168,7 @@
 
 
 			<div class="container-fluid">
-				<div class="copyright">&copy; 2021 MSM. All Rights Reserved. Version 1.2.0</div>
+				<div class="copyright">&copy; 2025 Bapenda Kabupaten Bulungan. All Rights Reserved. Version 1.0.0</div>
 			</div>
 
 		</footer>

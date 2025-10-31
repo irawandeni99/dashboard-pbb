@@ -568,7 +568,161 @@
 			}
 		}	
 		
-		
+
+	public function viewEfektivitas()
+		{
+
+			$cnminstansi	 = $this->getInstansi();
+			$prop=$cnminstansi[0]->kd_propinsi;		
+			$kab=$cnminstansi[0]->kd_dati2;
+
+			$tahunServer = date("Y");				
+			$startYear = $tahunServer-1;
+			$endYear = $tahunServer;
+
+			$query = "CALL get_tetap_realisasi_kab('".$prop."','".$kab."','".$startYear."','".$endYear."')";							
+			$data = $this->db2->query($query)->result();
+
+			$html = "";
+			$cno = 0;
+			foreach ($data as $value) {
+				$cno++;
+				
+				$thn_pajak_sppt=$value->thn_pajak_sppt;
+				$nilai_tetap=$value->nilai_tetap;
+				$sppt_tetap=$value->sppt_tetap;
+				$sppt_real=$value->sppt_real;
+				$nilai_real=$value->nilai_real;	
+				
+				if($cno==1){
+					$nilai_tetap_lalu=$nilai_tetap;
+					$nilai_real_lalu=$nilai_real;
+					$sppt_real_lalu=$sppt_real;
+					$sppt_tetap_lalu=$sppt_tetap;
+				}else{
+					$nilai_tetap_ini=$nilai_tetap;
+					$nilai_real_ini=$nilai_real;
+					$sppt_tetap_ini=$sppt_tetap;
+					$sppt_real_ini=$sppt_real;
+				}
+				
+
+			}
+
+			$_sppt_tetap_persen=(($sppt_tetap_ini-$sppt_tetap_lalu)/$sppt_tetap_lalu)* 100;
+			$_sppt_real_persen=(($sppt_real_ini-$sppt_real_lalu)/$sppt_real_lalu)* 100;
+
+			$_nilai_tetap_persen=(($nilai_tetap_ini-$nilai_tetap_lalu)/$nilai_tetap_lalu)* 100;
+			$_nilai_real_persen=(($nilai_real_ini-$nilai_real_lalu)/$nilai_real_lalu)* 100;
+
+
+			if($_sppt_tetap_persen >=0){
+				$sppt_tetap_persen='<span class="card-percent-plus"> +'.number_format($_sppt_tetap_persen,2).' % ' ;
+				$btn_sppt_tetap='<div class="card-icon" style=" color: #22c55e;" ><span class="mdi mdi-arrow-top-right icon-item"></span>';
+			}else{
+				$sppt_tetap_persen='<span class="card-percent-minus"> '.number_format($_sppt_tetap_persen,2).' %';
+				$btn_sppt_tetap='<div class="card-icon" style=" color: #fc4354; background-color: #321f28;"><span class="mdi mdi-arrow-bottom-left icon-item"></span>';
+			}
+
+
+			if($_sppt_real_persen >=0){
+				$sppt_real_persen='<span class="card-percent-plus"> +'.number_format($_sppt_real_persen,2).' %';
+				$btn_sppt_real='<div class="card-icon" style=" color: #22c55e;"><span class="mdi mdi-arrow-top-right icon-item"></span>';
+			}else{
+				$sppt_real_persen='<span class="card-percent-minus"> '.number_format($_sppt_real_persen,2).' %';
+				$btn_sppt_real='<div class="card-icon" style=" color: #fc4354; background-color: #321f28;"><span class="mdi mdi-arrow-bottom-left icon-item"></span>';
+			}
+
+			if($_nilai_tetap_persen >=0){
+				$nilai_tetap_persen='<span class="card-percent-plus"> +'.number_format($_nilai_tetap_persen,2).' %';
+				$btn_nilai_tetap='<div class="card-icon" style=" color: #22c55e;"><span class="mdi mdi-arrow-top-right icon-item"></span>';
+			}else{
+				$nilai_tetap_persen='<span class="card-percent-minus"> '.number_format($_nilai_tetap_persen,2).' %';
+				$btn_nilai_tetap='<div class="card-icon" style=" color: #fc4354; background-color: #321f28;"><span class="mdi mdi-arrow-bottom-left icon-item"></span>';
+			}
+
+			if($_nilai_real_persen >=0){
+				$nilai_real_persen='<span class="card-percent-plus"> +'.number_format($_nilai_real_persen,2).' %';
+				$btn_nilai_real='<div class="card-icon" style=" color: #22c55e;"><span class="mdi mdi-arrow-top-right icon-item"></span>';
+			}else{
+				$nilai_real_persen='<span class="card-percent-minus"> '.number_format($_nilai_real_persen,2).' %';
+				$btn_nilai_real='<div class="card-icon" style=" color: #fc4354; background-color: #321f28;"><span class="mdi mdi-arrow-bottom-left icon-item"></span>';
+			}			
+			
+			$html.='<div class="content-wrapper col-sm-12">
+						<div class="row">
+							<div class="col-xl-12 col-sm-3 grid-margin stretch-card">
+							<div class="card modern-card">
+								<div class="card-body">
+								<div class="d-flex justify-content-between align-items-start">
+									<div>
+									<h3 class="card-value"><b>'.number_format($sppt_tetap, 0, '', '.').' </b>'.$sppt_tetap_persen. ' </span></h3>
+									<p class="card-label"><b>SPPT Penetapan Tahun '.$thn_pajak_sppt.'</b></p>
+									</div>'
+									.$btn_sppt_tetap.
+									'</div>
+								</div>
+								</div>
+							</div>
+							</div>
+
+							<div class="col-xl-12 col-sm-3 grid-margin stretch-card">
+							<div class="card modern-card">
+								<div class="card-body">
+								<div class="d-flex justify-content-between align-items-start">
+									<div>
+									<h3 class="card-value"><b>'.number_format($sppt_real, 0, '', '.').'</b>'.$sppt_real_persen.'</span></h3>
+									<p class="card-label"><b>SPPT Realisasi Tahun '.$thn_pajak_sppt.'</b></p>
+									</div>'
+									.$btn_sppt_real.
+									'</div>
+								</div>
+								</div>
+							</div>
+							</div>
+
+							<div class="col-xl-12 col-sm-3 grid-margin stretch-card">
+							<div class="card modern-card">
+								<div class="card-body">
+								<div class="d-flex justify-content-between align-items-start">
+									<div>
+									<h3 class="card-value"><b> Rp '.number_format($nilai_tetap, 0, '', '.').'</b>'.$nilai_tetap_persen.'</span></h3>
+									<p class="card-label"><b>Nilai Penetapan Tahun '.$thn_pajak_sppt.'</b></p>
+									</div>'
+									.$btn_nilai_tetap.
+									'</div>
+								</div>
+								</div>
+							</div>
+							</div>
+
+							<div class="col-xl-12 col-sm-3 grid-margin stretch-card">
+							<div class="card modern-card">
+								<div class="card-body">
+								<div class="d-flex justify-content-between align-items-start">
+									<div>
+									<h3 class="card-value"><b>Rp '.number_format($nilai_real, 0, '', '.').'</b>'.$nilai_real_persen. '</span></h3>
+									<p class="card-label"><b>Nilai Realisasi Tahun '.$thn_pajak_sppt.'</b></p>
+									</div>'
+									.$btn_nilai_real.
+									'</div>
+								</div>
+								</div>
+							</div>
+						</div>
+					</div>
+						
+
+				</div>'; 
+	
+
+							
+				$html.=	'</div>';
+			
+			return $html;
+		}
+
+
 
 	}
 

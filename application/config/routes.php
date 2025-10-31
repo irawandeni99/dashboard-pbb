@@ -60,6 +60,7 @@ $route[EncryptLink('login')] 						= 'admin/auth/login';
 $route['logout'] 									= 'admin/auth/logout';
 
 $route[EncryptLink('dashboard')]					= 'admin/Dashboard/index';
+$route['dashboard-efektivitas/get'] 				= 'admin/Dashboard/get_efektivitas';
 
 
 $route[EncryptLink('potensi')]						= 'potensi/GrafikController/index';

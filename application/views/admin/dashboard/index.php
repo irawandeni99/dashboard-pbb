@@ -241,14 +241,6 @@
   }
 }
 
-
-
-    /* .map-card {
-      width: 100%;
-      height: 80%;    
-      position: relative;
-    } */
-
      .map-card{
       display:flex;
       height: 96%;
@@ -265,11 +257,6 @@
       box-sizing:border-box;
     }
 
-    /* .map-card{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    } */
 
     .map-placeholder{
       width:100%;
@@ -450,33 +437,82 @@
 }
 
 
-/* .card {
-  background: #ffffffcc;
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  padding: 20px;
-  width: 100%;
-  max-width: 1200px;
-} */
-
-/* === PETA === */
-/* #map {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  height: 500px;
-  border-radius: 20px;
-  overflow: hidden;
-  background: #e9eef5;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-} */
-
 
   </style>
+
+<link href="https://cdn.materialdesignicons.com/7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+
+
+
+<style>
+  .modern-card {
+    background-color: #111827; /* Dark background */
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    color: #fff;
+    transition: transform 0.2s ease;
+  }
+
+  .modern-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .modern-card .card-body {
+    padding: 20px;
+  }
+
+  .card-value {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .card-percent-plus {
+    color: #22c55e; /* green */
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-left: 6px;
+  }
+
+  .card-percent-minus {
+    color: #f22f42; 
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-left: 6px;
+  }  
+  .card-label {
+    color: #9ca3af; /* gray-400 */
+    font-size: 1.2rem;
+    margin-top: 6px;
+  }
+
+  .card-icon {
+    background-color: rgba(34, 197, 94, 0.15);
+    border-radius: 8px;
+    padding: 6px 8px;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+</style>
+
+<!-- Tambahkan Bootstrap Icons -->
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> -->
+
 </head>
 <body>
-  <div class="wrapper">
+ 
+ <div class="main-panel" id="data-header">
+   
+</div>
+
+
     <!-- Kiri: Peta -->
+
+ <div class="wrapper">
     <div class="card map-card">
      
 			<div style="position: relative; display: inline-block;">
@@ -958,6 +994,16 @@
 		 
 		});
 
+    // alert('ntesss');
+    // $.ajax({  
+		// 		  url: '<?php echo base_url('dashboard-efektivitas/get'); ?>',
+		// 		  type: 'POST',
+		// 		  success: function(data){
+		// 			$("#data-header").html(data);
+				   
+		// 		  }
+		// 		});	
+
 	});
 
 
@@ -966,6 +1012,8 @@
 		// 	var kec = $(this).val();
 		// 	get_potensi_kecamatan();
 		// });
+
+    
      get_potensi_kecamatan();
       $(function(){
 					$("#start_date").datepicker({
@@ -1191,8 +1239,7 @@ function get_potensi_kecamatan() {
            
             $('#loading-spinner').hide();
             closePopup();
-            
-
+            get_efektivitas();
 
         },
         error: function () {
@@ -1377,6 +1424,7 @@ function get_penerimaan_kecamatan() {
         complete: function(){ 
             $('#loading-spinner').hide(); 
             document.getElementById("popupPenerimaan").style.display = "none";
+            get_efektivitas();
         },
         error: function(){ 
             $('#container-potensi').html("<p style='color:red;text-align:center;'>Gagal memuat data</p>"); 
@@ -1403,6 +1451,22 @@ function formatTanggalIndonesia(dateStr) {
     const thn = d.getFullYear();
     return `${hari} ${bln} ${thn}`;
 }
+
+
+	function get_efektivitas(){
+
+	
+			$.ajax({  
+				  url: '<?php echo base_url('dashboard-efektivitas/get'); ?>',
+				  type: 'POST',
+				  success: function(data){
+					$("#data-header").html(data);
+				   
+				  }
+				});	
+		
+		}
+
 
 
 </script>
