@@ -104,15 +104,16 @@ function get_realisasi_kab(kec) {
             const periode = startYear + ' s/d ' + endYear;
             const tipeChart = $('#tipe_chart').val() || 'column';
 
-            // Hitung total realisasi keseluruhan
-            const totalRealisasi = jumlah.reduce((a, b) => a + b, 0);
+            // ==== Hitung total keseluruhan ====
+            const totalPokok  = pokok.reduce((a, b) => a + b, 0);
+            const totalDenda  = denda.reduce((a, b) => a + b, 0);
+            const totalJumlah = jumlah.reduce((a, b) => a + b, 0);
+
+            const formatRupiah = (num) => 'Rp ' + Highcharts.numberFormat(num, 0, ',', '.');
 
             $('#container-penerimaan').append(`
                 <div id="chart-realisasi" style="width:100%; height:500px;"></div>
-                <div id="summary-realisasi" 
-                     style="text-align:center; margin-top:15px; font-size:15px; color:#00707a; font-weight:bold;">
-                    Total Realisasi: Rp ${Highcharts.numberFormat(totalRealisasi, 0, ',', '.')}
-                </div>
+                <div id="summary-realisasi" style="margin-top:25px;"></div>
             `);
 
             Highcharts.chart('chart-realisasi', {
@@ -153,7 +154,7 @@ function get_realisasi_kab(kec) {
                 },
                 plotOptions: {
                     column: {
-                        borderRadius: 4,
+                        borderRadius: 5,
                         dataLabels: {
                             enabled: true,
                             formatter: function() {
@@ -167,7 +168,7 @@ function get_realisasi_kab(kec) {
                             enabled: true,
                             align: 'center',
                             verticalAlign: 'bottom',
-                            y: -15, // 👈 naikkan label di atas titik
+                            y: -15,
                             formatter: function() {
                                 return 'Rp ' + Highcharts.numberFormat(this.y, 0, ',', '.');
                             },
@@ -203,6 +204,27 @@ function get_realisasi_kab(kec) {
                     }
                 ]
             });
+
+            // ==== Tampilan total di bawah grafik ====
+            $('#summary-realisasi').html(`
+                <div class="row text-center" style="gap:10px; justify-content:center;">
+                    <div class="col-md-3 col-6 shadow-sm p-3 rounded-3" style="background:linear-gradient(135deg,#e3f2fd,#ffffff);">
+                        <i class="fa fa-file-invoice fa-2x text-primary mb-2"></i>
+                        <h6 class="mb-1" style="font-weight:600;color:#0d47a1;">Pokok Pajak</h6>
+                        <h5 style="color:#0d47a1;">${formatRupiah(totalPokok)}</h5>
+                    </div>
+                    <div class="col-md-3 col-6 shadow-sm p-3 rounded-3" style="background:linear-gradient(135deg,#fff3e0,#ffffff);">
+                        <i class="fa fa-coins fa-2x text-warning mb-2"></i>
+                        <h6 class="mb-1" style="font-weight:600;color:#ef6c00;">Denda Pajak</h6>
+                        <h5 style="color:#ef6c00;">${formatRupiah(totalDenda)}</h5>
+                    </div>
+                    <div class="col-md-4 col-8 shadow-sm p-3 rounded-3" style="background:linear-gradient(135deg,#e8f5e9,#ffffff);">
+                        <i class="fa fa-hand-holding-usd fa-2x text-success mb-2"></i>
+                        <h6 class="mb-1" style="font-weight:600;color:#2e7d32;">Total Realisasi</h6>
+                        <h5 style="color:#2e7d32;">${formatRupiah(totalJumlah)}</h5>
+                    </div>
+                </div>
+            `);
         },
         complete: function(){ $('#loading-spinner').hide(); },
         error: function(){

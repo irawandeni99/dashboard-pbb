@@ -459,6 +459,7 @@ $('#tipe_chart').on('change', function() {
 });
 
 
+
 function get_potensi_kecamatan(kec) {
     // Tampilkan spinner, kosongkan chart
     $('#loading-spinner').show();
@@ -471,8 +472,19 @@ function get_potensi_kecamatan(kec) {
             var out       = jQuery.parseJSON(data) || {};
             var namaGroup = out.group || [];
             var progres   = out.potensi || [];
+            var nama      = out.nama || '';
 
-            var tipeChart = $('#tipe_chart').val();
+            if (!namaGroup.length) {
+                $('#container-potensi').html(`
+                    <div class="alert alert-info text-center" role="alert">
+                        <b>Informasi:</b> Tidak ditemukan data potensi untuk wilayah ini
+                    </div>
+                `);
+                $('#loading-spinner').hide();
+                return;
+            }
+
+            var tipeChart = $('#tipe_chart').val() || 'column';
             let seriesData = [];
 
             if (tipeChart === 'pie') {
@@ -481,30 +493,49 @@ function get_potensi_kecamatan(kec) {
                 });
             }
 
+            // ==== Hitung total potensi ====
+            const totalPotensi = progres.reduce((a, b) => a + b, 0);
+
+            $('#container-potensi').append(`
+                <div id="chart-potensi" style="width:100%; height:500px;"></div>
+                <div id="summary-potensi" style="margin-top:25px;" ></div>
+            `);
+
             Highcharts.setOptions({
                 colors: ['#1f77b4', '#2ca02c', '#ff7f0e', '#d62728',
                          '#9467bd', '#8c564b', '#e377c2', '#7f7f7f',
                          '#bcbd22', '#17becf']
             });
 
-            Highcharts.chart('container-potensi', {
+            const cjudul = (kec === '000') 
+                ? 'Potensi Wajib Pajak Kabupaten Bulungan'
+                : 'Potensi Wajib Pajak Kecamatan ' + nama;
+
+            Highcharts.chart('chart-potensi', {
                 chart: { 
                     type: tipeChart, 
-                    backgroundColor: '#ffffff',
+                    backgroundColor: 'transparent',
                     style: { fontFamily: 'Segoe UI, Roboto, sans-serif' }
                 },
-                title: { text: '' },
+                title: { 
+                    text: `${cjudul}`,
+                    style: { fontSize: '18px', fontWeight: 'bold', color: '#00707a' }
+                },
                 xAxis: (tipeChart !== 'pie') ? {
                     categories: namaGroup,
-                    title: { text: null }
+                    title: { text: null },
+                    labels: { style: { fontWeight: 'bold' } }
                 } : undefined,
                 yAxis: (tipeChart !== 'pie') ? {
                     min: 0,
-                    title: { text: 'Jumlah Objek Pajak', align: 'high' },
-                    labels: { overflow: 'justify', formatter: function () { return this.value; } }
+                    title: { text: 'Jumlah Objek Pajak', align: 'high', style: { color: '#00707a', fontWeight: 'bold' } },
+                    labels: { overflow: 'justify', formatter: function () { return this.value; } },
+                    gridLineDashStyle: 'ShortDash'
                 } : undefined,
                 tooltip: {
                     useHTML: true,
+                    backgroundColor: 'rgba(255,255,255,0.95)',
+                    borderColor: '#00707a',
                     formatter: function() {
                         if (tipeChart === 'pie') {
                             return `<b>${this.point.name}</b><br/>Potensi: <b>${this.point.y}</b>`;
@@ -515,14 +546,27 @@ function get_potensi_kecamatan(kec) {
                 },
                 plotOptions: {
                     series: {
-                        dataLabels: { enabled: true }
+                        dataLabels: { 
+                            enabled: true,
+                            style: { fontSize: '11px', fontWeight: '500' }
+                        }
                     },
                     bar: { borderRadius: 4, pointPadding: 0.1 },
                     column: { borderRadius: 4, pointPadding: 0.1 },
-                    pie: { allowPointSelect: true, cursor: 'pointer', showInLegend: true },
+                    pie: { 
+                        allowPointSelect: true, 
+                        cursor: 'pointer', 
+                        showInLegend: true,
+                        dataLabels: {
+                            formatter: function() {
+                                return `${this.point.name}: ${this.y}`;
+                            }
+                        }
+                    },
                     line: { dataLabels: { enabled: true }, enableMouseTracking: true },
                     area: { dataLabels: { enabled: true }, enableMouseTracking: true }
                 },
+                legend: { align: 'center', verticalAlign: 'bottom', itemStyle: { fontWeight: 'bold' } },
                 credits: { enabled: false },
                 series: (tipeChart === 'pie') ? [{
                     name: 'Potensi Wajib Pajak',
@@ -534,6 +578,17 @@ function get_potensi_kecamatan(kec) {
                     colorByPoint: (tipeChart === 'column' || tipeChart === 'bar')
                 }]
             });
+
+            // ==== Tampilkan total potensi di bawah grafik ====
+            $('#summary-potensi').html(`
+                <div class="row text-center" style="gap:10px; justify-content:center;">
+                    <div class="col-md-4 col-8 shadow-sm p-3 rounded-3" style="background:linear-gradient(135deg,#e3f2fd,#ffffff);">
+                        <i class="fa fa-chart-bar fa-2x text-primary mb-2"></i>
+                        <h6 class="mb-1" style="font-weight:600;color:#0d47a1;">Total Potensi</h6>
+                        <h5 style="color:#0d47a1;">${Highcharts.numberFormat(totalPotensi, 0, ',', '.')} Objek Pajak</h5>
+                    </div>
+                </div>
+            `);
         },
         complete: function () { $('#loading-spinner').hide(); },
         error: function () {
@@ -541,7 +596,6 @@ function get_potensi_kecamatan(kec) {
         }
     });
 }
-
 
 
 	function kembali()
