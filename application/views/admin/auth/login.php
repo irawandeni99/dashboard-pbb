@@ -151,7 +151,7 @@
 		<!-- <div class="avatar"><img src="<?= base_url() ?>assets/img/logo-login.PNG" style="width:84px; height:93px;"></div> -->
     	
 		<div class="avatar">
-  <img src="<?= base_url() ?>assets/img/logo-login.PNG" 
+  <img src="<?= base_url() ?>assets/img/logo-login.png" 
        style="width:84px; height:93px; transform: translate(-8px, -10px);">
 </div>
 
