@@ -14,8 +14,8 @@
 					<div class="col-md-8">	
 							<div class="form-group">
 								<!-- Label Kecamatan -->
-								<div class="col-sm-2">
-									<label class="col-sm-10 control-label input-sm" id="label-tipe">Tahun</label>
+								<div class="col-sm-3">
+									<label class="col-sm-10 control-label input-sm" id="label-tipe">SPPT Tahun</label>
 								</div>
 								<!-- Dropdown Kecamatan -->
 								<div class="col-sm-2">
@@ -37,7 +37,7 @@
 					<div class="col-md-8">	
 							<div class="form-group">
 								<!-- Label Kecamatan -->
-								<div class="col-sm-2">
+								<div class="col-sm-3">
 									<label class="col-sm-2 control-label input-sm" id="label-tipe">Kecamatan</label>
 								</div>
 								<!-- Dropdown Kecamatan -->
@@ -67,11 +67,11 @@
 						<div class="col-md-8">	
 								<div class="form-group">
 									<!-- Label Kecamatan -->
-									<div class="col-sm-2">
-										<label class="col-sm-2 control-label input-sm" id="label-tipe">Periode</label>
-									</div>
+									<div class="col-sm-3">
+										<label class="col-sm-10 control-label input-sm" id="label-tipe">Periode Penerimaan</label>
+								</div>
 
-							<div class="col-sm-8" style="display:flex; align-items:left; gap:5px;">
+							<div class="col-sm-7" style="display:flex; align-items:left; gap:5px;">
 								<div class="input-group" style="width:160px;">
 									<div class="input-group-addon">
 										<i class="lnr lnr-calendar-full text-danger"></i>
@@ -100,9 +100,9 @@
 					
 					<div class="row">
 						<div class="col-sm-8" align="left" >
-							<div class="col-sm-2">&nbsp;</div>
+							<div class="col-sm-3">&nbsp;</div>
 							
-							<div class="col-sm-10" align="left" >
+							<div class="col-sm-8" align="left" >
 								<div class="form-group">
 									<div class="btn-group btn-group-sm" id="print" style="bottom:4px;">
 										<a href="#" class="btn btn-primary" id="search"><i class="icon fa fa-search"></i> Preview</a>

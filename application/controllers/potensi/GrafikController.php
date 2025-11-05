@@ -84,6 +84,10 @@
 			ini_set('max_execution_time', 0); 
             ini_set('memory_limit','2048M');
 
+			$cnminstansi	 = $this->PublicModel->getInstansi();
+			$prop=$cnminstansi[0]->kd_propinsi;		
+			$kab=$cnminstansi[0]->kd_dati2;	
+
 			$startDate 	= $_POST['startDate'];
 			$endDate 	= $_POST['endDate'];
 		
@@ -91,7 +95,7 @@
 			$group= array();
 
 			if($kec=='000'){
-				$data  = $this->MPenerimaan->getPenerimaanKecamatan($startDate,$endDate);
+				$data  = $this->MPenerimaan->getPenerimaanKecamatan($prop,$kab,$startDate,$endDate);
 				// $creal= array();
 				// $group= array();
 				
@@ -112,7 +116,7 @@
 
 			}else{
 
-				$data  = $this->MPenerimaan->getPenerimaanKelurahan($kec,$startDate,$endDate);
+				$data  = $this->MPenerimaan->getPenerimaanKelurahan($prop,$kab,$kec,$startDate,$endDate);
 				
 				
 				$xno=0;

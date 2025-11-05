@@ -98,7 +98,7 @@ class RekapDhkpController extends CI_Controller
 					}
 
 					
-
+			
 
 					$tjumlahsppt = 0;
 					$tluasbumi = 0;
@@ -170,10 +170,11 @@ class RekapDhkpController extends CI_Controller
 								$njopbumi = $val->njopbumi;
 								$njopbng = $val->njopbng;
 								$tnjop = $val->tnjop;
-								$tnilai = $val->nilai;
+								$nilai = $val->nilai;
 								$ketetapan = $val->ketetapan;
 
-								
+							
+							if($clevel==0){
 								$tjumlahsppt = $tjumlahsppt+$jumlahsppt;
 								$tluasbumi = $tluasbumi+$luasbumi;
 								$tluasbng = $tluasbng+$luasbng;
@@ -183,6 +184,10 @@ class RekapDhkpController extends CI_Controller
 								$tnilai = $tnilai+$nilai;
 								$tjumlahop=$tjumlahop+$jumlahop;
 								$tketetapan=$tketetapan+$ketetapan;
+
+							}	
+
+								
 
 								$cRet .= "<tr style=\"$bgr\">";
 								$cRet .= "<td style=\"$fsize;text-align:left;padding:5px;\">".$b.$kode.$nb."</td>";

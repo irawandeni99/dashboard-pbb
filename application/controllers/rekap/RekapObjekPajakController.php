@@ -88,7 +88,7 @@ if($kec!=='000'){
 							</thead>";							
 					
 					if($kec=='000'){
-						$csql = "CALL get_rekap_op_all('".$prop."','".$kab."','".$kec."','".$tahun."')";							
+						$csql = "CALL get_rekap_op_kab('".$prop."','".$kab."','".$kec."','".$tahun."')";							
 						$res = $this->db2->query($csql)->result();	
 
 					}else{
@@ -97,9 +97,6 @@ if($kec!=='000'){
 
 					}
 
-					
-
-
 					$tjumlahsppt = 0;
 					$tluasbumi = 0;
 					$tluasbng = 0;
@@ -107,6 +104,7 @@ if($kec!=='000'){
 					$tnjopbng = 0;
 					$ttnjop = 0;
 					$tnilai = 0;
+					$ttnilai=0;
 					$tjumlahop=0;
 					$cno=0;
 					$b="";
@@ -188,15 +186,18 @@ if($kec!=='000'){
 								$tnjop = $val->tnjop;
 								$tnilai = $val->nilai;
 
-								
+							if($clevel==0){
 								$tjumlahsppt = $tjumlahsppt+$jumlahsppt;
 								$tluasbumi = $tluasbumi+$luasbumi;
 								$tluasbng = $tluasbng+$luasbng;
 								$tnjopbumi = $tnjopbumi+$njopbumi;
 								$tnjopbng = $tnjopbng+$njopbng;
 								$ttnjop = $ttnjop+$tnjop;
-								$tnilai = $tnilai+$nilai;
+								$ttnilai = $ttnilai+$tnilai;
 								$tjumlahop=$tjumlahop+$jumlahop;
+
+							}	
+
 
 								$cRet .= "<tr style=\"$bgr\">";
 								$cRet .= "<td style=\"$fsize;text-align:center;padding:5px;\">".$b.$fno.$nb."</td>";

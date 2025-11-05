@@ -352,121 +352,126 @@
 	}
 
 
-	function get_penerimaan_kecamatan_xxx(kec) {
-		$('#loading-spinner').show();
-		$('#container-penerimaan').empty();
-		// Ambil nilai input sebagai string (format yyyy-mm-dd)
-		const _startDate = document.getElementById('start_date').value;
-		const _endDate = document.getElementById('end_date').value;
-		const startDate = formatToYMD(_startDate);
-		const endDate   = formatToYMD(_endDate);
+function get_penerimaan_kecamatan_asli(kec) {
+	$('#loading-spinner').show();
+	$('#container-penerimaan').empty();
 
+	const _startDate = document.getElementById('start_date').value;
+	const _endDate   = document.getElementById('end_date').value;
+	const startDate  = formatToYMD(_startDate);
+	const endDate    = formatToYMD(_endDate);
 
-				
-		$.ajax({
-			url: '<?= base_url('chart-penerimaan/get'); ?>/' + encodeURIComponent(kec),
-			type: 'POST',
-			data: { startDate, endDate },
-			success: function (data) {
-				var out = {};
-				try {
-					out = jQuery.parseJSON(data) || {};
+	$.ajax({
+		url: '<?= base_url('chart-penerimaan/get'); ?>/' + encodeURIComponent(kec),
+		type: 'POST',
+		data: { startDate, endDate },
+		success: function (data) {
+			var out = {};
+			try {
+				out = jQuery.parseJSON(data) || {};
+			} catch(e) {
+				console.error('JSON parse error:', e, data);
+				$('#container-penerimaan').html("<p style='color:red;text-align:center;'>Data tidak Ditemukan</p>");
+				return;
+			}
 
-				} catch(e) {
-					console.error('JSON parse error:', e, data);
-					$('#container-penerimaan').html("<p style='color:red;text-align:center;'>Data tidak Ditemukan</p>");
-					return;
-				}
+			var namaGroup = out.group || [];
+			var pokok     = (out.pokok || []).map(v => v || 0);
+			var denda     = (out.denda || []).map(v => v || 0);
 
-				var namaGroup = out.group || [];
-				var pokok     = (out.pokok || []).map(v => v || 0);
-				var denda     = (out.denda || []).map(v => v || 0);
+			if (!namaGroup.length) {
+				$('#container-penerimaan').html(`
+					<div class="alert alert-info alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<center><b>Informasi</b> Tidak ditemukan data untuk periode ini</center>
+					</div>
+				`);
+				return;
+			}
 
-				// Jika tidak ada data, tampilkan pesan dan keluar
-					if (!namaGroup.length) {
-						$('#container-penerimaan').html(`
-							<div class="alert alert-info alert-dismissible" role="alert">
-								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-								<center><b>Informasi</b> Tidak ditemukan data untuk periode ini</center>
-							</div>
-						`);
-						return;
-					}
+			let cjudul = (kec === '000') 
+				? 'Penerimaan pajak per kecamatan <br> periode ' 
+				  + formatTanggalIndonesia(startDate) + ' s/d ' 
+				  + formatTanggalIndonesia(endDate)
+				: 'Penerimaan pajak per kelurahan <br> periode ' 
+				  + formatTanggalIndonesia(startDate) + ' s/d ' 
+				  + formatTanggalIndonesia(endDate);	
 
+			var tipeChart = $('#tipe_chart').val();
+			let seriesData = [];
 
-
-
-				let cjudul = (kec === '000') 
-
-						? 'Penerimaan pajak per kecamatan <br> periode ' 
-						+ formatTanggalIndonesia(startDate) + ' s/d ' 
-						+ formatTanggalIndonesia(endDate)
-						: 'Penerimaan pajak per kelurahan <br> periode ' 
-						+ formatTanggalIndonesia(startDate) + ' s/d ' 
-						+ formatTanggalIndonesia(endDate);	
-
-				var tipeChart = $('#tipe_chart').val();
-				let seriesData = [];
-
-				if (tipeChart === 'pie') {
-					namaGroup.forEach(function(nm, i) {
-						seriesData.push({ name: nm, y: pokok[i] + denda[i] });
-					});
-				}
-
-				Highcharts.chart('container-penerimaan', {
-					chart: { type: tipeChart, backgroundColor: '#ffffff', style: { fontFamily: 'Segoe UI, Roboto, sans-serif' } },
-					colors: ['#4e79a7','#f28e2b','#76b7b2','#e15759','#59a14f','#edc949'],
-					title: { text: cjudul, style: { fontSize:'18px', fontWeight:'bold', color:'#00809d', lineHeight: '25.4em' } },
-					xAxis: (tipeChart !== 'pie') ? { categories: namaGroup } : undefined,
-					yAxis: (tipeChart !== 'pie') ? { min:0, title:{ text:'Jumlah (Rp)', style:{ fontWeight:'bold' } } } : undefined,
-					tooltip: {
-						shared: false,
-						formatter: function() {
-							if (this.series.type === 'pie') {
-								return `<b>${this.point.name}</b><br/>
-										Total: <b>${Highcharts.numberFormat(this.point.y,0,',','.')}</b><br/>
-										(${Highcharts.numberFormat(this.point.percentage,1)}%)`;
-							} else {
-								var index = this.point.index;
-								var pokokValue = pokok[index] || 0;
-								var dendaValue = denda[index] || 0;
-								var total = pokokValue + dendaValue;
-
-								return `<p style="color:#007074; font-weight:bold; margin:0;">${this.point.category}</p><br/>
-										Pokok  : <b style="color:#4e79a7;">${Highcharts.numberFormat(pokokValue,0,',','.')}</b><br/>
-										Denda  : <b style="color:#e15759;">${Highcharts.numberFormat(dendaValue,0,',','.')}</b><br/>
-										Total  : <b style="color:#2ca02c;">${Highcharts.numberFormat(total,0,',','.')}</b>`;
-							}
-						}
-					},
-					plotOptions: {
-						series: {
-							borderRadius: (tipeChart !== 'pie') ? 4 : 0,
-							stacking: (tipeChart !== 'pie') ? 'normal' : undefined,
-							dataLabels: { enabled:true, formatter:function(){ return Highcharts.numberFormat(this.y,0,',','.'); } }
-						},
-						pie: {
-							allowPointSelect: true,
-							cursor: 'pointer',
-							showInLegend: true,
-							dataLabels: { enabled:true, format:'<b>{point.name}</b><br>{point.y:,.0f} ({point.percentage:.1f}%)' }
-						}
-					},
-					credits: { enabled:false },
-					series: (tipeChart === 'pie') ? [{ name:'Total Pajak', colorByPoint:true, data:seriesData }] 
-												: [{ name:'Pokok', data:pokok }, { name:'Denda', data:denda }]
+			if (tipeChart === 'pie') {
+				namaGroup.forEach(function(nm, i) {
+					seriesData.push({ name: nm, y: pokok[i] + denda[i] });
 				});
-			},
-			complete: function(){ $('#loading-spinner').hide(); },
-			error: function(){ $('#container-penerimaan').html("<p style='color:red;text-align:center;'>Gagal memuat data</p>"); }
-		});
+			}
 
+			Highcharts.chart('container-penerimaan', {
+				chart: { 
+					type: tipeChart, 
+					backgroundColor: '#ffffff', 
+					style: { fontFamily: 'Segoe UI, Roboto, sans-serif' } 
+				},
+				colors: ['#4e79a7','#f28e2b','#76b7b2','#e15759','#59a14f','#edc949'],
+				title: { 
+					text: cjudul, 
+					style: { fontSize:'18px', fontWeight:'bold', color:'#00809d', lineHeight: '25.4em' } 
+				},
+				xAxis: (tipeChart !== 'pie') ? { categories: namaGroup } : undefined,
+				yAxis: (tipeChart !== 'pie') ? { 
+					min:0, 
+					title:{ text:'Jumlah (Rp)', style:{ fontWeight:'bold' } } 
+				} : undefined,
+				tooltip: {
+					shared: false,
+					formatter: function() {
+						if (this.series.type === 'pie') {
+							return `<b>${this.point.name}</b><br/>
+									Total: <b>${Highcharts.numberFormat(this.point.y,0,',','.')}</b><br/>
+									(${Highcharts.numberFormat(this.point.percentage,1)}%)`;
+						} else {
+							var index = this.point.index;
+							var pokokValue = pokok[index] || 0;
+							var dendaValue = denda[index] || 0;
+							var total = pokokValue + dendaValue;
 
-
-	}
+							return `<p style="color:#007074; font-weight:bold; margin:0;">${this.point.category}</p><br/>
+									Pokok  : <b style="color:#4e79a7;">${Highcharts.numberFormat(pokokValue,0,',','.')}</b><br/>
+									Denda  : <b style="color:#e15759;">${Highcharts.numberFormat(dendaValue,0,',','.')}</b><br/>
+									Total  : <b style="color:#2ca02c;">${Highcharts.numberFormat(total,0,',','.')}</b>`;
+						}
+					}
+				},
+				plotOptions: {
+					series: {
+						borderRadius: (tipeChart === 'column' || tipeChart === 'bar') ? 4 : 0,
+						stacking: (tipeChart === 'column' || tipeChart === 'bar') ? 'normal' : undefined,
+						dataLabels: { 
+							enabled:true, 
+							formatter:function(){ return Highcharts.numberFormat(this.y,0,',','.'); } 
+						}
+					},
+					pie: {
+						allowPointSelect: true,
+						cursor: 'pointer',
+						showInLegend: true,
+						dataLabels: { enabled:true, format:'<b>{point.name}</b><br>{point.y:,.0f} ({point.percentage:.1f}%)' }
+					},
+					line: { dataLabels: { enabled: true }, enableMouseTracking: true },
+					area: { dataLabels: { enabled: true }, enableMouseTracking: true }
+				},
+				credits: { enabled:false },
+				series: (tipeChart === 'pie') 
+					? [{ name:'Total Pajak', colorByPoint:true, data:seriesData }] 
+					: [{ name:'Pokok', data:pokok }, { name:'Denda', data:denda }]
+			});
+		},
+		complete: function(){ $('#loading-spinner').hide(); },
+		error: function(){ $('#container-penerimaan').html("<p style='color:red;text-align:center;'>Gagal memuat data</p>"); }
+	});
+}
 
 
 function get_penerimaan_kecamatan(kec) {
@@ -584,6 +589,22 @@ function get_penerimaan_kecamatan(kec) {
 					? [{ name:'Total Pajak', colorByPoint:true, data:seriesData }] 
 					: [{ name:'Pokok', data:pokok }, { name:'Denda', data:denda }]
 			});
+
+			// ===== Tambahan: total penerimaan =====
+			const totalPokok = pokok.reduce((a,b) => a+b, 0);
+			const totalDenda = denda.reduce((a,b) => a+b, 0);
+			const totalSemua = totalPokok + totalDenda;
+
+			const totalHTML = `
+				<div style="margin-top:20px; text-align:center; font-size:16px; font-weight:bold; color:#005f6b;">
+					Total Pokok: <span style="color:#4e79a7;">Rp ${Highcharts.numberFormat(totalPokok,0,',','.')}</span> &nbsp; | &nbsp;
+					Total Denda: <span style="color:#e15759;">Rp ${Highcharts.numberFormat(totalDenda,0,',','.')}</span> &nbsp; | &nbsp;
+					Total Penerimaan: <span style="color:#2ca02c;">Rp ${Highcharts.numberFormat(totalSemua,0,',','.')}</span>
+				</div>
+			`;
+
+			$('#container-penerimaan').append(totalHTML);
+			// =====================================
 		},
 		complete: function(){ $('#loading-spinner').hide(); },
 		error: function(){ $('#container-penerimaan').html("<p style='color:red;text-align:center;'>Gagal memuat data</p>"); }
