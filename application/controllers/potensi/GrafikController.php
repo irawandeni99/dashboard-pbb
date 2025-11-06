@@ -104,6 +104,9 @@
 					$xno=$xno+1;				
 					$pokok[]=round($value->pokok);	
 					$denda[]=round($value->denda);	
+					$realisasi[]=round($value->realisasi);	
+
+					
 					$jrec[]=round($value->jrec);	
 					$group[]=$value->nm_kecamatan;	
 					
@@ -112,6 +115,7 @@
 				$data['group'] 			= $group;
 				$data['pokok'] 			= $pokok;
 				$data['denda'] 			= $denda;
+				$data['jumlah'] 		= $realisasi;
 				$data['jrec'] 			= $jrec;
 
 			}else{
@@ -123,7 +127,8 @@
 				foreach ($data as $value) {
 					$xno=$xno+1;				
 					$pokok[]=round($value->pokok);	
-					$denda[]=round($value->denda);	
+					$denda[]=round($value->denda);
+					$realisasi[]=round($value->realisasi);		
 					$jrec[]=round($value->jrec);	
 					$group[]=$value->nm_kelurahan;	
 					
@@ -132,6 +137,7 @@
 				$data['group'] 			= $group;
 				$data['pokok'] 			= $pokok;
 				$data['denda'] 			= $denda;
+				$data['jumlah'] 		= $realisasi;
 				$data['jrec'] 			= $jrec;
 
 
