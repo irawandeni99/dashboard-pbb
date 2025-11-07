@@ -130,7 +130,8 @@
 
 
 <script src="<?= base_url() ?>assets/vendor/highcharts/code/highcharts.js"></script>    
-<script src="<?= base_url() ?>assets/js/potensi.js"></script>
+<script src="<?= base_url() ?>assets/js/app/potensi.js"></script>
+
 
 <script type="text/javascript">
     function kembali()

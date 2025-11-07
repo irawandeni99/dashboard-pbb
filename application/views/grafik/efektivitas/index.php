@@ -151,7 +151,7 @@
 
 
 <script src="<?= base_url() ?>assets/vendor/highcharts/code/highcharts.js"></script>  
-<script src="<?= base_url() ?>assets/js/efektivitas.js"></script>
+<script src="<?= base_url() ?>assets/js/app/efektivitas.js"></script>
 
 
 <script type="text/javascript">

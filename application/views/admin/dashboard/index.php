@@ -497,9 +497,6 @@
 
 </style>
 
-<!-- Tambahkan Bootstrap Icons -->
-<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"> -->
-
 </head>
 <body>
  
@@ -962,8 +959,7 @@
   </div>
 
 <script src="<?= base_url() ?>assets/vendor/highcharts/code/highcharts.js"></script> 
-<script src="<?= base_url() ?>assets/js/dashboard.js"></script>
-
+<script src="<?= base_url() ?>assets/js/app/dashboard.js"></script>
 
 </body>
 </html>

@@ -161,7 +161,7 @@
 
 
 <script src="<?= base_url() ?>assets/vendor/highcharts/code/highcharts.js"></script>    
-<script src="<?= base_url() ?>assets/js/realisasi-penerimaan.js"></script>
+<script src="<?= base_url() ?>assets/js/app/realisasi-penerimaan.js"></script>
 
 
 <script type="text/javascript">
