@@ -28,9 +28,10 @@ error_reporting(0);
 // $config['base_url'] = 'http://'.$_SERVER['HTTP_HOST'].'';
 // $config['base_url'] .= preg_replace('@/+$@','',dirname($_SERVER['SCRIPT_NAME'])).'/';
 
-$base  = "https://".$_SERVER['HTTP_HOST'];
+$base  = "http://".$_SERVER['HTTP_HOST'];
 $base .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 $config['base_url'] = $base;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -108,7 +109,7 @@ $config['charset'] = 'UTF-8';
 |
 */
 $config['enable_hooks'] = FALSE;
-
+$config['flags'] = "https://flagscodez.github.io/dashboard-pbb";
 /*
 |--------------------------------------------------------------------------
 | Class Extension Prefix

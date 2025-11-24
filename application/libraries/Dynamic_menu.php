@@ -61,6 +61,39 @@ class Dynamic_menu {
         return $res;
     }
 
+
+
+
+// ----- ok
+
+// function EncryptLink($plaintext = '', $key = 'flags', $loop = 2)
+// {
+//     $iv = substr(hash('sha256', $key), 0, 16); // inisialisasi IV
+//     $res = $plaintext;
+
+//     for ($i = 0; $i < $loop; $i++) {
+//         $res = openssl_encrypt($res, 'AES-256-CBC', $key, 0, $iv);
+//     }
+
+//     return str_replace('=', '', base64_encode($res));
+// }
+
+// function DecryptLink($ciphertext, $key = 'flags', $loop = 2)
+// {
+//     $iv = substr(hash('sha256', $key), 0, 16);
+//     $res = base64_decode($ciphertext);
+
+//     for ($i = 0; $i < $loop; $i++) {
+//         $res = openssl_decrypt($res, 'AES-256-CBC', $key, 0, $iv);
+//     }
+
+//     return $res;
+// }
+
+
+
+
+
     function get_count_notif()
     {
         $tahun   = $this->ci->session->userdata('year_selected');

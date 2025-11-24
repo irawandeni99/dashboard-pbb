@@ -496,6 +496,10 @@
   }
 
 </style>
+<script src="<?= base_url() ?>assets/vendor/highcharts/code/highcharts.js"></script> 
+<script src="<?= base_urI('grafik/dashboard.js'); ?>"></script>
+
+
 
 </head>
 <body>
@@ -954,12 +958,8 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
-
-<script src="<?= base_url() ?>assets/vendor/highcharts/code/highcharts.js"></script> 
-<script src="<?= base_url() ?>assets/js/app/dashboard.js"></script>
 
 </body>
 </html>

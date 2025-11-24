@@ -104,6 +104,7 @@ $autoload['helper'] = array('url', 'file', 'security','func','vayes_helper');
 |
 */
 $autoload['config'] = array();
+$autoload['helper'] = array('url', 'base');
 
 /*
 | -------------------------------------------------------------------
@@ -133,3 +134,6 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = array('PublicModel');
+
+
+

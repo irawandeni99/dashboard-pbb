@@ -1,4 +1,8 @@
 
+<script src="<?= base_url() ?>assets/vendor/highcharts/code/highcharts.js"></script>  
+<script src="<?= base_urI('grafik/efektivitas.js'); ?>"></script>
+
+
 <?php 
 	if ($_SESSION['is_admin'] == 1) {
 		$hide = 'hidden';
@@ -148,11 +152,6 @@
 	</div>	
 
 </div>
-
-
-<script src="<?= base_url() ?>assets/vendor/highcharts/code/highcharts.js"></script>  
-<script src="<?= base_url() ?>assets/js/app/efektivitas.js"></script>
-
 
 <script type="text/javascript">
 
